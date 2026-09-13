@@ -35,6 +35,11 @@ export interface User {
   supports_inline_queries?: boolean;
   can_connect_to_business?: boolean;
   has_main_web_app?: boolean;
+  supports_guest_queries?: boolean;
+  supports_join_request_queries?: boolean;
+  can_manage_bots?: boolean;
+  allows_users_to_create_topics?: boolean;
+  has_topics_enabled?: boolean;
 }
 
 /** This object represents info about the user's bot. */
@@ -115,6 +120,9 @@ export interface Video {
   file_name?: string;
   mime_type?: string;
   file_size?: Integer;
+  cover?: PhotoSize;
+  start_timestamp?: number;
+  qualities?: VideoQuality[];
 }
 
 /** This object represents a video message. */
@@ -496,6 +504,9 @@ export interface SuccessfulPayment {
   order_info?: OrderInfo;
   telegram_payment_charge_id: string;
   provider_payment_charge_id: string;
+  subscription_expiration_date?: number;
+  is_recurring?: boolean;
+  is_first_recurring?: boolean;
 }
 
 /** This object contains information about an incoming pre-checkout query. */
@@ -563,6 +574,16 @@ export interface Poll {
   explanation_entities?: MessageEntity[];
   open_period?: Integer;
   close_date?: Integer;
+  media?: PollMedia;
+  explanation_media?: PollMedia;
+  members_only?: boolean;
+  country_codes?: string[];
+  correct_option_ids?: number[];
+  allows_revoting?: boolean;
+  question_parse_mode?: string;
+  question_entities?: MessageEntity[];
+  description?: string;
+  description_entities?: MessageEntity[];
 }
 
 /** This object represents one answer of a user from a poll. */
@@ -571,12 +592,19 @@ export interface PollAnswer {
   voter_chat?: Chat;
   user?: User;
   option_ids: Integer[];
+  option_persistent_ids?: string[];
 }
 
 /** This object represents an answer of a user in a non-anonymous poll. */
 export interface PollOption {
   text: string;
   voter_count: Integer;
+  text_entities?: MessageEntity[];
+  media?: PollMedia;
+  persistent_id?: string;
+  added_by_user?: boolean;
+  added_by_chat?: boolean;
+  addition_date?: number;
 }
 
 /** This object contains information about a user that was added to a chat. */
@@ -602,6 +630,7 @@ export interface ChatJoinRequest {
   date: Integer;
   bio?: string;
   invite_link?: ChatInviteLink;
+  query_id?: number;
 }
 
 /** This object contains information about one member of a chat. */
@@ -637,12 +666,16 @@ export interface ChatMemberAdministrator {
   can_manage_topics?: boolean;
   is_anonymous?: boolean;
   custom_title?: string;
+  can_manage_tags?: boolean;
+  can_send_welcome_messages?: boolean;
+  can_manage_direct_messages?: boolean;
 }
 
 export interface ChatMemberMember {
   status: 'member';
   user: User;
   until_date?: Integer;
+  tag?: string;
 }
 
 export interface ChatMemberRestricted {
@@ -664,6 +697,9 @@ export interface ChatMemberRestricted {
   can_pin_messages: boolean;
   can_manage_topics: boolean;
   until_date: Integer;
+  can_edit_tag?: boolean;
+  can_react_to_messages?: boolean;
+  tag?: string;
 }
 
 export interface ChatMemberLeft {
@@ -753,6 +789,8 @@ export interface ChatAdministratorRights {
   can_edit_stories?: boolean;
   can_delete_stories?: boolean;
   can_manage_direct_messages?: boolean;
+  can_manage_tags?: boolean;
+  can_send_welcome_messages?: boolean;
 }
 
 /** This object represents the permissions of a default chat administrator in a chat. */
@@ -772,6 +810,8 @@ export interface ChatPermissions {
   can_pin_messages?: boolean;
   can_manage_topics?: boolean;
   can_change_gift_settings?: boolean;
+  can_edit_tag?: boolean;
+  can_react_to_messages?: boolean;
 }
 
 /** This object represents a forum topic. */
@@ -780,6 +820,7 @@ export interface ForumTopic {
   name: string;
   icon_color: Integer;
   icon_custom_emoji_id?: string;
+  is_name_implicit?: boolean;
 }
 
 /** This object describes a bot's menu button in a private chat. */
@@ -999,6 +1040,14 @@ export interface Gift {
   id: string;
   sticker: Sticker;
   star_count: Integer;
+  upgrade_star_count?: number;
+  personal_total_count?: number;
+  personal_remaining_count?: number;
+  is_premium?: boolean;
+  has_colors?: boolean;
+  background?: GiftBackground;
+  unique_gift_variant_count?: number;
+  publisher_chat?: Chat;
 }
 
 /** This object represents a unique gift. */
@@ -1008,12 +1057,19 @@ export interface UniqueGift {
   model: UniqueGiftModel;
   pattern: UniqueGiftPattern;
   backdrop: UniqueGiftBackdrop;
+  is_from_blockchain?: boolean;
+  is_burned?: boolean;
+  gift_id?: string;
+  is_premium?: boolean;
+  colors?: UniqueGiftColors;
+  publisher_chat?: Chat;
 }
 
 /** This object describes the model of a unique gift. */
 export interface UniqueGiftModel {
   name: string;
   sticker: Sticker;
+  rarity?: string;
 }
 
 /** This object describes the pattern of a unique gift. */
@@ -1186,7 +1242,7 @@ export interface BusinessConnection {
   user: User;
   date: Integer;
   is_enabled: boolean;
-  can_reply?: boolean;
+  rights?: BusinessBotRights;
   is_deleted?: boolean;
 }
 
@@ -1513,6 +1569,7 @@ export interface Chat {
   subscription_period?: Integer;
   subscription_price?: Integer;
   location?: ChatLocation;
+  is_direct_messages?: boolean;
 }
 
 /** Extended information about the chat. */
@@ -1572,6 +1629,15 @@ export interface ChatFullInfo {
   can_have_sponsored_messages?: boolean;
   user_chat_boost_count?: Integer;
   location?: ChatLocation;
+  community?: Community;
+  guard_bot?: boolean;
+  rating?: UserRating;
+  paid_message_star_count?: number;
+  unique_gift_colors?: UniqueGiftColors;
+  can_send_paid_media?: boolean;
+  first_profile_audio?: Audio;
+  parent_chat?: Chat;
+  accepted_gift_types?: AcceptedGiftTypes;
 }
 
 /** This object represents a location to which a chat is connected. */
@@ -1698,12 +1764,42 @@ export interface Message {
 
   live_photo?: LivePhoto;
   checklist?: Checklist;
-  suggested_post_approved?: boolean;
-  suggested_post_declined?: boolean;
+  suggested_post_approved?: SuggestedPostApproved;
+  suggested_post_declined?: SuggestedPostDeclined;
   suggested_post_info?: SuggestedPostInfo;
 
   from_shared_folder?: boolean;
   to_shared_folder?: boolean;
+
+  effect_id?: string;
+  reply_to_poll_option_id?: string;
+  sender_tag?: string;
+  is_paid_post?: boolean;
+  direct_messages_topic?: DirectMessagesTopic;
+  guest_bot_caller_user?: User;
+  guest_bot_caller_chat?: Chat;
+  guest_query_id?: string;
+  receiver_user?: User;
+  paid_star_count?: number;
+  gift?: GiftInfo;
+  unique_gift?: UniqueGiftInfo;
+  gift_upgrade_sent?: boolean;
+  checklist_tasks_done?: ChecklistTasksDone;
+  checklist_tasks_added?: ChecklistTasksAdded;
+  direct_message_price_changed?: DirectMessagePriceChanged;
+  chat_owner_left?: ChatOwnerLeft;
+  chat_owner_changed?: ChatOwnerChanged;
+  poll_option_added?: PollOptionAdded;
+  poll_option_deleted?: PollOptionDeleted;
+  managed_bot_created?: ManagedBotCreated;
+  suggested_post_approval_failed?: SuggestedPostApprovalFailed;
+  suggested_post_paid?: SuggestedPostPaid;
+  suggested_post_refunded?: SuggestedPostRefunded;
+  community_chat_added?: CommunityChatAdded;
+  community_chat_removed?: CommunityChatRemoved;
+  community_chat_joined?: CommunityChatJoined;
+  stopped_message_generation?: MessageGenerationStopped;
+  bot_subscription_updated?: BotSubscriptionUpdated;
 }
 
 /** Describes the origin of a message. */
@@ -1928,6 +2024,7 @@ export interface BackgroundFillFreeformGradient {
 
 export interface SuggestedPostInfo {
   schedule_date?: Integer;
+  price?: SuggestedPostPrice;
 }
 
 export interface StoryBoard {
@@ -1961,12 +2058,151 @@ export interface ServiceMessage {
 }
 
 // ---------------------------------------------------------------------------
+// New Bot API 7.4-10.3 Types
+// ---------------------------------------------------------------------------
+
+export interface DirectMessagesTopic {
+  message_thread_id: number;
+}
+
+export interface SuggestedPostPrice {
+  currency: string;
+  amount: number;
+}
+
+export interface SuggestedPostApproved {}
+export interface SuggestedPostApprovalFailed {}
+export interface SuggestedPostDeclined {}
+export interface SuggestedPostPaid {}
+export interface SuggestedPostRefunded {}
+
+export interface CommunityChatAdded {}
+export interface CommunityChatRemoved {}
+export interface CommunityChatJoined {}
+export interface MessageGenerationStopped {}
+export interface ManagedBotCreated {}
+export interface PollOptionAdded {}
+export interface PollOptionDeleted {}
+export interface ChatOwnerLeft {}
+export interface ChatOwnerChanged {}
+export interface ChecklistTasksDone {}
+export interface ChecklistTasksAdded {}
+export interface DirectMessagePriceChanged {}
+
+export interface GiftBackground {
+  id: string;
+  file: string;
+}
+
+export interface UniqueGiftColors {
+  background_color: string;
+  foreground_color: string;
+  pattern_color: string;
+}
+
+export interface VideoQuality {
+  quality: string;
+  width: number;
+  height: number;
+  file_size?: number;
+}
+
+export interface UserRating {
+  rating: number;
+  max_rating?: number;
+}
+
+export interface GiftInfo {
+  gift: Gift;
+  owned_gift_id?: string;
+  text?: string;
+  entities?: MessageEntity[];
+  is_upgrade_separate?: boolean;
+  unique_gift_number?: string;
+}
+
+export interface UniqueGiftInfo {
+  origin: string;
+  gift: UniqueGift;
+  owned_gift_id?: string;
+  next_transfer_date?: number;
+  last_resale_currency?: string;
+  last_resale_amount?: number;
+  text?: string;
+  entities?: MessageEntity[];
+  is_private?: boolean;
+}
+
+export interface BotSubscriptionUpdated {
+  subscription_period: number;
+  currency: string;
+  amount: number;
+}
+
+export interface DisabledButton {}
+
+export interface KeyboardButtonRequestManagedBot {
+  request_chat?: KeyboardButtonRequestChat;
+}
+
+export interface PollMedia {
+  type?: string;
+  text?: string;
+  text_entities?: MessageEntity[];
+  animation?: Animation;
+  photo?: PhotoSize[];
+  sticker?: Sticker;
+  video?: Video;
+  audio?: Audio;
+  voice?: Voice;
+  document?: Document;
+  link?: Link;
+}
+
+export interface InputPollMedia {
+  type?: string;
+  text?: string;
+  text_entities?: MessageEntity[];
+  animation?: string;
+  photo?: string;
+  sticker?: string;
+  video?: string;
+  audio?: string;
+  voice?: string;
+  document?: string;
+}
+
+export interface Link {
+  type: string;
+  url?: string;
+}
+
+export interface InputMediaLink {
+  type: string;
+  url?: string;
+}
+
+export interface SuggestedPostParameters {
+  post_type?: string;
+  price?: SuggestedPostPrice;
+  schedule_date?: number;
+}
+
+export interface AcceptedGiftTypes {
+  unlimited_gifts?: boolean;
+  limited_gifts?: boolean;
+  unique_gifts?: boolean;
+  premium_subscription?: boolean;
+}
+
+// ---------------------------------------------------------------------------
 // Keyboard Types
 // ---------------------------------------------------------------------------
 
 /** This object represents an inline keyboard. */
 export interface InlineKeyboardMarkup {
   inline_keyboard: InlineKeyboardButton[][];
+  force_reply?: boolean;
 }
 
 /** This object represents one button of an inline keyboard. */
@@ -1982,6 +2218,9 @@ export interface InlineKeyboardButton {
   pay?: boolean;
   copy_text?: CopyTextButton;
   callback_game?: CallbackGame;
+  disabled?: DisabledButton;
+  icon_custom_emoji_id?: string;
+  style?: string;
 }
 
 /** This object represents a custom keyboard. */
@@ -1993,6 +2232,7 @@ export interface ReplyKeyboardMarkup {
   input_field_placeholder?: string;
   selective?: boolean;
   is_custom_keyboard?: boolean;
+  force_reply?: boolean;
 }
 
 /** This object represents one button of the reply keyboard. */
@@ -2006,6 +2246,9 @@ export interface KeyboardButton {
   web_app?: WebAppInfo;
   request_user?: KeyboardButtonRequestUsers;
   request_chat_is_channel?: boolean;
+  icon_custom_emoji_id?: string;
+  style?: string;
+  request_managed_bot?: KeyboardButtonRequestManagedBot;
 }
 
 export interface KeyboardButtonRequestUsers {
@@ -2249,6 +2492,8 @@ export interface InputMediaVideo {
   duration?: Integer;
   supports_streaming?: boolean;
   has_spoiler?: boolean;
+  cover?: string;
+  start_timestamp?: number;
 }
 
 /** Describes the paid media to be sent. */
@@ -2509,6 +2754,9 @@ export interface SendMessageOptions extends FormQueryOptions {
   allow_paid_broadcast?: boolean;
   message_effect_id?: string;
   business_connection_id?: string;
+  direct_messages_topic_id?: number;
+  suggested_post_parameters?: SuggestedPostParameters;
+  ephemeral_message_parameters?: EphemeralMessageParameters;
   reply_markup?: ReplyMarkup;
 }
 
@@ -2525,6 +2773,9 @@ export interface SendPhotoOptions extends FormQueryOptions {
   protect_content?: boolean;
   allow_paid_broadcast?: boolean;
   message_effect_id?: string;
+  direct_messages_topic_id?: number;
+  suggested_post_parameters?: SuggestedPostParameters;
+  ephemeral_message_parameters?: EphemeralMessageParameters;
   reply_parameters?: ReplyParameters;
   reply_markup?: ReplyMarkup;
 }
@@ -2544,6 +2795,9 @@ export interface SendAudioOptions extends FormQueryOptions {
   protect_content?: boolean;
   allow_paid_broadcast?: boolean;
   message_effect_id?: string;
+  direct_messages_topic_id?: number;
+  suggested_post_parameters?: SuggestedPostParameters;
+  ephemeral_message_parameters?: EphemeralMessageParameters;
   reply_parameters?: ReplyParameters;
   reply_markup?: ReplyMarkup;
 }
@@ -2561,6 +2815,9 @@ export interface SendDocumentOptions extends FormQueryOptions {
   protect_content?: boolean;
   allow_paid_broadcast?: boolean;
   message_effect_id?: string;
+  direct_messages_topic_id?: number;
+  suggested_post_parameters?: SuggestedPostParameters;
+  ephemeral_message_parameters?: EphemeralMessageParameters;
   reply_parameters?: ReplyParameters;
   reply_markup?: ReplyMarkup;
 }
@@ -2583,6 +2840,11 @@ export interface SendVideoOptions extends FormQueryOptions {
   protect_content?: boolean;
   allow_paid_broadcast?: boolean;
   message_effect_id?: string;
+  direct_messages_topic_id?: number;
+  suggested_post_parameters?: SuggestedPostParameters;
+  ephemeral_message_parameters?: EphemeralMessageParameters;
+  cover?: string;
+  start_timestamp?: number;
   reply_parameters?: ReplyParameters;
   reply_markup?: ReplyMarkup;
 }
@@ -2604,6 +2866,9 @@ export interface SendAnimationOptions extends FormQueryOptions {
   protect_content?: boolean;
   allow_paid_broadcast?: boolean;
   message_effect_id?: string;
+  direct_messages_topic_id?: number;
+  suggested_post_parameters?: SuggestedPostParameters;
+  ephemeral_message_parameters?: EphemeralMessageParameters;
   reply_parameters?: ReplyParameters;
   reply_markup?: ReplyMarkup;
 }
@@ -2620,6 +2885,9 @@ export interface SendVoiceOptions extends FormQueryOptions {
   protect_content?: boolean;
   allow_paid_broadcast?: boolean;
   message_effect_id?: string;
+  direct_messages_topic_id?: number;
+  suggested_post_parameters?: SuggestedPostParameters;
+  ephemeral_message_parameters?: EphemeralMessageParameters;
   reply_parameters?: ReplyParameters;
   reply_markup?: ReplyMarkup;
 }
@@ -2635,6 +2903,9 @@ export interface SendVideoNoteOptions extends FormQueryOptions {
   protect_content?: boolean;
   allow_paid_broadcast?: boolean;
   message_effect_id?: string;
+  direct_messages_topic_id?: number;
+  suggested_post_parameters?: SuggestedPostParameters;
+  ephemeral_message_parameters?: EphemeralMessageParameters;
   reply_parameters?: ReplyParameters;
   reply_markup?: ReplyMarkup;
 }
@@ -2648,6 +2919,9 @@ export interface SendStickerOptions extends FormQueryOptions {
   protect_content?: boolean;
   allow_paid_broadcast?: boolean;
   message_effect_id?: string;
+  direct_messages_topic_id?: number;
+  suggested_post_parameters?: SuggestedPostParameters;
+  ephemeral_message_parameters?: EphemeralMessageParameters;
   reply_parameters?: ReplyParameters;
   reply_markup?: ReplyMarkup;
 }
@@ -2664,6 +2938,9 @@ export interface SendLocationOptions extends FormQueryOptions {
   protect_content?: boolean;
   allow_paid_broadcast?: boolean;
   message_effect_id?: string;
+  direct_messages_topic_id?: number;
+  suggested_post_parameters?: SuggestedPostParameters;
+  ephemeral_message_parameters?: EphemeralMessageParameters;
   reply_parameters?: ReplyParameters;
   reply_markup?: ReplyMarkup;
 }
@@ -2680,6 +2957,9 @@ export interface SendVenueOptions extends FormQueryOptions {
   protect_content?: boolean;
   allow_paid_broadcast?: boolean;
   message_effect_id?: string;
+  direct_messages_topic_id?: number;
+  suggested_post_parameters?: SuggestedPostParameters;
+  ephemeral_message_parameters?: EphemeralMessageParameters;
   reply_parameters?: ReplyParameters;
   reply_markup?: ReplyMarkup;
 }
@@ -2694,6 +2974,9 @@ export interface SendContactOptions extends FormQueryOptions {
   protect_content?: boolean;
   allow_paid_broadcast?: boolean;
   message_effect_id?: string;
+  direct_messages_topic_id?: number;
+  suggested_post_parameters?: SuggestedPostParameters;
+  ephemeral_message_parameters?: EphemeralMessageParameters;
   reply_parameters?: ReplyParameters;
   reply_markup?: ReplyMarkup;
 }
@@ -2714,10 +2997,25 @@ export interface SendPollOptions extends FormQueryOptions {
   open_period?: Integer;
   close_date?: Integer;
   is_closed?: boolean;
+  media?: InputPollMedia;
+  explanation_media?: InputMedia;
+  members_only?: boolean;
+  country_codes?: string[];
+  correct_option_ids?: number[];
+  allows_revoting?: boolean;
+  shuffle_options?: boolean;
+  allow_adding_options?: boolean;
+  hide_results_until_closes?: boolean;
+  description?: string;
+  description_parse_mode?: string;
+  description_entities?: MessageEntity[];
   disable_notification?: boolean;
   protect_content?: boolean;
   allow_paid_broadcast?: boolean;
   message_effect_id?: string;
+  direct_messages_topic_id?: number;
+  suggested_post_parameters?: SuggestedPostParameters;
+  ephemeral_message_parameters?: EphemeralMessageParameters;
   reply_parameters?: ReplyParameters;
   reply_markup?: ReplyMarkup;
 }
@@ -2731,6 +3029,9 @@ export interface SendDiceOptions extends FormQueryOptions {
   protect_content?: boolean;
   allow_paid_broadcast?: boolean;
   message_effect_id?: string;
+  direct_messages_topic_id?: number;
+  suggested_post_parameters?: SuggestedPostParameters;
+  ephemeral_message_parameters?: EphemeralMessageParameters;
   reply_parameters?: ReplyParameters;
   reply_markup?: ReplyMarkup;
 }
@@ -2749,6 +3050,9 @@ export interface SendGameOptions extends FormQueryOptions {
   protect_content?: boolean;
   allow_paid_broadcast?: boolean;
   message_effect_id?: string;
+  direct_messages_topic_id?: number;
+  suggested_post_parameters?: SuggestedPostParameters;
+  ephemeral_message_parameters?: EphemeralMessageParameters;
   reply_parameters?: ReplyParameters;
   reply_markup?: InlineKeyboardMarkup;
 }
@@ -2774,6 +3078,9 @@ export interface SendInvoiceOptions extends FormQueryOptions {
   protect_content?: boolean;
   allow_paid_broadcast?: boolean;
   message_effect_id?: string;
+  direct_messages_topic_id?: number;
+  suggested_post_parameters?: SuggestedPostParameters;
+  ephemeral_message_parameters?: EphemeralMessageParameters;
   reply_parameters?: ReplyParameters;
   reply_markup?: InlineKeyboardMarkup;
   message_thread_id?: Integer;
@@ -2791,6 +3098,8 @@ export interface SendPaidMediaOptions extends FormQueryOptions {
   disable_notification?: boolean;
   protect_content?: boolean;
   allow_paid_broadcast?: boolean;
+  direct_messages_topic_id?: number;
+  suggested_post_parameters?: SuggestedPostParameters;
   reply_parameters?: ReplyParameters;
   reply_markup?: ReplyMarkup;
 }
@@ -2810,6 +3119,9 @@ export interface ReplyParameters {
   quote_entities?: MessageEntity[];
   quote_position?: Integer;
   is_quote?: boolean;
+  ephemeral_message_id?: string;
+  poll_option_id?: string;
+  checklist_task_id?: string;
 }
 
 /** Parameters for setMessageReaction. */
@@ -3081,6 +3393,8 @@ export default class TelegramBot extends EventEmitter {
       disable_notification?: boolean;
       protect_content?: boolean;
       message_effect_id?: string;
+      video_start_timestamp?: number;
+      direct_messages_topic_id?: number;
     },
   ): Promise<Message>;
 
@@ -3095,6 +3409,7 @@ export default class TelegramBot extends EventEmitter {
     form?: {
       disable_notification?: boolean;
       protect_content?: boolean;
+      direct_messages_topic_id?: number;
     },
   ): Promise<MessageId[]>;
 
@@ -3115,6 +3430,9 @@ export default class TelegramBot extends EventEmitter {
       disable_notification?: boolean;
       protect_content?: boolean;
       allow_paid_broadcast?: boolean;
+      video_start_timestamp?: number;
+      message_effect_id?: string;
+      direct_messages_topic_id?: number;
       reply_parameters?: ReplyParameters;
       reply_markup?: ReplyMarkup;
     },
@@ -3133,6 +3451,7 @@ export default class TelegramBot extends EventEmitter {
       disable_notification?: boolean;
       protect_content?: boolean;
       remove_caption?: boolean;
+      direct_messages_topic_id?: number;
     },
   ): Promise<{ message_id: Integer }[]>;
 
@@ -3220,7 +3539,7 @@ export default class TelegramBot extends EventEmitter {
   sendMediaGroup(
     chatId: number | string,
     media: Array<InputMedia & { file_options?: FormQueryOptions }>,
-    options?: FormQueryOptions,
+    options?: FormQueryOptions & { direct_messages_topic_id?: number },
   ): Promise<Message[]>;
 
   /**
@@ -3259,6 +3578,7 @@ export default class TelegramBot extends EventEmitter {
       horizontal_accuracy?: Float;
       heading?: Integer;
       proximity_alert_radius?: Integer;
+      business_connection_id?: string;
       reply_markup?: InlineKeyboardMarkup;
     },
   ): Promise<Message | boolean>;
@@ -3271,6 +3591,7 @@ export default class TelegramBot extends EventEmitter {
     chat_id?: number | string;
     message_id?: number;
     inline_message_id?: string;
+    business_connection_id?: string;
     reply_markup?: InlineKeyboardMarkup;
   }): Promise<Message | boolean>;
 
@@ -3416,6 +3737,8 @@ export default class TelegramBot extends EventEmitter {
       can_edit_stories?: boolean;
       can_delete_stories?: boolean;
       can_manage_direct_messages?: boolean;
+      can_manage_tags?: boolean;
+      can_send_welcome_messages?: boolean;
     },
   ): Promise<boolean>;
 
@@ -3583,7 +3906,7 @@ export default class TelegramBot extends EventEmitter {
    * Get a list of administrators in a chat.
    * @see https://core.telegram.org/bots/api#getchatadministrators
    */
-  getChatAdministrators(chatId: number | string, form?: FormQueryOptions): Promise<ChatMember[]>;
+  getChatAdministrators(chatId: number | string, form?: { return_bots?: boolean }): Promise<ChatMember[]>;
 
   /**
    * Get the number of members in a chat.
@@ -3832,6 +4155,8 @@ export default class TelegramBot extends EventEmitter {
       parse_mode?: string;
       entities?: MessageEntity[];
       link_preview_options?: LinkPreviewOptions;
+      rich_message?: InputRichMessage;
+      business_connection_id?: string;
       reply_markup?: InlineKeyboardMarkup;
     },
   ): Promise<Message | boolean>;
@@ -3849,6 +4174,7 @@ export default class TelegramBot extends EventEmitter {
       parse_mode?: string;
       caption_entities?: MessageEntity[];
       show_caption_above_media?: boolean;
+      business_connection_id?: string;
       reply_markup?: InlineKeyboardMarkup;
     },
   ): Promise<Message | boolean>;
@@ -3863,6 +4189,7 @@ export default class TelegramBot extends EventEmitter {
       chat_id?: number | string;
       message_id?: number;
       inline_message_id?: string;
+      business_connection_id?: string;
       reply_markup?: InlineKeyboardMarkup;
     },
   ): Promise<Message | boolean>;
@@ -3877,6 +4204,7 @@ export default class TelegramBot extends EventEmitter {
       chat_id?: number | string;
       message_id?: number;
       inline_message_id?: string;
+      business_connection_id?: string;
     },
   ): Promise<Message | boolean>;
 
@@ -3889,6 +4217,7 @@ export default class TelegramBot extends EventEmitter {
     pollId: number,
     form?: {
       message_thread_id?: Integer;
+      business_connection_id?: string;
       reply_markup?: InlineKeyboardMarkup;
     },
   ): Promise<Poll>;
@@ -4247,7 +4576,7 @@ export default class TelegramBot extends EventEmitter {
   sendGift(
     userId: number,
     giftId: string,
-    form?: { text?: string; text_parse_mode?: string; text_entities?: MessageEntity[]; pay_for_upgrade?: boolean },
+    form?: { text?: string; text_parse_mode?: string; text_entities?: MessageEntity[]; pay_for_upgrade?: boolean; chat_id?: number | string },
   ): Promise<boolean>;
 
   /**
@@ -4550,6 +4879,8 @@ export default class TelegramBot extends EventEmitter {
       parse_mode?: string;
       entities?: MessageEntity[];
       link_preview_options?: LinkPreviewOptions;
+      can_stop?: boolean;
+      keep_on_stop?: boolean;
     },
   ): Promise<Message>;
 
@@ -4762,6 +5093,8 @@ export default class TelegramBot extends EventEmitter {
     form?: {
       business_connection_id?: string;
       message_thread_id?: Integer;
+      can_stop?: boolean;
+      keep_on_stop?: boolean;
     },
   ): Promise<Message>;
 

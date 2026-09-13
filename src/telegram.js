@@ -108,6 +108,22 @@ const _messageTypes = [
   // Bot API 10.3
   'stopped_message_generation',
   'community_chat_joined',
+  // Bot API 8.3+
+  'giveaway_created',
+  'giveaway',
+  'giveaway_winners',
+  'giveaway_completed',
+  'chat_boost_added',
+  'story',
+  'chat_background_set',
+  'forum_topic_created',
+  'forum_topic_closed',
+  'forum_topic_reopened',
+  'forum_topic_edited',
+  'general_forum_topic_hidden',
+  'general_forum_topic_unhidden',
+  'write_access_allowed',
+  'boost',
 ];
 
 const _deprecatedMessageTypes = [
@@ -899,6 +915,34 @@ class TelegramBot extends EventEmitter {
     } else if (removedChatBoost) {
       debug('Process Update removed_chat_boost %j', removedChatBoost);
       this.emit('removed_chat_boost', removedChatBoost);
+    }
+
+    // Update-level types not tied to message content
+    const purchasedPaidMedia = update.purchased_paid_media;
+    const subscription = update.subscription;
+    const managedBot = update.managed_bot;
+    const guestMessage = update.guest_message;
+    const stoppedMessageGeneration = update.stopped_message_generation;
+    const reaction = update.reaction;
+
+    if (purchasedPaidMedia) {
+      debug('Process Update purchased_paid_media %j', purchasedPaidMedia);
+      this.emit('purchased_paid_media', purchasedPaidMedia);
+    } else if (subscription) {
+      debug('Process Update subscription %j', subscription);
+      this.emit('subscription', subscription);
+    } else if (managedBot) {
+      debug('Process Update managed_bot %j', managedBot);
+      this.emit('managed_bot', managedBot);
+    } else if (guestMessage) {
+      debug('Process Update guest_message %j', guestMessage);
+      this.emit('guest_message', guestMessage);
+    } else if (stoppedMessageGeneration) {
+      debug('Process Update stopped_message_generation %j', stoppedMessageGeneration);
+      this.emit('stopped_message_generation', stoppedMessageGeneration);
+    } else if (reaction) {
+      debug('Process Update reaction %j', reaction);
+      this.emit('reaction', reaction);
     }
   }
 
@@ -3303,7 +3347,14 @@ class TelegramBot extends EventEmitter {
    * @see https://core.telegram.org/bots/api#sendgift
    */
   sendGift(userId, giftId, form = {}) {
-    form.user_id = userId;
+    if (typeof userId === 'number' || typeof userId === 'string') {
+      // Check if it looks like a chat ID (negative numbers or @channel)
+      if (String(userId).charAt(0) === '-' || String(userId).charAt(0) === '@') {
+        form.chat_id = userId;
+      } else {
+        form.user_id = userId;
+      }
+    }
     form.gift_id = giftId;
     return this._request('sendGift', { form });
   }

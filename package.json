@@ -23,7 +23,7 @@
     "pretest": "npm run build",
     "test": "npm run eslint && istanbul cover ./node_modules/mocha/bin/_mocha"
   },
-  "author": "Yago Pérez <yagoperezs@gmail.com>",
+  "author": "ZeroBot",
   "license": "MIT",
   "engines": {
     "node": ">=0.12"
@@ -70,5 +70,5 @@
   "bugs": {
     "url": "https://github.com/ZeroBot-net/tg-bot-api/issues"
   },
-  "homepage": "https://github.com/yagop/node-telegram-bot-api"
+  "homepage": "https://github.com/ZeroBot-net/tg-bot-api"
 }

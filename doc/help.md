@@ -60,7 +60,14 @@ Sources:
 <a name="leave-chat"></a>
 ### How do I know when a user leaves a chat?
 
-*Not done. PRs welcome!*
+Listen for the `left_chat_member` event or check `message.left_chat_member` field:
+```js
+bot.on('message', (msg) => {
+  if (msg.left_chat_member) {
+    console.log(`${msg.left_chat_member.first_name} left the chat`);
+  }
+});
+```
 
 Sources:
 
@@ -69,9 +76,12 @@ Sources:
 <a name="error-meanings"></a>
 ### What does this error mean?
 
-* [502 Bad Gateway](https://github.com/ZeroBot-net/@zero-bot.net/tg-bot-api/issues/377)
-
-*Not complete. PRs welcome!*
+- 502 Bad Gateway: Telegram servers are temporarily overloaded. Retry after a short delay.
+- 400 Bad Request: Check your parameters. Common causes: invalid chat_id, message too long, invalid parse_mode.
+- 401 Unauthorized: Invalid bot token. Check your token from @BotFather.
+- 403 Forbidden: Bot was blocked by the user or kicked from the chat.
+- 404 Not Found: Bot token is invalid or the bot was deleted.
+- 429 Too Many Requests: Rate limited. Reduce request frequency.
 
 Sources:
 
@@ -86,7 +96,14 @@ Sources:
 <a name="reply-keyboard"></a>
 ### How do I know the selected option in reply keyboard?
 
-*Not done. PRs welcome!*
+Check `msg.text` — it will contain the text of the selected reply keyboard button:
+```js
+bot.on('message', (msg) => {
+  const text = msg.text;
+  if (text === 'Option 1') { /* ... */ }
+  else if (text === 'Option 2') { /* ... */ }
+});
+```
 
 Sources:
 
@@ -95,7 +112,15 @@ Sources:
 <a name="ordered-sending"></a>
 ### How do I send multiple message in correct sequence?
 
-*Not done. PRs welcome!*
+Use async/await to ensure ordering:
+```js
+bot.on('message', async (msg) => {
+  const chatId = msg.chat.id;
+  await bot.sendMessage(chatId, 'First message');
+  await bot.sendMessage(chatId, 'Second message');
+  await bot.sendMessage(chatId, 'Third message');
+});
+```
 
 Sources:
 
@@ -104,7 +129,14 @@ Sources:
 <a name="proxy"></a>
 ### How do I run my bot behind a proxy?
 
-*Not done. PRs welcome!*
+Set the `agent` option using an HTTPS proxy agent:
+```js
+const HttpsProxyAgent = require('https-proxy-agent');
+const agent = new HttpsProxyAgent('http://proxy:port');
+const bot = new TelegramBot(token, {
+  polling: { request: { agent } },
+});
+```
 
 Sources:
 
@@ -115,7 +147,7 @@ Sources:
 <a name="new-feature"></a>
 ### Can you add feature X to the library?
 
-*Not done. PRs welcome!*
+Open an issue on GitHub describing the feature you'd like. Pull requests are always welcome!
 
 Sources:
 
@@ -124,7 +156,11 @@ Sources:
 <a name="scalable"></a>
 ### Is this scalable?
 
-*Not done. PRs welcome!*
+Yes. For high-traffic bots:
+- Use webhooks instead of polling
+- Use a proper process manager (PM2)
+- Consider sharding for very large bots
+- Use the `filepath: false` option for better performance
 
 Sources:
 
@@ -133,7 +169,14 @@ Sources:
 <a name="messages-in-chat"></a>
 ### How do I listen for messages in a chat group?
 
-*Not done. PRs welcome!*
+Use the `message` event and filter by chat type:
+```js
+bot.on('message', (msg) => {
+  if (msg.chat.type === 'group' || msg.chat.type === 'supergroup') {
+    // Message from a group chat
+  }
+});
+```
 
 Sources:
 
@@ -142,7 +185,7 @@ Sources:
 <a name="blocked-bot"></a>
 ### How do I know when a user blocks the bot?
 
-*Not done. PRs welcome!*
+When a user blocks the bot, the bot won't receive any updates from that user. There's no direct event for this. You can check by attempting `getChatMember` — if the user is not found, they may have blocked the bot.
 
 Sources:
 

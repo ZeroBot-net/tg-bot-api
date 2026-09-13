@@ -5,7 +5,7 @@
 Node.js module to interact with the official [Telegram Bot API](https://core.telegram.org/bots/api).
 
 
-[![Bot API](https://img.shields.io/badge/Bot%20API-v.3-00aced.svg?style=flat-square&logo=telegram)](https://core.telegram.org/bots/api)
+[![Bot API](https://img.shields.io/badge/Bot%20API-v.10.3-00aced.svg?style=flat-square&logo=telegram)](https://core.telegram.org/bots/api)
 [![npm package](https://img.shields.io/npm/v/@zero-bot.net/tg-bot-api?logo=npm&style=flat-square)](https://www.npmjs.org/package/@zero-bot.net/tg-bot-api)
 [![Build Status](https://img.shields.io/travis/ZeroBot-net/tg-bot-api/master?style=flat-square&logo=travis)](https://travis-ci.org/ZeroBot-net/tg-bot-api)
 [![Coverage Status](https://img.shields.io/codecov/c/github/ZeroBot-net/tg-bot-api?style=flat-square&logo=codecov)](https://codecov.io/gh/ZeroBot-net/tg-bot-api)
@@ -21,13 +21,6 @@ Node.js module to interact with the official [Telegram Bot API](https://core.tel
 ```sh
 npm i @zero-bot.net/tg-bot-api
 ```
-
-<br/>
-
-> ✍️ **Note:** If you use Typescript you can install this package that contains type definitions for this library
->```sh
->npm install --save-dev @types/@zero-bot.net/tg-bot-api
->```
 
 ## 🚀 Usage
 
@@ -63,13 +56,28 @@ bot.on('message', (msg) => {
 });
 ```
 
+## ✨ Features
+
+- Full Telegram Bot API 10.3 support (169 methods)
+- Built-in TypeScript definitions
+- Rich Messages (AI streaming, structured content)
+- Ephemeral Messages
+- Guest Mode
+- Business Account management
+- Gifts, Stars & Payments
+- Checklists, Polls with media
+- Live Photos, Stories
+- Communities & Direct Messages
+- Suggested Posts
+- Managed Bots
+- And much more
+
 ## 📚 Documentation
 
 * [Usage][usage]
 * [Examples][examples]
-* [Tutorials][tutorials]
 * [Help Information][help]
-* API Reference: ([api-release](../master/doc/api.md) / [development][api-dev] / [experimental][api-experimental])
+* API Reference — Bot API 10.3: ([api-release](../master/doc/api.md) / [development][api-dev] / [experimental][api-experimental])
 * [Contributing to the Project][contributing]
 * [Experimental Features][experimental]
 
@@ -114,13 +122,11 @@ Some things built using this library that might interest you:
 
 **The MIT License (MIT)**
 
-Copyright © 2019 Yago
 Copyright © 2026 Grandpa EJ
 
 [usage]:https://github.com/ZeroBot-net/tg-bot-api/tree/master/doc/usage.md
 [examples]:https://github.com/ZeroBot-net/tg-bot-api/tree/master/examples
 [help]:https://github.com/ZeroBot-net/tg-bot-api/tree/master/doc/help.md
-[tutorials]:https://github.com/ZeroBot-net/tg-bot-api/tree/master/doc/tutorials.md
 [api-dev]:https://github.com/ZeroBot-net/tg-bot-api/tree/master/doc/api.md
 [api-release]:https://github.com/ZeroBot-net/tg-bot-api/tree/release/doc/api.md
 [api-experimental]:https://github.com/ZeroBot-net/tg-bot-api/tree/experimental/doc/api.md

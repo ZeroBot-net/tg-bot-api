@@ -11,7 +11,9 @@
     "telegram",
     "telegram bot",
     "telegram bot api",
-    "bot"
+    "bot",
+    "tg bot api",
+    "zero-bot.net"
   ],
   "scripts": {
     "gen-doc": "echo 'WARNING: `npm run gen-doc` is deprecated. Use `npm run doc` instead.' && npm run doc",
@@ -51,9 +53,9 @@
     "babel-preset-es2015": "^6.24.1",
     "babel-register": "^6.26.0",
     "concat-stream": "^2.0.0",
-    "eslint": "^8.57.1",
+    "eslint": "^10.10.0",
     "eslint-config-airbnb": "^19.0.4",
-    "eslint-plugin-mocha": "^10.5.0",
+    "eslint-plugin-mocha": "^12.0.2",
     "is": "^3.3.2",
     "is-ci": "^4.1.0",
     "istanbul": "^1.1.0-alpha.1",

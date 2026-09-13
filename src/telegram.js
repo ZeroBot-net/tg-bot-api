@@ -3114,6 +3114,1017 @@ class TelegramBot extends EventEmitter {
     return this._request('deleteMessages', { form });
   }
 
+  // ==========================================
+  // Bot API 7.4
+  // ==========================================
+
+  /**
+   * Use this method to issue a refund for a payment made via Telegram Stars.
+   *
+   * @param  {Number} userId Identifier of the user whose payment will be refunded
+   * @param  {String} telegramPaymentChargeId Telegram payment identifier of the payment to refund
+   * @param  {Object} [options] Additional Telegram query options
+   * @return {Promise} On success, True is returned
+   * @see https://core.telegram.org/bots/api#refundstarpayment
+   */
+  refundStarPayment(userId, telegramPaymentChargeId, form = {}) {
+    form.user_id = userId;
+    form.telegram_payment_charge_id = telegramPaymentChargeId;
+    return this._request('refundStarPayment', { form });
+  }
+
+  // ==========================================
+  // Bot API 7.5
+  // ==========================================
+
+  /**
+   * Use this method to get the current status of the balance of Telegram Stars
+   * that can be withdrawn by the bot or transferred to another business account.
+   *
+   * @param  {Object} [options] Additional Telegram query options
+   * @return {Promise} On success, returns a StarTransactions object
+   * @see https://core.telegram.org/bots/api#getstartransactions
+   */
+  getStarTransactions(form = {}) {
+    return this._request('getStarTransactions', { form });
+  }
+
+  // ==========================================
+  // Bot API 7.6
+  // ==========================================
+
+  /**
+   * Use this method to send paid media.
+   *
+   * @param  {Number|String} chatId Unique identifier for the target chat or username of the target channel (in the format `@channelusername`)
+   * @param  {Number} starCount The number of Telegram Stars that must be paid to buy access to the media
+   * @param  {Array} media A JSON-serialized array describing the media to be sent; currently supports photos and videos
+   * @param  {Object} [options] Additional Telegram query options
+   * @return {Promise} On success, the sent Message object is returned
+   * @see https://core.telegram.org/bots/api#sendpaidmedia
+   */
+  sendPaidMedia(chatId, starCount, media, form = {}) {
+    form.chat_id = chatId;
+    form.star_count = starCount;
+    form.media = stringify(media);
+    return this._request('sendPaidMedia', { form });
+  }
+
+  // ==========================================
+  // Bot API 7.9
+  // ==========================================
+
+  /**
+   * Use this method to create a subscription invite link for a channel chat.
+   *
+   * @param  {Number|String} chatId Unique identifier for the target channel chat or username of the target channel (in the format `@channelusername`)
+   * @param  {Object} [options] Additional Telegram query options
+   * @return {Promise} On success, the new invite link as a ChatInviteLink object is returned
+   * @see https://core.telegram.org/bots/api#createchatsubscriptioninvitelink
+   */
+  createChatSubscriptionInviteLink(chatId, form = {}) {
+    form.chat_id = chatId;
+    return this._request('createChatSubscriptionInviteLink', { form });
+  }
+
+  /**
+   * Use this method to edit a subscription invite link created by the bot.
+   *
+   * @param  {Number|String} chatId Unique identifier for the target channel chat or username of the target channel (in the format `@channelusername`)
+   * @param  {String} inviteLink The invite link to edit
+   * @param  {Object} [options] Additional Telegram query options
+   * @return {Promise} On success, the edited invite link as a ChatInviteLink object is returned
+   * @see https://core.telegram.org/bots/api#editchatsubscriptioninvitelink
+   */
+  editChatSubscriptionInviteLink(chatId, inviteLink, form = {}) {
+    form.chat_id = chatId;
+    form.invite_link = inviteLink;
+    return this._request('editChatSubscriptionInviteLink', { form });
+  }
+
+  // ==========================================
+  // Bot API 8.0
+  // ==========================================
+
+  /**
+   * Use this method to get the list of gifts that can be sent by the bot.
+   *
+   * @param  {Object} [options] Additional Telegram query options
+   * @return {Promise} On success, returns a Gifts object
+   * @see https://core.telegram.org/bots/api#getavailablegifts
+   */
+  getAvailableGifts(form = {}) {
+    return this._request('getAvailableGifts', { form });
+  }
+
+  /**
+   * Use this method to send a gift to a user.
+   *
+   * @param  {Number} userId Unique identifier of the target user that will receive the gift
+   * @param  {String} giftId Identifier of the gift
+   * @param  {Object} [options] Additional Telegram query options
+   * @return {Promise} On success, True is returned
+   * @see https://core.telegram.org/bots/api#sendgift
+   */
+  sendGift(userId, giftId, form = {}) {
+    form.user_id = userId;
+    form.gift_id = giftId;
+    return this._request('sendGift', { form });
+  }
+
+  /**
+   * Use this method to edit a subscription paid through Telegram Stars.
+   *
+   * @param  {Number} userId Identifier of the user whose subscription will be edited
+   * @param  {String} telegramPaymentChargeId Telegram payment identifier of the subscription payment
+   * @param  {Boolean} isCanceled Pass True to cancel the user's subscription
+   * @param  {Object} [options] Additional Telegram query options
+   * @return {Promise} On success, True is returned
+   * @see https://core.telegram.org/bots/api#edituserstarsubscription
+   */
+  editUserStarSubscription(userId, telegramPaymentChargeId, isCanceled, form = {}) {
+    form.user_id = userId;
+    form.telegram_payment_charge_id = telegramPaymentChargeId;
+    form.is_canceled = isCanceled;
+    return this._request('editUserStarSubscription', { form });
+  }
+
+  /**
+   * Use this method to store an inline message that can be sent on behalf of a user.
+   *
+   * @param  {Number} userId Unique identifier of the target user
+   * @param  {Object} result An object describing the message to be sent
+   * @param  {Object} [options] Additional Telegram query options
+   * @return {Promise} On success, returns a PreparedInlineMessage object
+   * @see https://core.telegram.org/bots/api#savepreparedinlinemessage
+   */
+  savePreparedInlineMessage(userId, result, form = {}) {
+    form.user_id = userId;
+    form.result = stringify(result);
+    return this._request('savePreparedInlineMessage', { form });
+  }
+
+  // ==========================================
+  // Bot API 8.2
+  // ==========================================
+
+  /**
+   * Use this method to verify a user that is managed by the bot.
+   *
+   * @param  {Number} userId Unique identifier of the target user
+   * @param  {Object} [options] Additional Telegram query options
+   * @return {Promise} On success, True is returned
+   * @see https://core.telegram.org/bots/api#verifyuser
+   */
+  verifyUser(userId, form = {}) {
+    form.user_id = userId;
+    return this._request('verifyUser', { form });
+  }
+
+  /**
+   * Use this method to verify a chat that is managed by the bot.
+   *
+   * @param  {Number|String} chatId Unique identifier for the target chat or username of the target channel (in the format `@channelusername`)
+   * @param  {Object} [options] Additional Telegram query options
+   * @return {Promise} On success, True is returned
+   * @see https://core.telegram.org/bots/api#verifychat
+   */
+  verifyChat(chatId, form = {}) {
+    form.chat_id = chatId;
+    return this._request('verifyChat', { form });
+  }
+
+  /**
+   * Use this method to remove verification for a user that is managed by the bot.
+   *
+   * @param  {Number} userId Unique identifier of the target user
+   * @param  {Object} [options] Additional Telegram query options
+   * @return {Promise} On success, True is returned
+   * @see https://core.telegram.org/bots/api#removeuserverification
+   */
+  removeUserVerification(userId, form = {}) {
+    form.user_id = userId;
+    return this._request('removeUserVerification', { form });
+  }
+
+  /**
+   * Use this method to remove verification for a chat that is managed by the bot.
+   *
+   * @param  {Number|String} chatId Unique identifier for the target chat or username of the target channel (in the format `@channelusername`)
+   * @param  {Object} [options] Additional Telegram query options
+   * @return {Promise} On success, True is returned
+   * @see https://core.telegram.org/bots/api#removechatverification
+   */
+  removeChatVerification(chatId, form = {}) {
+    form.chat_id = chatId;
+    return this._request('removeChatVerification', { form });
+  }
+
+  // ==========================================
+  // Bot API 9.0: Business Accounts + Gifts
+  // ==========================================
+
+  /**
+   * Use this method to mark incoming messages as read on behalf of a business account.
+   *
+   * @param  {String} businessConnectionId Unique identifier of the business connection
+   * @param  {Number} messageId Unique identifier of the message to mark as read
+   * @param  {Object} [options] Additional Telegram query options
+   * @return {Promise} True on success
+   * @see https://core.telegram.org/bots/api#readbusinessmessage
+   */
+  readBusinessMessage(businessConnectionId, messageId, form = {}) {
+    form.business_connection_id = businessConnectionId;
+    form.message_id = messageId;
+    return this._request('readBusinessMessage', { form });
+  }
+
+  /**
+   * Use this method to delete messages on behalf of a business account.
+   *
+   * @param  {String} businessConnectionId Unique identifier of the business connection
+   * @param  {Array<Number>} messageIds Unique identifiers of 1-100 messages to delete
+   * @param  {Object} [options] Additional Telegram query options
+   * @return {Promise} True on success
+   * @see https://core.telegram.org/bots/api#deletebusinessmessages
+   */
+  deleteBusinessMessages(businessConnectionId, messageIds, form = {}) {
+    form.business_connection_id = businessConnectionId;
+    form.message_ids = stringify(messageIds);
+    return this._request('deleteBusinessMessages', { form });
+  }
+
+  /**
+   * Use this method to change the first and last name of a managed business account.
+   *
+   * @param  {String} businessConnectionId Unique identifier of the business connection
+   * @param  {Object} [options] Additional Telegram query options
+   * @return {Promise} True on success
+   * @see https://core.telegram.org/bots/api#setbusinessaccountname
+   */
+  setBusinessAccountName(businessConnectionId, form = {}) {
+    form.business_connection_id = businessConnectionId;
+    return this._request('setBusinessAccountName', { form });
+  }
+
+  /**
+   * Use this method to change the username of a managed business account.
+   *
+   * @param  {String} businessConnectionId Unique identifier of the business connection
+   * @param  {Object} [options] Additional Telegram query options
+   * @return {Promise} True on success
+   * @see https://core.telegram.org/bots/api#setbusinessaccountusername
+   */
+  setBusinessAccountUsername(businessConnectionId, form = {}) {
+    form.business_connection_id = businessConnectionId;
+    return this._request('setBusinessAccountUsername', { form });
+  }
+
+  /**
+   * Use this method to change the bio of a managed business account.
+   *
+   * @param  {String} businessConnectionId Unique identifier of the business connection
+   * @param  {Object} [options] Additional Telegram query options
+   * @return {Promise} True on success
+   * @see https://core.telegram.org/bots/api#setbusinessaccountbio
+   */
+  setBusinessAccountBio(businessConnectionId, form = {}) {
+    form.business_connection_id = businessConnectionId;
+    return this._request('setBusinessAccountBio', { form });
+  }
+
+  /**
+   * Use this method to change the profile photo of a managed business account.
+   *
+   * @param  {String} businessConnectionId Unique identifier of the business connection
+   * @param  {Object} photo InputProfilePhoto object
+   * @param  {Object} [options] Additional Telegram query options
+   * @return {Promise} True on success
+   * @see https://core.telegram.org/bots/api#setbusinessaccountprofilephoto
+   */
+  setBusinessAccountProfilePhoto(businessConnectionId, photo, form = {}) {
+    form.business_connection_id = businessConnectionId;
+    form.photo = stringify(photo);
+    return this._request('setBusinessAccountProfilePhoto', { form });
+  }
+
+  /**
+   * Use this method to remove the profile photo of a managed business account.
+   *
+   * @param  {String} businessConnectionId Unique identifier of the business connection
+   * @param  {Object} [options] Additional Telegram query options
+   * @return {Promise} True on success
+   * @see https://core.telegram.org/bots/api#removebusinessaccountprofilephoto
+   */
+  removeBusinessAccountProfilePhoto(businessConnectionId, form = {}) {
+    form.business_connection_id = businessConnectionId;
+    return this._request('removeBusinessAccountProfilePhoto', { form });
+  }
+
+  /**
+   * Use this method to change the gift settings of a managed business account.
+   *
+   * @param  {String} businessConnectionId Unique identifier of the business connection
+   * @param  {Object} [options] Additional Telegram query options
+   * @return {Promise} True on success
+   * @see https://core.telegram.org/bots/api#setbusinessaccountgiftsettings
+   */
+  setBusinessAccountGiftSettings(businessConnectionId, form = {}) {
+    form.business_connection_id = businessConnectionId;
+    if (form.accepted_gift_types) {
+      form.accepted_gift_types = stringify(form.accepted_gift_types);
+    }
+    return this._request('setBusinessAccountGiftSettings', { form });
+  }
+
+  /**
+   * Use this method to get the current Star balance of a managed business account.
+   *
+   * @param  {String} businessConnectionId Unique identifier of the business connection
+   * @param  {Object} [options] Additional Telegram query options
+   * @return {Promise} Returns a StarAmount object
+   * @see https://core.telegram.org/bots/api#getbusinessaccountstarbalance
+   */
+  getBusinessAccountStarBalance(businessConnectionId, form = {}) {
+    form.business_connection_id = businessConnectionId;
+    return this._request('getBusinessAccountStarBalance', { form });
+  }
+
+  /**
+   * Use this method to transfer Stars from the business account balance to the bot owner's balance.
+   *
+   * @param  {String} businessConnectionId Unique identifier of the business connection
+   * @param  {Number} starCount Number of Telegram Stars to transfer, 1-10000
+   * @param  {Object} [options] Additional Telegram query options
+   * @return {Promise} Returns a StarAmount object
+   * @see https://core.telegram.org/bots/api#transferbusinessaccountstars
+   */
+  transferBusinessAccountStars(businessConnectionId, starCount, form = {}) {
+    form.business_connection_id = businessConnectionId;
+    form.star_count = starCount;
+    return this._request('transferBusinessAccountStars', { form });
+  }
+
+  /**
+   * Use this method to get the list of gifts received by a managed business account.
+   *
+   * @param  {String} businessConnectionId Unique identifier of the business connection
+   * @param  {Object} [options] Additional Telegram query options
+   * @return {Promise} Returns an Array of OwnedGift objects
+   * @see https://core.telegram.org/bots/api#getbusinessaccountgifts
+   */
+  getBusinessAccountGifts(businessConnectionId, form = {}) {
+    form.business_connection_id = businessConnectionId;
+    return this._request('getBusinessAccountGifts', { form });
+  }
+
+  /**
+   * Use this method to convert a given regular gift to Telegram Stars.
+   *
+   * @param  {String} businessConnectionId Unique identifier of the business connection
+   * @param  {String} ownedGiftId Identifier of the regular gift
+   * @param  {Object} [options] Additional Telegram query options
+   * @return {Promise} Returns a StarAmount object
+   * @see https://core.telegram.org/bots/api#convertgifttostars
+   */
+  convertGiftToStars(businessConnectionId, ownedGiftId, form = {}) {
+    form.business_connection_id = businessConnectionId;
+    form.owned_gift_id = ownedGiftId;
+    return this._request('convertGiftToStars', { form });
+  }
+
+  /**
+   * Use this method to upgrade a regular gift to a unique or upgrade a unique gift to an upgraded collectible gift.
+   *
+   * @param  {String} businessConnectionId Unique identifier of the business connection
+   * @param  {String} ownedGiftId Identifier of the regular gift to upgrade
+   * @param  {Object} [options] Additional Telegram query options
+   * @return {Promise} Returns the updated OwnedGift object
+   * @see https://core.telegram.org/bots/api#upgradegift
+   */
+  upgradeGift(businessConnectionId, ownedGiftId, form = {}) {
+    form.business_connection_id = businessConnectionId;
+    form.owned_gift_id = ownedGiftId;
+    return this._request('upgradeGift', { form });
+  }
+
+  /**
+   * Use this method to transfer a regular gift to another user.
+   *
+   * @param  {String} businessConnectionId Unique identifier of the business connection
+   * @param  {String} ownedGiftId Identifier of the gift to transfer
+   * @param  {Number|String} newOwnerChatId Unique identifier of the new owner of the gift
+   * @param  {Object} [options] Additional Telegram query options
+   * @return {Promise} True on success
+   * @see https://core.telegram.org/bots/api#transfergift
+   */
+  transferGift(businessConnectionId, ownedGiftId, newOwnerChatId, form = {}) {
+    form.business_connection_id = businessConnectionId;
+    form.owned_gift_id = ownedGiftId;
+    form.new_owner_chat_id = newOwnerChatId;
+    return this._request('transferGift', { form });
+  }
+
+  /**
+   * Use this method to post a story on behalf of a managed business account.
+   *
+   * @param  {String} businessConnectionId Unique identifier of the business connection
+   * @param  {Object} content InputStoryContent object
+   * @param  {Object} [options] Additional Telegram query options
+   * @return {Promise} Returns a Story object
+   * @see https://core.telegram.org/bots/api#poststory
+   */
+  postStory(businessConnectionId, content, form = {}) {
+    form.business_connection_id = businessConnectionId;
+    form.content = stringify(content);
+    return this._request('postStory', { form });
+  }
+
+  /**
+   * Use this method to edit a story previously posted on behalf of a managed business account.
+   *
+   * @param  {String} businessConnectionId Unique identifier of the business connection
+   * @param  {Number} storyId Identifier of the story to edit
+   * @param  {Object} [options] Additional Telegram query options
+   * @return {Promise} Returns the edited Story object
+   * @see https://core.telegram.org/bots/api#editstory
+   */
+  editStory(businessConnectionId, storyId, form = {}) {
+    form.business_connection_id = businessConnectionId;
+    form.story_id = storyId;
+    if (form.content) {
+      form.content = stringify(form.content);
+    }
+    return this._request('editStory', { form });
+  }
+
+  /**
+   * Use this method to delete a story previously posted on behalf of a managed business account.
+   *
+   * @param  {String} businessConnectionId Unique identifier of the business connection
+   * @param  {Number} storyId Identifier of the story to delete
+   * @param  {Object} [options] Additional Telegram query options
+   * @return {Promise} True on success
+   * @see https://core.telegram.org/bots/api#deletestory
+   */
+  deleteStory(businessConnectionId, storyId, form = {}) {
+    form.business_connection_id = businessConnectionId;
+    form.story_id = storyId;
+    return this._request('deleteStory', { form });
+  }
+
+  /**
+   * Use this method to gift a Telegram Premium subscription to a user.
+   *
+   * @param  {Number|String} userId Unique identifier of the target user
+   * @param  {Number} monthCount Number of months the subscription will be active for, 1-36
+   * @param  {Number} starCount Number of Telegram Stars that will be paid for the subscription, 1-10000
+   * @param  {Object} [options] Additional Telegram query options
+   * @return {Promise} Returns the Gift object that was paid for
+   * @see https://core.telegram.org/bots/api#giftpremiumsubscription
+   */
+  giftPremiumSubscription(userId, monthCount, starCount, form = {}) {
+    form.user_id = userId;
+    form.month_count = monthCount;
+    form.star_count = starCount;
+    return this._request('giftPremiumSubscription', { form });
+  }
+
+  /**
+   * Use this method to set the emoji status of a user.
+   *
+   * @param  {Number|String} userId Unique identifier of the target user
+   * @param  {Object} [options] Additional Telegram query options
+   * @return {Promise} True on success
+   * @see https://core.telegram.org/bots/api#setuseremojistatus
+   */
+  setUserEmojiStatus(userId, form = {}) {
+    form.user_id = userId;
+    return this._request('setUserEmojiStatus', { form });
+  }
+
+  // ==========================================
+  // Bot API 9.1: Checklists
+  // ==========================================
+
+  /**
+   * Use this method to send a checklist on behalf of a managed business account.
+   *
+   * @param  {String} businessConnectionId Unique identifier of the business connection
+   * @param  {String} title Title of the checklist, 1-255 characters after entities parsing
+   * @param  {Array} tasks List of 1-100 tasks in the checklist
+   * @param  {Object} [options] Additional Telegram query options
+   * @return {Promise} On success, the sent Message is returned
+   * @see https://core.telegram.org/bots/api#sendchecklist
+   */
+  sendChecklist(businessConnectionId, title, tasks, form = {}) {
+    form.business_connection_id = businessConnectionId;
+    form.title = title;
+    form.tasks = stringify(tasks);
+    return this._request('sendChecklist', { form });
+  }
+
+  /**
+   * Use this method to edit a checklist message on behalf of a managed business account.
+   *
+   * @param  {String} businessConnectionId Unique identifier of the business connection
+   * @param  {Number} messageId Unique identifier of the message to edit
+   * @param  {Object} [options] Additional Telegram query options
+   * @return {Promise} On success, the edited Message is returned
+   * @see https://core.telegram.org/bots/api#editmessagechecklist
+   */
+  editMessageChecklist(businessConnectionId, messageId, form = {}) {
+    form.business_connection_id = businessConnectionId;
+    form.message_id = messageId;
+    if (form.tasks) {
+      form.tasks = stringify(form.tasks);
+    }
+    return this._request('editMessageChecklist', { form });
+  }
+
+  /**
+   * Use this method to get the current number of Telegram Stars owned by the bot.
+   *
+   * @param  {Object} [options] Additional Telegram query options
+   * @return {Promise} Returns a StarAmount object
+   * @see https://core.telegram.org/bots/api#getmystarbalance
+   */
+  getMyStarBalance(form = {}) {
+    return this._request('getMyStarBalance', { form });
+  }
+
+  // ==========================================
+  // Bot API 9.2: Suggested Posts
+  // ==========================================
+
+  /**
+   * Use this method to approve a suggested post in a channel chat.
+   *
+   * @param  {String} businessConnectionId Unique identifier of the business connection
+   * @param  {Number} messageId Unique identifier of the suggested post message
+   * @param  {Object} [options] Additional Telegram query options
+   * @return {Promise} True on success
+   * @see https://core.telegram.org/bots/api#approvesuggestedpost
+   */
+  approveSuggestedPost(businessConnectionId, messageId, form = {}) {
+    form.business_connection_id = businessConnectionId;
+    form.message_id = messageId;
+    return this._request('approveSuggestedPost', { form });
+  }
+
+  /**
+   * Use this method to decline a suggested post in a channel chat.
+   *
+   * @param  {String} businessConnectionId Unique identifier of the business connection
+   * @param  {Number} messageId Unique identifier of the suggested post message
+   * @param  {Object} [options] Additional Telegram query options
+   * @return {Promise} True on success
+   * @see https://core.telegram.org/bots/api#declinesuggestedpost
+   */
+  declineSuggestedPost(businessConnectionId, messageId, form = {}) {
+    form.business_connection_id = businessConnectionId;
+    form.message_id = messageId;
+    return this._request('declineSuggestedPost', { form });
+  }
+
+  // ==========================================
+  // Bot API 9.3: Draft Messages, Gifts, Stories
+  // ==========================================
+
+  /**
+   * Use this method to send a draft message to the bot's user in private chat.
+   *
+   * @param  {Number|String} chatId Unique identifier of the target private chat
+   * @param  {String} text Text of the message, 1-4096 characters after entities parsing
+   * @param  {Object} [options] Additional Telegram query options
+   * @return {Promise} On success, the sent Message is returned
+   * @see https://core.telegram.org/bots/api#sendmessagedraft
+   */
+  sendMessageDraft(chatId, text, form = {}) {
+    form.chat_id = chatId;
+    form.text = text;
+    if (form.entities) {
+      form.entities = stringify(form.entities);
+    }
+    if (form.link_preview_options) {
+      form.link_preview_options = stringify(form.link_preview_options);
+    }
+    return this._request('sendMessageDraft', { form });
+  }
+
+  /**
+   * Use this method to get gifts received by a user in a private chat.
+   *
+   * @param  {Number|String} userId Unique identifier of the target user
+   * @param  {Object} [options] Additional Telegram query options
+   * @return {Promise} Array of OwnedGift objects
+   * @see https://core.telegram.org/bots/api#getusergifts
+   */
+  getUserGifts(userId, form = {}) {
+    form.user_id = userId;
+    return this._request('getUserGifts', { form });
+  }
+
+  /**
+   * Use this method to get gifts received by a chat.
+   *
+   * @param  {Number|String} chatId Unique identifier of the target chat
+   * @param  {Object} [options] Additional Telegram query options
+   * @return {Promise} Array of OwnedGift objects
+   * @see https://core.telegram.org/bots/api#getchatgifts
+   */
+  getChatGifts(chatId, form = {}) {
+    form.chat_id = chatId;
+    return this._request('getChatGifts', { form });
+  }
+
+  /**
+   * Use this method to repost a story on behalf of a managed business account.
+   *
+   * @param  {String} businessConnectionId Unique identifier of the business connection
+   * @param  {Number} storyId Identifier of the story to repost
+   * @param  {Array<Number|String>} targetBusinessConnectionIds Identifiers of the business connections to post the story to
+   * @param  {Object} [options] Additional Telegram query options
+   * @return {Promise} Array of Story objects
+   * @see https://core.telegram.org/bots/api#repoststory
+   */
+  repostStory(businessConnectionId, storyId, targetBusinessConnectionIds, form = {}) {
+    form.business_connection_id = businessConnectionId;
+    form.story_id = storyId;
+    form.target_business_connection_ids = stringify(targetBusinessConnectionIds);
+    return this._request('repostStory', { form });
+  }
+
+  // ==========================================
+  // Bot API 9.4: Profile Photos, Audio Stories
+  // ==========================================
+
+  /**
+   * Use this method to set the profile photo of the bot.
+   *
+   * @param  {Object} photo InputProfilePhoto object
+   * @param  {Object} [options] Additional Telegram query options
+   * @return {Promise} True on success
+   * @see https://core.telegram.org/bots/api#setmyprofilephoto
+   */
+  setMyProfilePhoto(photo, form = {}) {
+    form.photo = stringify(photo);
+    return this._request('setMyProfilePhoto', { form });
+  }
+
+  /**
+   * Use this method to remove the profile photo of the bot.
+   *
+   * @param  {Object} [options] Additional Telegram query options
+   * @return {Promise} True on success
+   * @see https://core.telegram.org/bots/api#removemyprofilephoto
+   */
+  removeMyProfilePhoto(form = {}) {
+    return this._request('removeMyProfilePhoto', { form });
+  }
+
+  /**
+   * Use this method to get the profile audios of a user.
+   *
+   * @param  {Number|String} userId Unique identifier of the target user
+   * @param  {Object} [options] Additional Telegram query options
+   * @return {Promise} Array of Audio objects
+   * @see https://core.telegram.org/bots/api#getuserprofileaudios
+   */
+  getUserProfileAudios(userId, form = {}) {
+    form.user_id = userId;
+    return this._request('getUserProfileAudios', { form });
+  }
+
+  // ==========================================
+  // Bot API 9.5: Chat Member Tags
+  // ==========================================
+
+  /**
+   * Use this method to set the tag that is applied to a specific user in a specific group chat.
+   *
+   * @param  {Number|String} chatId Unique identifier for the target chat or username of the target group
+   * @param  {Number|String} userId Unique identifier of the target user
+   * @param  {Object} [options] Additional Telegram query options
+   * @return {Promise} True on success
+   * @see https://core.telegram.org/bots/api#setchatmembertag
+   */
+  setChatMemberTag(chatId, userId, form = {}) {
+    form.chat_id = chatId;
+    form.user_id = userId;
+    return this._request('setChatMemberTag', { form });
+  }
+
+  // ==========================================
+  // Bot API 9.6: Managed Bot Tokens
+  // ==========================================
+
+  /**
+   * Use this method to get the current managable bot token for the bot.
+   *
+   * @param  {Number} botId Identifier of the bot to get the token for
+   * @param  {Object} [options] Additional Telegram query options
+   * @return {Promise} Returns a ManagedBotToken object
+   * @see https://core.telegram.org/bots/api#getmanagedbottoken
+   */
+  getManagedBotToken(botId, form = {}) {
+    form.bot_id = botId;
+    return this._request('getManagedBotToken', { form });
+  }
+
+  /**
+   * Use this method to replace the managable bot token for the bot with a new one.
+   *
+   * @param  {Number} botId Identifier of the bot whose token will be replaced
+   * @param  {Object} [options] Additional Telegram query options
+   * @return {Promise} Returns a ManagedBotToken object
+   * @see https://core.telegram.org/bots/api#replacemanagedbottoken
+   */
+  replaceManagedBotToken(botId, form = {}) {
+    form.bot_id = botId;
+    return this._request('replaceManagedBotToken', { form });
+  }
+
+  /**
+   * Use this method to save a prepared keyboard button for later use.
+   *
+   * @param  {Object} button KeyboardButton object to save
+   * @param  {Object} [options] Additional Telegram query options
+   * @return {Promise} Returns a PreparedKeyboardButton object
+   * @see https://core.telegram.org/bots/api#savepreparedkeyboardbutton
+   */
+  savePreparedKeyboardButton(button, form = {}) {
+    form.button = stringify(button);
+    return this._request('savePreparedKeyboardButton', { form });
+  }
+
+  // ==========================================
+  // Bot API 10.0: Guest Mode, Live Photos, Reactions
+  // ==========================================
+
+  /**
+   * Use this method to answer a guest query in a Telegram Web App.
+   *
+   * @param  {String} guestQueryId Unique identifier for the query to be answered
+   * @param  {String} text Text of the message
+   * @param  {Object} [options] Additional Telegram query options
+   * @return {Promise} True on success
+   * @see https://core.telegram.org/bots/api#answerguestquery
+   */
+  answerGuestQuery(guestQueryId, text, form = {}) {
+    form.guest_query_id = guestQueryId;
+    form.text = text;
+    return this._request('answerGuestQuery', { form });
+  }
+
+  /**
+   * Use this method to remove multiple reactions from a message.
+   *
+   * @param  {Number|String} chatId Unique identifier for the target chat or username of the target channel (in the format `@channelusername`)
+   * @param  {Number} messageId Unique identifier of the target message
+   * @param  {Object} [options] Additional Telegram query options
+   * @return {Promise} True on success
+   * @see https://core.telegram.org/bots/api#deletemessagereactions
+   */
+  deleteAllMessageReactions(chatId, messageId, form = {}) {
+    form.chat_id = chatId;
+    form.message_id = messageId;
+    return this._request('deleteAllMessageReactions', { form });
+  }
+
+  /**
+   * Use this method to remove a reaction from a message.
+   *
+   * @param  {Number|String} chatId Unique identifier for the target chat or username of the target channel (in the format `@channelusername`)
+   * @param  {Number} messageId Unique identifier of the target message
+   * @param  {Object} [options] Additional Telegram query options
+   * @return {Promise} True on success
+   * @see https://core.telegram.org/bots/api#deletemessagereaction
+   */
+  deleteMessageReaction(chatId, messageId, form = {}) {
+    form.chat_id = chatId;
+    form.message_id = messageId;
+    if (form.reaction_type) {
+      form.reaction_type = stringify(form.reaction_type);
+    }
+    return this._request('deleteMessageReaction', { form });
+  }
+
+  /**
+   * Use this method to send a live photo.
+   *
+   * @param  {Number|String} chatId Unique identifier for the target chat or username of the target channel (in the format `@channelusername`)
+   * @param  {String|stream.Stream|Buffer} photo A file path, Stream, Buffer, or file_id
+   * @param  {String|stream.Stream|Buffer} video A file path, Stream, Buffer, or file_id
+   * @param  {Object} [options] Additional Telegram query options
+   * @param  {Object} [fileOptions] Optional file related meta-data
+   * @return {Promise} On success, the sent Message object is returned
+   * @see https://core.telegram.org/bots/api#sendlivephoto
+   */
+  sendLivePhoto(chatId, photo, video, form = {}, fileOptions = {}) {
+    const opts = {
+      qs: form,
+    };
+    opts.qs.chat_id = chatId;
+    try {
+      const sendDataPhoto = this._formatSendData('photo', photo, fileOptions);
+      const sendDataVideo = this._formatSendData('video', video, fileOptions);
+      opts.formData = Object.assign({}, sendDataPhoto[0], sendDataVideo[0]);
+      opts.qs.photo = sendDataPhoto[1];
+      opts.qs.video = sendDataVideo[1];
+    } catch (ex) {
+      return Promise.reject(ex);
+    }
+    return this._request('sendLivePhoto', opts);
+  }
+
+  /**
+   * Use this method to get the current access settings of the bot for managed bots.
+   *
+   * @param  {Object} [options] Additional Telegram query options
+   * @return {Promise} Returns a ManagedBotAccessSettings object
+   * @see https://core.telegram.org/bots/api#getmanagedbotaccesssettings
+   */
+  getManagedBotAccessSettings(form = {}) {
+    return this._request('getManagedBotAccessSettings', { form });
+  }
+
+  /**
+   * Use this method to change the access settings of the bot for managed bots.
+   *
+   * @param  {Object} [options] Additional Telegram query options
+   * @return {Promise} True on success
+   * @see https://core.telegram.org/bots/api#setmanagedbotaccesssettings
+   */
+  setManagedBotAccessSettings(form = {}) {
+    if (form.restricted_channels) {
+      form.restricted_channels = stringify(form.restricted_channels);
+    }
+    return this._request('setManagedBotAccessSettings', { form });
+  }
+
+  /**
+   * Use this method to get messages from a user's personal chat with the bot.
+   *
+   * @param  {Number} userId Unique identifier of the target user
+   * @param  {Object} [options] Additional Telegram query options
+   * @return {Promise} Array of Message objects
+   * @see https://core.telegram.org/bots/api#getuserpersonalchatmessages
+   */
+  getUserPersonalChatMessages(userId, form = {}) {
+    form.user_id = userId;
+    return this._request('getUserPersonalChatMessages', { form });
+  }
+
+  // ==========================================
+  // Bot API 10.1: Rich Messages, Join Request Queries
+  // ==========================================
+
+  /**
+   * Use this method to send a rich message.
+   *
+   * @param  {Number|String} chatId Unique identifier for the target chat or username of the target channel (in the format `@channelusername`)
+   * @param  {Object} content An InputRichMessageContent object
+   * @param  {Object} [options] Additional Telegram query options
+   * @return {Promise} On success, the sent Message object is returned
+   * @see https://core.telegram.org/bots/api#sendrichmessage
+   */
+  sendRichMessage(chatId, content, form = {}) {
+    form.chat_id = chatId;
+    form.content = stringify(content);
+    return this._request('sendRichMessage', { form });
+  }
+
+  /**
+   * Use this method to send a rich message draft.
+   *
+   * @param  {Number|String} chatId Unique identifier for the target chat or username of the target channel (in the format `@channelusername`)
+   * @param  {Object} content An InputRichMessageContent object
+   * @param  {Object} [options] Additional Telegram query options
+   * @return {Promise} On success, a Message object is returned
+   * @see https://core.telegram.org/bots/api#sendrichmessagedraft
+   */
+  sendRichMessageDraft(chatId, content, form = {}) {
+    form.chat_id = chatId;
+    form.content = stringify(content);
+    return this._request('sendRichMessageDraft', { form });
+  }
+
+  /**
+   * Use this method to answer a chat join request query.
+   *
+   * @param  {Number} chatJoinRequestId Unique identifier of the chat join request
+   * @param  {String} queryId Unique identifier for the query to be answered
+   * @param  {Object} [options] Additional Telegram query options
+   * @return {Promise} True on success
+   * @see https://core.telegram.org/bots/api#answerchatjoinrequestquery
+   */
+  answerChatJoinRequestQuery(chatJoinRequestId, queryId, form = {}) {
+    form.chat_join_request_id = chatJoinRequestId;
+    form.query_id = queryId;
+    return this._request('answerChatJoinRequestQuery', { form });
+  }
+
+  /**
+   * Use this method to send a Web App message to a chat join request.
+   *
+   * @param  {Number} chatJoinRequestId Unique identifier of the chat join request
+   * @param  {Object} webApp A SentWebAppMessage object
+   * @param  {Object} [options] Additional Telegram query options
+   * @return {Promise} True on success
+   * @see https://core.telegram.org/bots/api#sendchatjoinrequestwebapp
+   */
+  sendChatJoinRequestWebApp(chatJoinRequestId, webApp, form = {}) {
+    form.chat_join_request_id = chatJoinRequestId;
+    form.web_app = stringify(webApp);
+    return this._request('sendChatJoinRequestWebApp', { form });
+  }
+
+  // ==========================================
+  // Bot API 10.2: Ephemeral Messages
+  // ==========================================
+
+  /**
+   * Use this method to edit the text of an ephemeral message.
+   *
+   * @param  {Number|String} chatId Unique identifier for the target chat or username of the target channel (in the format `@channelusername`)
+   * @param  {String} ephemeralMessageId Unique identifier of the ephemeral message
+   * @param  {String} text New text of the message
+   * @param  {Object} [options] Additional Telegram query options
+   * @return {Promise} On success, the edited Message object is returned
+   * @see https://core.telegram.org/bots/api#editephemeralmessagetext
+   */
+  editEphemeralMessageText(chatId, ephemeralMessageId, text, form = {}) {
+    form.chat_id = chatId;
+    form.ephemeral_message_id = ephemeralMessageId;
+    form.text = text;
+    return this._request('editEphemeralMessageText', { form });
+  }
+
+  /**
+   * Use this method to edit the media of an ephemeral message.
+   *
+   * @param  {Number|String} chatId Unique identifier for the target chat or username of the target channel (in the format `@channelusername`)
+   * @param  {String} ephemeralMessageId Unique identifier of the ephemeral message
+   * @param  {Object} media An InputMedia object
+   * @param  {Object} [options] Additional Telegram query options
+   * @param  {Object} [fileOptions] Optional file related meta-data
+   * @return {Promise} On success, the edited Message object is returned
+   * @see https://core.telegram.org/bots/api#editephemeralmessagemedia
+   */
+  editEphemeralMessageMedia(chatId, ephemeralMessageId, media, form = {}, fileOptions = {}) {
+    form.chat_id = chatId;
+    form.ephemeral_message_id = ephemeralMessageId;
+    form.media = stringify(media);
+    return this._request('editEphemeralMessageMedia', { form });
+  }
+
+  /**
+   * Use this method to edit the caption of an ephemeral message.
+   *
+   * @param  {Number|String} chatId Unique identifier for the target chat or username of the target channel (in the format `@channelusername`)
+   * @param  {String} ephemeralMessageId Unique identifier of the ephemeral message
+   * @param  {Object} [options] Additional Telegram query options
+   * @return {Promise} On success, the edited Message object is returned
+   * @see https://core.telegram.org/bots/api#editephemeralmessagecaption
+   */
+  editEphemeralMessageCaption(chatId, ephemeralMessageId, form = {}) {
+    form.chat_id = chatId;
+    form.ephemeral_message_id = ephemeralMessageId;
+    this._fixEntitiesField(form);
+    return this._request('editEphemeralMessageCaption', { form });
+  }
+
+  /**
+   * Use this method to edit the reply markup of an ephemeral message.
+   *
+   * @param  {Number|String} chatId Unique identifier for the target chat or username of the target channel (in the format `@channelusername`)
+   * @param  {String} ephemeralMessageId Unique identifier of the ephemeral message
+   * @param  {Object} [options] Additional Telegram query options
+   * @return {Promise} On success, the edited Message object is returned
+   * @see https://core.telegram.org/bots/api#editephemeralmessagereplymarkup
+   */
+  editEphemeralMessageReplyMarkup(chatId, ephemeralMessageId, form = {}) {
+    form.chat_id = chatId;
+    form.ephemeral_message_id = ephemeralMessageId;
+    return this._request('editEphemeralMessageReplyMarkup', { form });
+  }
+
+  /**
+   * Use this method to delete an ephemeral message.
+   *
+   * @param  {Number|String} chatId Unique identifier for the target chat or username of the target channel (in the format `@channelusername`)
+   * @param  {String} ephemeralMessageId Unique identifier of the ephemeral message
+   * @param  {Object} [options] Additional Telegram query options
+   * @return {Promise} True on success
+   * @see https://core.telegram.org/bots/api#deleteephemeralmessage
+   */
+  deleteEphemeralMessage(chatId, ephemeralMessageId, form = {}) {
+    form.chat_id = chatId;
+    form.ephemeral_message_id = ephemeralMessageId;
+    return this._request('deleteEphemeralMessage', { form });
+  }
+
 }
 
 module.exports = TelegramBot;

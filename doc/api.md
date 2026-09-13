@@ -151,6 +151,70 @@ TelegramBot
         * [.getGameHighScores(userId, [options])](#TelegramBot+getGameHighScores) ⇒ <code>Promise</code>
         * [.deleteMessage(chatId, messageId, [options])](#TelegramBot+deleteMessage) ⇒ <code>Promise</code>
         * [.deleteMessages(chatId, messageIds, [options])](#TelegramBot+deleteMessages) ⇒ <code>Promise.&lt;Boolean&gt;</code>
+        * [.refundStarPayment(userId, telegramPaymentChargeId, [options])](#TelegramBot+refundStarPayment) ⇒ <code>Promise</code>
+        * [.getStarTransactions([options])](#TelegramBot+getStarTransactions) ⇒ <code>Promise</code>
+        * [.sendPaidMedia(chatId, starCount, media, [options])](#TelegramBot+sendPaidMedia) ⇒ <code>Promise</code>
+        * [.createChatSubscriptionInviteLink(chatId, [options])](#TelegramBot+createChatSubscriptionInviteLink) ⇒ <code>Promise</code>
+        * [.editChatSubscriptionInviteLink(chatId, inviteLink, [options])](#TelegramBot+editChatSubscriptionInviteLink) ⇒ <code>Promise</code>
+        * [.getAvailableGifts([options])](#TelegramBot+getAvailableGifts) ⇒ <code>Promise</code>
+        * [.sendGift(userId, giftId, [options])](#TelegramBot+sendGift) ⇒ <code>Promise</code>
+        * [.editUserStarSubscription(userId, telegramPaymentChargeId, isCanceled, [options])](#TelegramBot+editUserStarSubscription) ⇒ <code>Promise</code>
+        * [.savePreparedInlineMessage(userId, result, [options])](#TelegramBot+savePreparedInlineMessage) ⇒ <code>Promise</code>
+        * [.verifyUser(userId, [options])](#TelegramBot+verifyUser) ⇒ <code>Promise</code>
+        * [.verifyChat(chatId, [options])](#TelegramBot+verifyChat) ⇒ <code>Promise</code>
+        * [.removeUserVerification(userId, [options])](#TelegramBot+removeUserVerification) ⇒ <code>Promise</code>
+        * [.removeChatVerification(chatId, [options])](#TelegramBot+removeChatVerification) ⇒ <code>Promise</code>
+        * [.readBusinessMessage(businessConnectionId, messageId, [options])](#TelegramBot+readBusinessMessage) ⇒ <code>Promise</code>
+        * [.deleteBusinessMessages(businessConnectionId, messageIds, [options])](#TelegramBot+deleteBusinessMessages) ⇒ <code>Promise</code>
+        * [.setBusinessAccountName(businessConnectionId, [options])](#TelegramBot+setBusinessAccountName) ⇒ <code>Promise</code>
+        * [.setBusinessAccountUsername(businessConnectionId, [options])](#TelegramBot+setBusinessAccountUsername) ⇒ <code>Promise</code>
+        * [.setBusinessAccountBio(businessConnectionId, [options])](#TelegramBot+setBusinessAccountBio) ⇒ <code>Promise</code>
+        * [.setBusinessAccountProfilePhoto(businessConnectionId, photo, [options])](#TelegramBot+setBusinessAccountProfilePhoto) ⇒ <code>Promise</code>
+        * [.removeBusinessAccountProfilePhoto(businessConnectionId, [options])](#TelegramBot+removeBusinessAccountProfilePhoto) ⇒ <code>Promise</code>
+        * [.setBusinessAccountGiftSettings(businessConnectionId, [options])](#TelegramBot+setBusinessAccountGiftSettings) ⇒ <code>Promise</code>
+        * [.getBusinessAccountStarBalance(businessConnectionId, [options])](#TelegramBot+getBusinessAccountStarBalance) ⇒ <code>Promise</code>
+        * [.transferBusinessAccountStars(businessConnectionId, starCount, [options])](#TelegramBot+transferBusinessAccountStars) ⇒ <code>Promise</code>
+        * [.getBusinessAccountGifts(businessConnectionId, [options])](#TelegramBot+getBusinessAccountGifts) ⇒ <code>Promise</code>
+        * [.convertGiftToStars(businessConnectionId, ownedGiftId, [options])](#TelegramBot+convertGiftToStars) ⇒ <code>Promise</code>
+        * [.upgradeGift(businessConnectionId, ownedGiftId, [options])](#TelegramBot+upgradeGift) ⇒ <code>Promise</code>
+        * [.transferGift(businessConnectionId, ownedGiftId, newOwnerChatId, [options])](#TelegramBot+transferGift) ⇒ <code>Promise</code>
+        * [.postStory(businessConnectionId, content, [options])](#TelegramBot+postStory) ⇒ <code>Promise</code>
+        * [.editStory(businessConnectionId, storyId, [options])](#TelegramBot+editStory) ⇒ <code>Promise</code>
+        * [.deleteStory(businessConnectionId, storyId, [options])](#TelegramBot+deleteStory) ⇒ <code>Promise</code>
+        * [.giftPremiumSubscription(userId, monthCount, starCount, [options])](#TelegramBot+giftPremiumSubscription) ⇒ <code>Promise</code>
+        * [.setUserEmojiStatus(userId, [options])](#TelegramBot+setUserEmojiStatus) ⇒ <code>Promise</code>
+        * [.sendChecklist(businessConnectionId, title, tasks, [options])](#TelegramBot+sendChecklist) ⇒ <code>Promise</code>
+        * [.editMessageChecklist(businessConnectionId, messageId, [options])](#TelegramBot+editMessageChecklist) ⇒ <code>Promise</code>
+        * [.getMyStarBalance([options])](#TelegramBot+getMyStarBalance) ⇒ <code>Promise</code>
+        * [.approveSuggestedPost(businessConnectionId, messageId, [options])](#TelegramBot+approveSuggestedPost) ⇒ <code>Promise</code>
+        * [.declineSuggestedPost(businessConnectionId, messageId, [options])](#TelegramBot+declineSuggestedPost) ⇒ <code>Promise</code>
+        * [.sendMessageDraft(chatId, text, [options])](#TelegramBot+sendMessageDraft) ⇒ <code>Promise</code>
+        * [.getUserGifts(userId, [options])](#TelegramBot+getUserGifts) ⇒ <code>Promise</code>
+        * [.getChatGifts(chatId, [options])](#TelegramBot+getChatGifts) ⇒ <code>Promise</code>
+        * [.repostStory(businessConnectionId, storyId, targetBusinessConnectionIds, [options])](#TelegramBot+repostStory) ⇒ <code>Promise</code>
+        * [.setMyProfilePhoto(photo, [options])](#TelegramBot+setMyProfilePhoto) ⇒ <code>Promise</code>
+        * [.removeMyProfilePhoto([options])](#TelegramBot+removeMyProfilePhoto) ⇒ <code>Promise</code>
+        * [.getUserProfileAudios(userId, [options])](#TelegramBot+getUserProfileAudios) ⇒ <code>Promise</code>
+        * [.setChatMemberTag(chatId, userId, [options])](#TelegramBot+setChatMemberTag) ⇒ <code>Promise</code>
+        * [.getManagedBotToken(botId, [options])](#TelegramBot+getManagedBotToken) ⇒ <code>Promise</code>
+        * [.replaceManagedBotToken(botId, [options])](#TelegramBot+replaceManagedBotToken) ⇒ <code>Promise</code>
+        * [.savePreparedKeyboardButton(button, [options])](#TelegramBot+savePreparedKeyboardButton) ⇒ <code>Promise</code>
+        * [.answerGuestQuery(guestQueryId, text, [options])](#TelegramBot+answerGuestQuery) ⇒ <code>Promise</code>
+        * [.deleteAllMessageReactions(chatId, messageId, [options])](#TelegramBot+deleteAllMessageReactions) ⇒ <code>Promise</code>
+        * [.deleteMessageReaction(chatId, messageId, [options])](#TelegramBot+deleteMessageReaction) ⇒ <code>Promise</code>
+        * [.sendLivePhoto(chatId, photo, video, [options], [fileOptions])](#TelegramBot+sendLivePhoto) ⇒ <code>Promise</code>
+        * [.getManagedBotAccessSettings([options])](#TelegramBot+getManagedBotAccessSettings) ⇒ <code>Promise</code>
+        * [.setManagedBotAccessSettings([options])](#TelegramBot+setManagedBotAccessSettings) ⇒ <code>Promise</code>
+        * [.getUserPersonalChatMessages(userId, [options])](#TelegramBot+getUserPersonalChatMessages) ⇒ <code>Promise</code>
+        * [.sendRichMessage(chatId, content, [options])](#TelegramBot+sendRichMessage) ⇒ <code>Promise</code>
+        * [.sendRichMessageDraft(chatId, content, [options])](#TelegramBot+sendRichMessageDraft) ⇒ <code>Promise</code>
+        * [.answerChatJoinRequestQuery(chatJoinRequestId, queryId, [options])](#TelegramBot+answerChatJoinRequestQuery) ⇒ <code>Promise</code>
+        * [.sendChatJoinRequestWebApp(chatJoinRequestId, webApp, [options])](#TelegramBot+sendChatJoinRequestWebApp) ⇒ <code>Promise</code>
+        * [.editEphemeralMessageText(chatId, ephemeralMessageId, text, [options])](#TelegramBot+editEphemeralMessageText) ⇒ <code>Promise</code>
+        * [.editEphemeralMessageMedia(chatId, ephemeralMessageId, media, [options], [fileOptions])](#TelegramBot+editEphemeralMessageMedia) ⇒ <code>Promise</code>
+        * [.editEphemeralMessageCaption(chatId, ephemeralMessageId, [options])](#TelegramBot+editEphemeralMessageCaption) ⇒ <code>Promise</code>
+        * [.editEphemeralMessageReplyMarkup(chatId, ephemeralMessageId, [options])](#TelegramBot+editEphemeralMessageReplyMarkup) ⇒ <code>Promise</code>
+        * [.deleteEphemeralMessage(chatId, ephemeralMessageId, [options])](#TelegramBot+deleteEphemeralMessage) ⇒ <code>Promise</code>
     * _static_
         * [.errors](#TelegramBot.errors) : <code>Object</code>
         * [.messageTypes](#TelegramBot.messageTypes) : <code>Array.&lt;String&gt;</code>
@@ -2445,6 +2509,945 @@ Use this method to delete multiple messages simultaneously. If some of the speci
 | --- | --- | --- |
 | chatId | <code>Number</code> \| <code>String</code> | Unique identifier for the target chat or username of the target channel (in the format @channelusername) |
 | messageIds | <code>Array.&lt;(Number\|String)&gt;</code> | Identifiers of 1-100 messages to delete. See deleteMessage for limitations on which messages can be deleted |
+| [options] | <code>Object</code> | Additional Telegram query options |
+
+<a name="TelegramBot+refundStarPayment"></a>
+
+### telegramBot.refundStarPayment(userId, telegramPaymentChargeId, [options]) ⇒ <code>Promise</code>
+Use this method to issue a refund for a payment made via Telegram Stars.
+
+**Kind**: instance method of [<code>TelegramBot</code>](#TelegramBot)  
+**Returns**: <code>Promise</code> - On success, True is returned  
+**See**: https://core.telegram.org/bots/api#refundstarpayment  
+
+| Param | Type | Description |
+| --- | --- | --- |
+| userId | <code>Number</code> | Identifier of the user whose payment will be refunded |
+| telegramPaymentChargeId | <code>String</code> | Telegram payment identifier of the payment to refund |
+| [options] | <code>Object</code> | Additional Telegram query options |
+
+<a name="TelegramBot+getStarTransactions"></a>
+
+### telegramBot.getStarTransactions([options]) ⇒ <code>Promise</code>
+Use this method to get the current status of the balance of Telegram Stars
+that can be withdrawn by the bot or transferred to another business account.
+
+**Kind**: instance method of [<code>TelegramBot</code>](#TelegramBot)  
+**Returns**: <code>Promise</code> - On success, returns a StarTransactions object  
+**See**: https://core.telegram.org/bots/api#getstartransactions  
+
+| Param | Type | Description |
+| --- | --- | --- |
+| [options] | <code>Object</code> | Additional Telegram query options |
+
+<a name="TelegramBot+sendPaidMedia"></a>
+
+### telegramBot.sendPaidMedia(chatId, starCount, media, [options]) ⇒ <code>Promise</code>
+Use this method to send paid media.
+
+**Kind**: instance method of [<code>TelegramBot</code>](#TelegramBot)  
+**Returns**: <code>Promise</code> - On success, the sent Message object is returned  
+**See**: https://core.telegram.org/bots/api#sendpaidmedia  
+
+| Param | Type | Description |
+| --- | --- | --- |
+| chatId | <code>Number</code> \| <code>String</code> | Unique identifier for the target chat or username of the target channel (in the format `@channelusername`) |
+| starCount | <code>Number</code> | The number of Telegram Stars that must be paid to buy access to the media |
+| media | <code>Array</code> | A JSON-serialized array describing the media to be sent; currently supports photos and videos |
+| [options] | <code>Object</code> | Additional Telegram query options |
+
+<a name="TelegramBot+createChatSubscriptionInviteLink"></a>
+
+### telegramBot.createChatSubscriptionInviteLink(chatId, [options]) ⇒ <code>Promise</code>
+Use this method to create a subscription invite link for a channel chat.
+
+**Kind**: instance method of [<code>TelegramBot</code>](#TelegramBot)  
+**Returns**: <code>Promise</code> - On success, the new invite link as a ChatInviteLink object is returned  
+**See**: https://core.telegram.org/bots/api#createchatsubscriptioninvitelink  
+
+| Param | Type | Description |
+| --- | --- | --- |
+| chatId | <code>Number</code> \| <code>String</code> | Unique identifier for the target channel chat or username of the target channel (in the format `@channelusername`) |
+| [options] | <code>Object</code> | Additional Telegram query options |
+
+<a name="TelegramBot+editChatSubscriptionInviteLink"></a>
+
+### telegramBot.editChatSubscriptionInviteLink(chatId, inviteLink, [options]) ⇒ <code>Promise</code>
+Use this method to edit a subscription invite link created by the bot.
+
+**Kind**: instance method of [<code>TelegramBot</code>](#TelegramBot)  
+**Returns**: <code>Promise</code> - On success, the edited invite link as a ChatInviteLink object is returned  
+**See**: https://core.telegram.org/bots/api#editchatsubscriptioninvitelink  
+
+| Param | Type | Description |
+| --- | --- | --- |
+| chatId | <code>Number</code> \| <code>String</code> | Unique identifier for the target channel chat or username of the target channel (in the format `@channelusername`) |
+| inviteLink | <code>String</code> | The invite link to edit |
+| [options] | <code>Object</code> | Additional Telegram query options |
+
+<a name="TelegramBot+getAvailableGifts"></a>
+
+### telegramBot.getAvailableGifts([options]) ⇒ <code>Promise</code>
+Use this method to get the list of gifts that can be sent by the bot.
+
+**Kind**: instance method of [<code>TelegramBot</code>](#TelegramBot)  
+**Returns**: <code>Promise</code> - On success, returns a Gifts object  
+**See**: https://core.telegram.org/bots/api#getavailablegifts  
+
+| Param | Type | Description |
+| --- | --- | --- |
+| [options] | <code>Object</code> | Additional Telegram query options |
+
+<a name="TelegramBot+sendGift"></a>
+
+### telegramBot.sendGift(userId, giftId, [options]) ⇒ <code>Promise</code>
+Use this method to send a gift to a user.
+
+**Kind**: instance method of [<code>TelegramBot</code>](#TelegramBot)  
+**Returns**: <code>Promise</code> - On success, True is returned  
+**See**: https://core.telegram.org/bots/api#sendgift  
+
+| Param | Type | Description |
+| --- | --- | --- |
+| userId | <code>Number</code> | Unique identifier of the target user that will receive the gift |
+| giftId | <code>String</code> | Identifier of the gift |
+| [options] | <code>Object</code> | Additional Telegram query options |
+
+<a name="TelegramBot+editUserStarSubscription"></a>
+
+### telegramBot.editUserStarSubscription(userId, telegramPaymentChargeId, isCanceled, [options]) ⇒ <code>Promise</code>
+Use this method to edit a subscription paid through Telegram Stars.
+
+**Kind**: instance method of [<code>TelegramBot</code>](#TelegramBot)  
+**Returns**: <code>Promise</code> - On success, True is returned  
+**See**: https://core.telegram.org/bots/api#edituserstarsubscription  
+
+| Param | Type | Description |
+| --- | --- | --- |
+| userId | <code>Number</code> | Identifier of the user whose subscription will be edited |
+| telegramPaymentChargeId | <code>String</code> | Telegram payment identifier of the subscription payment |
+| isCanceled | <code>Boolean</code> | Pass True to cancel the user's subscription |
+| [options] | <code>Object</code> | Additional Telegram query options |
+
+<a name="TelegramBot+savePreparedInlineMessage"></a>
+
+### telegramBot.savePreparedInlineMessage(userId, result, [options]) ⇒ <code>Promise</code>
+Use this method to store an inline message that can be sent on behalf of a user.
+
+**Kind**: instance method of [<code>TelegramBot</code>](#TelegramBot)  
+**Returns**: <code>Promise</code> - On success, returns a PreparedInlineMessage object  
+**See**: https://core.telegram.org/bots/api#savepreparedinlinemessage  
+
+| Param | Type | Description |
+| --- | --- | --- |
+| userId | <code>Number</code> | Unique identifier of the target user |
+| result | <code>Object</code> | An object describing the message to be sent |
+| [options] | <code>Object</code> | Additional Telegram query options |
+
+<a name="TelegramBot+verifyUser"></a>
+
+### telegramBot.verifyUser(userId, [options]) ⇒ <code>Promise</code>
+Use this method to verify a user that is managed by the bot.
+
+**Kind**: instance method of [<code>TelegramBot</code>](#TelegramBot)  
+**Returns**: <code>Promise</code> - On success, True is returned  
+**See**: https://core.telegram.org/bots/api#verifyuser  
+
+| Param | Type | Description |
+| --- | --- | --- |
+| userId | <code>Number</code> | Unique identifier of the target user |
+| [options] | <code>Object</code> | Additional Telegram query options |
+
+<a name="TelegramBot+verifyChat"></a>
+
+### telegramBot.verifyChat(chatId, [options]) ⇒ <code>Promise</code>
+Use this method to verify a chat that is managed by the bot.
+
+**Kind**: instance method of [<code>TelegramBot</code>](#TelegramBot)  
+**Returns**: <code>Promise</code> - On success, True is returned  
+**See**: https://core.telegram.org/bots/api#verifychat  
+
+| Param | Type | Description |
+| --- | --- | --- |
+| chatId | <code>Number</code> \| <code>String</code> | Unique identifier for the target chat or username of the target channel (in the format `@channelusername`) |
+| [options] | <code>Object</code> | Additional Telegram query options |
+
+<a name="TelegramBot+removeUserVerification"></a>
+
+### telegramBot.removeUserVerification(userId, [options]) ⇒ <code>Promise</code>
+Use this method to remove verification for a user that is managed by the bot.
+
+**Kind**: instance method of [<code>TelegramBot</code>](#TelegramBot)  
+**Returns**: <code>Promise</code> - On success, True is returned  
+**See**: https://core.telegram.org/bots/api#removeuserverification  
+
+| Param | Type | Description |
+| --- | --- | --- |
+| userId | <code>Number</code> | Unique identifier of the target user |
+| [options] | <code>Object</code> | Additional Telegram query options |
+
+<a name="TelegramBot+removeChatVerification"></a>
+
+### telegramBot.removeChatVerification(chatId, [options]) ⇒ <code>Promise</code>
+Use this method to remove verification for a chat that is managed by the bot.
+
+**Kind**: instance method of [<code>TelegramBot</code>](#TelegramBot)  
+**Returns**: <code>Promise</code> - On success, True is returned  
+**See**: https://core.telegram.org/bots/api#removechatverification  
+
+| Param | Type | Description |
+| --- | --- | --- |
+| chatId | <code>Number</code> \| <code>String</code> | Unique identifier for the target chat or username of the target channel (in the format `@channelusername`) |
+| [options] | <code>Object</code> | Additional Telegram query options |
+
+<a name="TelegramBot+readBusinessMessage"></a>
+
+### telegramBot.readBusinessMessage(businessConnectionId, messageId, [options]) ⇒ <code>Promise</code>
+Use this method to mark incoming messages as read on behalf of a business account.
+
+**Kind**: instance method of [<code>TelegramBot</code>](#TelegramBot)  
+**Returns**: <code>Promise</code> - True on success  
+**See**: https://core.telegram.org/bots/api#readbusinessmessage  
+
+| Param | Type | Description |
+| --- | --- | --- |
+| businessConnectionId | <code>String</code> | Unique identifier of the business connection |
+| messageId | <code>Number</code> | Unique identifier of the message to mark as read |
+| [options] | <code>Object</code> | Additional Telegram query options |
+
+<a name="TelegramBot+deleteBusinessMessages"></a>
+
+### telegramBot.deleteBusinessMessages(businessConnectionId, messageIds, [options]) ⇒ <code>Promise</code>
+Use this method to delete messages on behalf of a business account.
+
+**Kind**: instance method of [<code>TelegramBot</code>](#TelegramBot)  
+**Returns**: <code>Promise</code> - True on success  
+**See**: https://core.telegram.org/bots/api#deletebusinessmessages  
+
+| Param | Type | Description |
+| --- | --- | --- |
+| businessConnectionId | <code>String</code> | Unique identifier of the business connection |
+| messageIds | <code>Array.&lt;Number&gt;</code> | Unique identifiers of 1-100 messages to delete |
+| [options] | <code>Object</code> | Additional Telegram query options |
+
+<a name="TelegramBot+setBusinessAccountName"></a>
+
+### telegramBot.setBusinessAccountName(businessConnectionId, [options]) ⇒ <code>Promise</code>
+Use this method to change the first and last name of a managed business account.
+
+**Kind**: instance method of [<code>TelegramBot</code>](#TelegramBot)  
+**Returns**: <code>Promise</code> - True on success  
+**See**: https://core.telegram.org/bots/api#setbusinessaccountname  
+
+| Param | Type | Description |
+| --- | --- | --- |
+| businessConnectionId | <code>String</code> | Unique identifier of the business connection |
+| [options] | <code>Object</code> | Additional Telegram query options |
+
+<a name="TelegramBot+setBusinessAccountUsername"></a>
+
+### telegramBot.setBusinessAccountUsername(businessConnectionId, [options]) ⇒ <code>Promise</code>
+Use this method to change the username of a managed business account.
+
+**Kind**: instance method of [<code>TelegramBot</code>](#TelegramBot)  
+**Returns**: <code>Promise</code> - True on success  
+**See**: https://core.telegram.org/bots/api#setbusinessaccountusername  
+
+| Param | Type | Description |
+| --- | --- | --- |
+| businessConnectionId | <code>String</code> | Unique identifier of the business connection |
+| [options] | <code>Object</code> | Additional Telegram query options |
+
+<a name="TelegramBot+setBusinessAccountBio"></a>
+
+### telegramBot.setBusinessAccountBio(businessConnectionId, [options]) ⇒ <code>Promise</code>
+Use this method to change the bio of a managed business account.
+
+**Kind**: instance method of [<code>TelegramBot</code>](#TelegramBot)  
+**Returns**: <code>Promise</code> - True on success  
+**See**: https://core.telegram.org/bots/api#setbusinessaccountbio  
+
+| Param | Type | Description |
+| --- | --- | --- |
+| businessConnectionId | <code>String</code> | Unique identifier of the business connection |
+| [options] | <code>Object</code> | Additional Telegram query options |
+
+<a name="TelegramBot+setBusinessAccountProfilePhoto"></a>
+
+### telegramBot.setBusinessAccountProfilePhoto(businessConnectionId, photo, [options]) ⇒ <code>Promise</code>
+Use this method to change the profile photo of a managed business account.
+
+**Kind**: instance method of [<code>TelegramBot</code>](#TelegramBot)  
+**Returns**: <code>Promise</code> - True on success  
+**See**: https://core.telegram.org/bots/api#setbusinessaccountprofilephoto  
+
+| Param | Type | Description |
+| --- | --- | --- |
+| businessConnectionId | <code>String</code> | Unique identifier of the business connection |
+| photo | <code>Object</code> | InputProfilePhoto object |
+| [options] | <code>Object</code> | Additional Telegram query options |
+
+<a name="TelegramBot+removeBusinessAccountProfilePhoto"></a>
+
+### telegramBot.removeBusinessAccountProfilePhoto(businessConnectionId, [options]) ⇒ <code>Promise</code>
+Use this method to remove the profile photo of a managed business account.
+
+**Kind**: instance method of [<code>TelegramBot</code>](#TelegramBot)  
+**Returns**: <code>Promise</code> - True on success  
+**See**: https://core.telegram.org/bots/api#removebusinessaccountprofilephoto  
+
+| Param | Type | Description |
+| --- | --- | --- |
+| businessConnectionId | <code>String</code> | Unique identifier of the business connection |
+| [options] | <code>Object</code> | Additional Telegram query options |
+
+<a name="TelegramBot+setBusinessAccountGiftSettings"></a>
+
+### telegramBot.setBusinessAccountGiftSettings(businessConnectionId, [options]) ⇒ <code>Promise</code>
+Use this method to change the gift settings of a managed business account.
+
+**Kind**: instance method of [<code>TelegramBot</code>](#TelegramBot)  
+**Returns**: <code>Promise</code> - True on success  
+**See**: https://core.telegram.org/bots/api#setbusinessaccountgiftsettings  
+
+| Param | Type | Description |
+| --- | --- | --- |
+| businessConnectionId | <code>String</code> | Unique identifier of the business connection |
+| [options] | <code>Object</code> | Additional Telegram query options |
+
+<a name="TelegramBot+getBusinessAccountStarBalance"></a>
+
+### telegramBot.getBusinessAccountStarBalance(businessConnectionId, [options]) ⇒ <code>Promise</code>
+Use this method to get the current Star balance of a managed business account.
+
+**Kind**: instance method of [<code>TelegramBot</code>](#TelegramBot)  
+**Returns**: <code>Promise</code> - Returns a StarAmount object  
+**See**: https://core.telegram.org/bots/api#getbusinessaccountstarbalance  
+
+| Param | Type | Description |
+| --- | --- | --- |
+| businessConnectionId | <code>String</code> | Unique identifier of the business connection |
+| [options] | <code>Object</code> | Additional Telegram query options |
+
+<a name="TelegramBot+transferBusinessAccountStars"></a>
+
+### telegramBot.transferBusinessAccountStars(businessConnectionId, starCount, [options]) ⇒ <code>Promise</code>
+Use this method to transfer Stars from the business account balance to the bot owner's balance.
+
+**Kind**: instance method of [<code>TelegramBot</code>](#TelegramBot)  
+**Returns**: <code>Promise</code> - Returns a StarAmount object  
+**See**: https://core.telegram.org/bots/api#transferbusinessaccountstars  
+
+| Param | Type | Description |
+| --- | --- | --- |
+| businessConnectionId | <code>String</code> | Unique identifier of the business connection |
+| starCount | <code>Number</code> | Number of Telegram Stars to transfer, 1-10000 |
+| [options] | <code>Object</code> | Additional Telegram query options |
+
+<a name="TelegramBot+getBusinessAccountGifts"></a>
+
+### telegramBot.getBusinessAccountGifts(businessConnectionId, [options]) ⇒ <code>Promise</code>
+Use this method to get the list of gifts received by a managed business account.
+
+**Kind**: instance method of [<code>TelegramBot</code>](#TelegramBot)  
+**Returns**: <code>Promise</code> - Returns an Array of OwnedGift objects  
+**See**: https://core.telegram.org/bots/api#getbusinessaccountgifts  
+
+| Param | Type | Description |
+| --- | --- | --- |
+| businessConnectionId | <code>String</code> | Unique identifier of the business connection |
+| [options] | <code>Object</code> | Additional Telegram query options |
+
+<a name="TelegramBot+convertGiftToStars"></a>
+
+### telegramBot.convertGiftToStars(businessConnectionId, ownedGiftId, [options]) ⇒ <code>Promise</code>
+Use this method to convert a given regular gift to Telegram Stars.
+
+**Kind**: instance method of [<code>TelegramBot</code>](#TelegramBot)  
+**Returns**: <code>Promise</code> - Returns a StarAmount object  
+**See**: https://core.telegram.org/bots/api#convertgifttostars  
+
+| Param | Type | Description |
+| --- | --- | --- |
+| businessConnectionId | <code>String</code> | Unique identifier of the business connection |
+| ownedGiftId | <code>String</code> | Identifier of the regular gift |
+| [options] | <code>Object</code> | Additional Telegram query options |
+
+<a name="TelegramBot+upgradeGift"></a>
+
+### telegramBot.upgradeGift(businessConnectionId, ownedGiftId, [options]) ⇒ <code>Promise</code>
+Use this method to upgrade a regular gift to a unique or upgrade a unique gift to an upgraded collectible gift.
+
+**Kind**: instance method of [<code>TelegramBot</code>](#TelegramBot)  
+**Returns**: <code>Promise</code> - Returns the updated OwnedGift object  
+**See**: https://core.telegram.org/bots/api#upgradegift  
+
+| Param | Type | Description |
+| --- | --- | --- |
+| businessConnectionId | <code>String</code> | Unique identifier of the business connection |
+| ownedGiftId | <code>String</code> | Identifier of the regular gift to upgrade |
+| [options] | <code>Object</code> | Additional Telegram query options |
+
+<a name="TelegramBot+transferGift"></a>
+
+### telegramBot.transferGift(businessConnectionId, ownedGiftId, newOwnerChatId, [options]) ⇒ <code>Promise</code>
+Use this method to transfer a regular gift to another user.
+
+**Kind**: instance method of [<code>TelegramBot</code>](#TelegramBot)  
+**Returns**: <code>Promise</code> - True on success  
+**See**: https://core.telegram.org/bots/api#transfergift  
+
+| Param | Type | Description |
+| --- | --- | --- |
+| businessConnectionId | <code>String</code> | Unique identifier of the business connection |
+| ownedGiftId | <code>String</code> | Identifier of the gift to transfer |
+| newOwnerChatId | <code>Number</code> \| <code>String</code> | Unique identifier of the new owner of the gift |
+| [options] | <code>Object</code> | Additional Telegram query options |
+
+<a name="TelegramBot+postStory"></a>
+
+### telegramBot.postStory(businessConnectionId, content, [options]) ⇒ <code>Promise</code>
+Use this method to post a story on behalf of a managed business account.
+
+**Kind**: instance method of [<code>TelegramBot</code>](#TelegramBot)  
+**Returns**: <code>Promise</code> - Returns a Story object  
+**See**: https://core.telegram.org/bots/api#poststory  
+
+| Param | Type | Description |
+| --- | --- | --- |
+| businessConnectionId | <code>String</code> | Unique identifier of the business connection |
+| content | <code>Object</code> | InputStoryContent object |
+| [options] | <code>Object</code> | Additional Telegram query options |
+
+<a name="TelegramBot+editStory"></a>
+
+### telegramBot.editStory(businessConnectionId, storyId, [options]) ⇒ <code>Promise</code>
+Use this method to edit a story previously posted on behalf of a managed business account.
+
+**Kind**: instance method of [<code>TelegramBot</code>](#TelegramBot)  
+**Returns**: <code>Promise</code> - Returns the edited Story object  
+**See**: https://core.telegram.org/bots/api#editstory  
+
+| Param | Type | Description |
+| --- | --- | --- |
+| businessConnectionId | <code>String</code> | Unique identifier of the business connection |
+| storyId | <code>Number</code> | Identifier of the story to edit |
+| [options] | <code>Object</code> | Additional Telegram query options |
+
+<a name="TelegramBot+deleteStory"></a>
+
+### telegramBot.deleteStory(businessConnectionId, storyId, [options]) ⇒ <code>Promise</code>
+Use this method to delete a story previously posted on behalf of a managed business account.
+
+**Kind**: instance method of [<code>TelegramBot</code>](#TelegramBot)  
+**Returns**: <code>Promise</code> - True on success  
+**See**: https://core.telegram.org/bots/api#deletestory  
+
+| Param | Type | Description |
+| --- | --- | --- |
+| businessConnectionId | <code>String</code> | Unique identifier of the business connection |
+| storyId | <code>Number</code> | Identifier of the story to delete |
+| [options] | <code>Object</code> | Additional Telegram query options |
+
+<a name="TelegramBot+giftPremiumSubscription"></a>
+
+### telegramBot.giftPremiumSubscription(userId, monthCount, starCount, [options]) ⇒ <code>Promise</code>
+Use this method to gift a Telegram Premium subscription to a user.
+
+**Kind**: instance method of [<code>TelegramBot</code>](#TelegramBot)  
+**Returns**: <code>Promise</code> - Returns the Gift object that was paid for  
+**See**: https://core.telegram.org/bots/api#giftpremiumsubscription  
+
+| Param | Type | Description |
+| --- | --- | --- |
+| userId | <code>Number</code> \| <code>String</code> | Unique identifier of the target user |
+| monthCount | <code>Number</code> | Number of months the subscription will be active for, 1-36 |
+| starCount | <code>Number</code> | Number of Telegram Stars that will be paid for the subscription, 1-10000 |
+| [options] | <code>Object</code> | Additional Telegram query options |
+
+<a name="TelegramBot+setUserEmojiStatus"></a>
+
+### telegramBot.setUserEmojiStatus(userId, [options]) ⇒ <code>Promise</code>
+Use this method to set the emoji status of a user.
+
+**Kind**: instance method of [<code>TelegramBot</code>](#TelegramBot)  
+**Returns**: <code>Promise</code> - True on success  
+**See**: https://core.telegram.org/bots/api#setuseremojistatus  
+
+| Param | Type | Description |
+| --- | --- | --- |
+| userId | <code>Number</code> \| <code>String</code> | Unique identifier of the target user |
+| [options] | <code>Object</code> | Additional Telegram query options |
+
+<a name="TelegramBot+sendChecklist"></a>
+
+### telegramBot.sendChecklist(businessConnectionId, title, tasks, [options]) ⇒ <code>Promise</code>
+Use this method to send a checklist on behalf of a managed business account.
+
+**Kind**: instance method of [<code>TelegramBot</code>](#TelegramBot)  
+**Returns**: <code>Promise</code> - On success, the sent Message is returned  
+**See**: https://core.telegram.org/bots/api#sendchecklist  
+
+| Param | Type | Description |
+| --- | --- | --- |
+| businessConnectionId | <code>String</code> | Unique identifier of the business connection |
+| title | <code>String</code> | Title of the checklist, 1-255 characters after entities parsing |
+| tasks | <code>Array</code> | List of 1-100 tasks in the checklist |
+| [options] | <code>Object</code> | Additional Telegram query options |
+
+<a name="TelegramBot+editMessageChecklist"></a>
+
+### telegramBot.editMessageChecklist(businessConnectionId, messageId, [options]) ⇒ <code>Promise</code>
+Use this method to edit a checklist message on behalf of a managed business account.
+
+**Kind**: instance method of [<code>TelegramBot</code>](#TelegramBot)  
+**Returns**: <code>Promise</code> - On success, the edited Message is returned  
+**See**: https://core.telegram.org/bots/api#editmessagechecklist  
+
+| Param | Type | Description |
+| --- | --- | --- |
+| businessConnectionId | <code>String</code> | Unique identifier of the business connection |
+| messageId | <code>Number</code> | Unique identifier of the message to edit |
+| [options] | <code>Object</code> | Additional Telegram query options |
+
+<a name="TelegramBot+getMyStarBalance"></a>
+
+### telegramBot.getMyStarBalance([options]) ⇒ <code>Promise</code>
+Use this method to get the current number of Telegram Stars owned by the bot.
+
+**Kind**: instance method of [<code>TelegramBot</code>](#TelegramBot)  
+**Returns**: <code>Promise</code> - Returns a StarAmount object  
+**See**: https://core.telegram.org/bots/api#getmystarbalance  
+
+| Param | Type | Description |
+| --- | --- | --- |
+| [options] | <code>Object</code> | Additional Telegram query options |
+
+<a name="TelegramBot+approveSuggestedPost"></a>
+
+### telegramBot.approveSuggestedPost(businessConnectionId, messageId, [options]) ⇒ <code>Promise</code>
+Use this method to approve a suggested post in a channel chat.
+
+**Kind**: instance method of [<code>TelegramBot</code>](#TelegramBot)  
+**Returns**: <code>Promise</code> - True on success  
+**See**: https://core.telegram.org/bots/api#approvesuggestedpost  
+
+| Param | Type | Description |
+| --- | --- | --- |
+| businessConnectionId | <code>String</code> | Unique identifier of the business connection |
+| messageId | <code>Number</code> | Unique identifier of the suggested post message |
+| [options] | <code>Object</code> | Additional Telegram query options |
+
+<a name="TelegramBot+declineSuggestedPost"></a>
+
+### telegramBot.declineSuggestedPost(businessConnectionId, messageId, [options]) ⇒ <code>Promise</code>
+Use this method to decline a suggested post in a channel chat.
+
+**Kind**: instance method of [<code>TelegramBot</code>](#TelegramBot)  
+**Returns**: <code>Promise</code> - True on success  
+**See**: https://core.telegram.org/bots/api#declinesuggestedpost  
+
+| Param | Type | Description |
+| --- | --- | --- |
+| businessConnectionId | <code>String</code> | Unique identifier of the business connection |
+| messageId | <code>Number</code> | Unique identifier of the suggested post message |
+| [options] | <code>Object</code> | Additional Telegram query options |
+
+<a name="TelegramBot+sendMessageDraft"></a>
+
+### telegramBot.sendMessageDraft(chatId, text, [options]) ⇒ <code>Promise</code>
+Use this method to send a draft message to the bot's user in private chat.
+
+**Kind**: instance method of [<code>TelegramBot</code>](#TelegramBot)  
+**Returns**: <code>Promise</code> - On success, the sent Message is returned  
+**See**: https://core.telegram.org/bots/api#sendmessagedraft  
+
+| Param | Type | Description |
+| --- | --- | --- |
+| chatId | <code>Number</code> \| <code>String</code> | Unique identifier of the target private chat |
+| text | <code>String</code> | Text of the message, 1-4096 characters after entities parsing |
+| [options] | <code>Object</code> | Additional Telegram query options |
+
+<a name="TelegramBot+getUserGifts"></a>
+
+### telegramBot.getUserGifts(userId, [options]) ⇒ <code>Promise</code>
+Use this method to get gifts received by a user in a private chat.
+
+**Kind**: instance method of [<code>TelegramBot</code>](#TelegramBot)  
+**Returns**: <code>Promise</code> - Array of OwnedGift objects  
+**See**: https://core.telegram.org/bots/api#getusergifts  
+
+| Param | Type | Description |
+| --- | --- | --- |
+| userId | <code>Number</code> \| <code>String</code> | Unique identifier of the target user |
+| [options] | <code>Object</code> | Additional Telegram query options |
+
+<a name="TelegramBot+getChatGifts"></a>
+
+### telegramBot.getChatGifts(chatId, [options]) ⇒ <code>Promise</code>
+Use this method to get gifts received by a chat.
+
+**Kind**: instance method of [<code>TelegramBot</code>](#TelegramBot)  
+**Returns**: <code>Promise</code> - Array of OwnedGift objects  
+**See**: https://core.telegram.org/bots/api#getchatgifts  
+
+| Param | Type | Description |
+| --- | --- | --- |
+| chatId | <code>Number</code> \| <code>String</code> | Unique identifier of the target chat |
+| [options] | <code>Object</code> | Additional Telegram query options |
+
+<a name="TelegramBot+repostStory"></a>
+
+### telegramBot.repostStory(businessConnectionId, storyId, targetBusinessConnectionIds, [options]) ⇒ <code>Promise</code>
+Use this method to repost a story on behalf of a managed business account.
+
+**Kind**: instance method of [<code>TelegramBot</code>](#TelegramBot)  
+**Returns**: <code>Promise</code> - Array of Story objects  
+**See**: https://core.telegram.org/bots/api#repoststory  
+
+| Param | Type | Description |
+| --- | --- | --- |
+| businessConnectionId | <code>String</code> | Unique identifier of the business connection |
+| storyId | <code>Number</code> | Identifier of the story to repost |
+| targetBusinessConnectionIds | <code>Array.&lt;(Number\|String)&gt;</code> | Identifiers of the business connections to post the story to |
+| [options] | <code>Object</code> | Additional Telegram query options |
+
+<a name="TelegramBot+setMyProfilePhoto"></a>
+
+### telegramBot.setMyProfilePhoto(photo, [options]) ⇒ <code>Promise</code>
+Use this method to set the profile photo of the bot.
+
+**Kind**: instance method of [<code>TelegramBot</code>](#TelegramBot)  
+**Returns**: <code>Promise</code> - True on success  
+**See**: https://core.telegram.org/bots/api#setmyprofilephoto  
+
+| Param | Type | Description |
+| --- | --- | --- |
+| photo | <code>Object</code> | InputProfilePhoto object |
+| [options] | <code>Object</code> | Additional Telegram query options |
+
+<a name="TelegramBot+removeMyProfilePhoto"></a>
+
+### telegramBot.removeMyProfilePhoto([options]) ⇒ <code>Promise</code>
+Use this method to remove the profile photo of the bot.
+
+**Kind**: instance method of [<code>TelegramBot</code>](#TelegramBot)  
+**Returns**: <code>Promise</code> - True on success  
+**See**: https://core.telegram.org/bots/api#removemyprofilephoto  
+
+| Param | Type | Description |
+| --- | --- | --- |
+| [options] | <code>Object</code> | Additional Telegram query options |
+
+<a name="TelegramBot+getUserProfileAudios"></a>
+
+### telegramBot.getUserProfileAudios(userId, [options]) ⇒ <code>Promise</code>
+Use this method to get the profile audios of a user.
+
+**Kind**: instance method of [<code>TelegramBot</code>](#TelegramBot)  
+**Returns**: <code>Promise</code> - Array of Audio objects  
+**See**: https://core.telegram.org/bots/api#getuserprofileaudios  
+
+| Param | Type | Description |
+| --- | --- | --- |
+| userId | <code>Number</code> \| <code>String</code> | Unique identifier of the target user |
+| [options] | <code>Object</code> | Additional Telegram query options |
+
+<a name="TelegramBot+setChatMemberTag"></a>
+
+### telegramBot.setChatMemberTag(chatId, userId, [options]) ⇒ <code>Promise</code>
+Use this method to set the tag that is applied to a specific user in a specific group chat.
+
+**Kind**: instance method of [<code>TelegramBot</code>](#TelegramBot)  
+**Returns**: <code>Promise</code> - True on success  
+**See**: https://core.telegram.org/bots/api#setchatmembertag  
+
+| Param | Type | Description |
+| --- | --- | --- |
+| chatId | <code>Number</code> \| <code>String</code> | Unique identifier for the target chat or username of the target group |
+| userId | <code>Number</code> \| <code>String</code> | Unique identifier of the target user |
+| [options] | <code>Object</code> | Additional Telegram query options |
+
+<a name="TelegramBot+getManagedBotToken"></a>
+
+### telegramBot.getManagedBotToken(botId, [options]) ⇒ <code>Promise</code>
+Use this method to get the current managable bot token for the bot.
+
+**Kind**: instance method of [<code>TelegramBot</code>](#TelegramBot)  
+**Returns**: <code>Promise</code> - Returns a ManagedBotToken object  
+**See**: https://core.telegram.org/bots/api#getmanagedbottoken  
+
+| Param | Type | Description |
+| --- | --- | --- |
+| botId | <code>Number</code> | Identifier of the bot to get the token for |
+| [options] | <code>Object</code> | Additional Telegram query options |
+
+<a name="TelegramBot+replaceManagedBotToken"></a>
+
+### telegramBot.replaceManagedBotToken(botId, [options]) ⇒ <code>Promise</code>
+Use this method to replace the managable bot token for the bot with a new one.
+
+**Kind**: instance method of [<code>TelegramBot</code>](#TelegramBot)  
+**Returns**: <code>Promise</code> - Returns a ManagedBotToken object  
+**See**: https://core.telegram.org/bots/api#replacemanagedbottoken  
+
+| Param | Type | Description |
+| --- | --- | --- |
+| botId | <code>Number</code> | Identifier of the bot whose token will be replaced |
+| [options] | <code>Object</code> | Additional Telegram query options |
+
+<a name="TelegramBot+savePreparedKeyboardButton"></a>
+
+### telegramBot.savePreparedKeyboardButton(button, [options]) ⇒ <code>Promise</code>
+Use this method to save a prepared keyboard button for later use.
+
+**Kind**: instance method of [<code>TelegramBot</code>](#TelegramBot)  
+**Returns**: <code>Promise</code> - Returns a PreparedKeyboardButton object  
+**See**: https://core.telegram.org/bots/api#savepreparedkeyboardbutton  
+
+| Param | Type | Description |
+| --- | --- | --- |
+| button | <code>Object</code> | KeyboardButton object to save |
+| [options] | <code>Object</code> | Additional Telegram query options |
+
+<a name="TelegramBot+answerGuestQuery"></a>
+
+### telegramBot.answerGuestQuery(guestQueryId, text, [options]) ⇒ <code>Promise</code>
+Use this method to answer a guest query in a Telegram Web App.
+
+**Kind**: instance method of [<code>TelegramBot</code>](#TelegramBot)  
+**Returns**: <code>Promise</code> - True on success  
+**See**: https://core.telegram.org/bots/api#answerguestquery  
+
+| Param | Type | Description |
+| --- | --- | --- |
+| guestQueryId | <code>String</code> | Unique identifier for the query to be answered |
+| text | <code>String</code> | Text of the message |
+| [options] | <code>Object</code> | Additional Telegram query options |
+
+<a name="TelegramBot+deleteAllMessageReactions"></a>
+
+### telegramBot.deleteAllMessageReactions(chatId, messageId, [options]) ⇒ <code>Promise</code>
+Use this method to remove multiple reactions from a message.
+
+**Kind**: instance method of [<code>TelegramBot</code>](#TelegramBot)  
+**Returns**: <code>Promise</code> - True on success  
+**See**: https://core.telegram.org/bots/api#deletemessagereactions  
+
+| Param | Type | Description |
+| --- | --- | --- |
+| chatId | <code>Number</code> \| <code>String</code> | Unique identifier for the target chat or username of the target channel (in the format `@channelusername`) |
+| messageId | <code>Number</code> | Unique identifier of the target message |
+| [options] | <code>Object</code> | Additional Telegram query options |
+
+<a name="TelegramBot+deleteMessageReaction"></a>
+
+### telegramBot.deleteMessageReaction(chatId, messageId, [options]) ⇒ <code>Promise</code>
+Use this method to remove a reaction from a message.
+
+**Kind**: instance method of [<code>TelegramBot</code>](#TelegramBot)  
+**Returns**: <code>Promise</code> - True on success  
+**See**: https://core.telegram.org/bots/api#deletemessagereaction  
+
+| Param | Type | Description |
+| --- | --- | --- |
+| chatId | <code>Number</code> \| <code>String</code> | Unique identifier for the target chat or username of the target channel (in the format `@channelusername`) |
+| messageId | <code>Number</code> | Unique identifier of the target message |
+| [options] | <code>Object</code> | Additional Telegram query options |
+
+<a name="TelegramBot+sendLivePhoto"></a>
+
+### telegramBot.sendLivePhoto(chatId, photo, video, [options], [fileOptions]) ⇒ <code>Promise</code>
+Use this method to send a live photo.
+
+**Kind**: instance method of [<code>TelegramBot</code>](#TelegramBot)  
+**Returns**: <code>Promise</code> - On success, the sent Message object is returned  
+**See**: https://core.telegram.org/bots/api#sendlivephoto  
+
+| Param | Type | Description |
+| --- | --- | --- |
+| chatId | <code>Number</code> \| <code>String</code> | Unique identifier for the target chat or username of the target channel (in the format `@channelusername`) |
+| photo | <code>String</code> \| <code>stream.Stream</code> \| <code>Buffer</code> | A file path, Stream, Buffer, or file_id |
+| video | <code>String</code> \| <code>stream.Stream</code> \| <code>Buffer</code> | A file path, Stream, Buffer, or file_id |
+| [options] | <code>Object</code> | Additional Telegram query options |
+| [fileOptions] | <code>Object</code> | Optional file related meta-data |
+
+<a name="TelegramBot+getManagedBotAccessSettings"></a>
+
+### telegramBot.getManagedBotAccessSettings([options]) ⇒ <code>Promise</code>
+Use this method to get the current access settings of the bot for managed bots.
+
+**Kind**: instance method of [<code>TelegramBot</code>](#TelegramBot)  
+**Returns**: <code>Promise</code> - Returns a ManagedBotAccessSettings object  
+**See**: https://core.telegram.org/bots/api#getmanagedbotaccesssettings  
+
+| Param | Type | Description |
+| --- | --- | --- |
+| [options] | <code>Object</code> | Additional Telegram query options |
+
+<a name="TelegramBot+setManagedBotAccessSettings"></a>
+
+### telegramBot.setManagedBotAccessSettings([options]) ⇒ <code>Promise</code>
+Use this method to change the access settings of the bot for managed bots.
+
+**Kind**: instance method of [<code>TelegramBot</code>](#TelegramBot)  
+**Returns**: <code>Promise</code> - True on success  
+**See**: https://core.telegram.org/bots/api#setmanagedbotaccesssettings  
+
+| Param | Type | Description |
+| --- | --- | --- |
+| [options] | <code>Object</code> | Additional Telegram query options |
+
+<a name="TelegramBot+getUserPersonalChatMessages"></a>
+
+### telegramBot.getUserPersonalChatMessages(userId, [options]) ⇒ <code>Promise</code>
+Use this method to get messages from a user's personal chat with the bot.
+
+**Kind**: instance method of [<code>TelegramBot</code>](#TelegramBot)  
+**Returns**: <code>Promise</code> - Array of Message objects  
+**See**: https://core.telegram.org/bots/api#getuserpersonalchatmessages  
+
+| Param | Type | Description |
+| --- | --- | --- |
+| userId | <code>Number</code> | Unique identifier of the target user |
+| [options] | <code>Object</code> | Additional Telegram query options |
+
+<a name="TelegramBot+sendRichMessage"></a>
+
+### telegramBot.sendRichMessage(chatId, content, [options]) ⇒ <code>Promise</code>
+Use this method to send a rich message.
+
+**Kind**: instance method of [<code>TelegramBot</code>](#TelegramBot)  
+**Returns**: <code>Promise</code> - On success, the sent Message object is returned  
+**See**: https://core.telegram.org/bots/api#sendrichmessage  
+
+| Param | Type | Description |
+| --- | --- | --- |
+| chatId | <code>Number</code> \| <code>String</code> | Unique identifier for the target chat or username of the target channel (in the format `@channelusername`) |
+| content | <code>Object</code> | An InputRichMessageContent object |
+| [options] | <code>Object</code> | Additional Telegram query options |
+
+<a name="TelegramBot+sendRichMessageDraft"></a>
+
+### telegramBot.sendRichMessageDraft(chatId, content, [options]) ⇒ <code>Promise</code>
+Use this method to send a rich message draft.
+
+**Kind**: instance method of [<code>TelegramBot</code>](#TelegramBot)  
+**Returns**: <code>Promise</code> - On success, a Message object is returned  
+**See**: https://core.telegram.org/bots/api#sendrichmessagedraft  
+
+| Param | Type | Description |
+| --- | --- | --- |
+| chatId | <code>Number</code> \| <code>String</code> | Unique identifier for the target chat or username of the target channel (in the format `@channelusername`) |
+| content | <code>Object</code> | An InputRichMessageContent object |
+| [options] | <code>Object</code> | Additional Telegram query options |
+
+<a name="TelegramBot+answerChatJoinRequestQuery"></a>
+
+### telegramBot.answerChatJoinRequestQuery(chatJoinRequestId, queryId, [options]) ⇒ <code>Promise</code>
+Use this method to answer a chat join request query.
+
+**Kind**: instance method of [<code>TelegramBot</code>](#TelegramBot)  
+**Returns**: <code>Promise</code> - True on success  
+**See**: https://core.telegram.org/bots/api#answerchatjoinrequestquery  
+
+| Param | Type | Description |
+| --- | --- | --- |
+| chatJoinRequestId | <code>Number</code> | Unique identifier of the chat join request |
+| queryId | <code>String</code> | Unique identifier for the query to be answered |
+| [options] | <code>Object</code> | Additional Telegram query options |
+
+<a name="TelegramBot+sendChatJoinRequestWebApp"></a>
+
+### telegramBot.sendChatJoinRequestWebApp(chatJoinRequestId, webApp, [options]) ⇒ <code>Promise</code>
+Use this method to send a Web App message to a chat join request.
+
+**Kind**: instance method of [<code>TelegramBot</code>](#TelegramBot)  
+**Returns**: <code>Promise</code> - True on success  
+**See**: https://core.telegram.org/bots/api#sendchatjoinrequestwebapp  
+
+| Param | Type | Description |
+| --- | --- | --- |
+| chatJoinRequestId | <code>Number</code> | Unique identifier of the chat join request |
+| webApp | <code>Object</code> | A SentWebAppMessage object |
+| [options] | <code>Object</code> | Additional Telegram query options |
+
+<a name="TelegramBot+editEphemeralMessageText"></a>
+
+### telegramBot.editEphemeralMessageText(chatId, ephemeralMessageId, text, [options]) ⇒ <code>Promise</code>
+Use this method to edit the text of an ephemeral message.
+
+**Kind**: instance method of [<code>TelegramBot</code>](#TelegramBot)  
+**Returns**: <code>Promise</code> - On success, the edited Message object is returned  
+**See**: https://core.telegram.org/bots/api#editephemeralmessagetext  
+
+| Param | Type | Description |
+| --- | --- | --- |
+| chatId | <code>Number</code> \| <code>String</code> | Unique identifier for the target chat or username of the target channel (in the format `@channelusername`) |
+| ephemeralMessageId | <code>String</code> | Unique identifier of the ephemeral message |
+| text | <code>String</code> | New text of the message |
+| [options] | <code>Object</code> | Additional Telegram query options |
+
+<a name="TelegramBot+editEphemeralMessageMedia"></a>
+
+### telegramBot.editEphemeralMessageMedia(chatId, ephemeralMessageId, media, [options], [fileOptions]) ⇒ <code>Promise</code>
+Use this method to edit the media of an ephemeral message.
+
+**Kind**: instance method of [<code>TelegramBot</code>](#TelegramBot)  
+**Returns**: <code>Promise</code> - On success, the edited Message object is returned  
+**See**: https://core.telegram.org/bots/api#editephemeralmessagemedia  
+
+| Param | Type | Description |
+| --- | --- | --- |
+| chatId | <code>Number</code> \| <code>String</code> | Unique identifier for the target chat or username of the target channel (in the format `@channelusername`) |
+| ephemeralMessageId | <code>String</code> | Unique identifier of the ephemeral message |
+| media | <code>Object</code> | An InputMedia object |
+| [options] | <code>Object</code> | Additional Telegram query options |
+| [fileOptions] | <code>Object</code> | Optional file related meta-data |
+
+<a name="TelegramBot+editEphemeralMessageCaption"></a>
+
+### telegramBot.editEphemeralMessageCaption(chatId, ephemeralMessageId, [options]) ⇒ <code>Promise</code>
+Use this method to edit the caption of an ephemeral message.
+
+**Kind**: instance method of [<code>TelegramBot</code>](#TelegramBot)  
+**Returns**: <code>Promise</code> - On success, the edited Message object is returned  
+**See**: https://core.telegram.org/bots/api#editephemeralmessagecaption  
+
+| Param | Type | Description |
+| --- | --- | --- |
+| chatId | <code>Number</code> \| <code>String</code> | Unique identifier for the target chat or username of the target channel (in the format `@channelusername`) |
+| ephemeralMessageId | <code>String</code> | Unique identifier of the ephemeral message |
+| [options] | <code>Object</code> | Additional Telegram query options |
+
+<a name="TelegramBot+editEphemeralMessageReplyMarkup"></a>
+
+### telegramBot.editEphemeralMessageReplyMarkup(chatId, ephemeralMessageId, [options]) ⇒ <code>Promise</code>
+Use this method to edit the reply markup of an ephemeral message.
+
+**Kind**: instance method of [<code>TelegramBot</code>](#TelegramBot)  
+**Returns**: <code>Promise</code> - On success, the edited Message object is returned  
+**See**: https://core.telegram.org/bots/api#editephemeralmessagereplymarkup  
+
+| Param | Type | Description |
+| --- | --- | --- |
+| chatId | <code>Number</code> \| <code>String</code> | Unique identifier for the target chat or username of the target channel (in the format `@channelusername`) |
+| ephemeralMessageId | <code>String</code> | Unique identifier of the ephemeral message |
+| [options] | <code>Object</code> | Additional Telegram query options |
+
+<a name="TelegramBot+deleteEphemeralMessage"></a>
+
+### telegramBot.deleteEphemeralMessage(chatId, ephemeralMessageId, [options]) ⇒ <code>Promise</code>
+Use this method to delete an ephemeral message.
+
+**Kind**: instance method of [<code>TelegramBot</code>](#TelegramBot)  
+**Returns**: <code>Promise</code> - True on success  
+**See**: https://core.telegram.org/bots/api#deleteephemeralmessage  
+
+| Param | Type | Description |
+| --- | --- | --- |
+| chatId | <code>Number</code> \| <code>String</code> | Unique identifier for the target chat or username of the target channel (in the format `@channelusername`) |
+| ephemeralMessageId | <code>String</code> | Unique identifier of the ephemeral message |
 | [options] | <code>Object</code> | Additional Telegram query options |
 
 <a name="TelegramBot.errors"></a>

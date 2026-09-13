@@ -61,7 +61,53 @@ const _messageTypes = [
   'chat_invite_link',
   'chat_member_updated',
   'web_app_data',
-  'message_reaction'
+  'message_reaction',
+  // Bot API 7.7
+  'refunded_payment',
+  // Bot API 9.0
+  'gift',
+  'unique_gift',
+  'paid_message_price_changed',
+  'paid_star_count',
+  // Bot API 9.1
+  'checklist',
+  'checklist_tasks_done',
+  'checklist_tasks_added',
+  'direct_message_price_changed',
+  // Bot API 9.2
+  'direct_messages_topic',
+  'suggested_post_info',
+  'suggested_post_approved',
+  'suggested_post_approval_failed',
+  'suggested_post_declined',
+  'suggested_post_paid',
+  'suggested_post_refunded',
+  // Bot API 9.3
+  'gift_upgrade_sent',
+  // Bot API 9.4
+  'chat_owner_left',
+  'chat_owner_changed',
+  // Bot API 9.5
+  'sender_tag',
+  // Bot API 9.6
+  'managed_bot_created',
+  'poll_option_added',
+  'poll_option_deleted',
+  // Bot API 10.0
+  'guest_bot_caller_user',
+  'guest_bot_caller_chat',
+  'guest_query_id',
+  'live_photo',
+  // Bot API 10.1
+  'rich_message',
+  // Bot API 10.2
+  'ephemeral_message_id',
+  'receiver_user',
+  'community_chat_added',
+  'community_chat_removed',
+  // Bot API 10.3
+  'stopped_message_generation',
+  'community_chat_joined',
 ];
 
 const _deprecatedMessageTypes = [
@@ -275,6 +321,34 @@ class TelegramBot extends EventEmitter {
   }
 
   /**
+   * Fix JSON-serialized object fields by making them JSON strings if they are still objects.
+   * Covers new Bot API 7.4-10.3 fields that accept JSON-serialized objects.
+   * @param {Object} obj Object; either 'form' or 'qs'
+   * @private
+   */
+  _fixJsonFields(obj) {
+    const jsonFields = [
+      'rich_message',
+      'content',
+      'result',
+      'button',
+      'web_app',
+      'photo',
+      'tasks',
+      'reaction_type',
+      'restricted_channels',
+      'target_business_connection_ids',
+      'accepted_gift_types',
+      'link_preview_options',
+    ];
+    for (const field of jsonFields) {
+      if (obj.hasOwnProperty(field) && typeof obj[field] !== 'string') {
+        obj[field] = stringify(obj[field]);
+      }
+    }
+  }
+
+  /**
    * Make request against the API
    * @param  {String} _path API endpoint
    * @param  {Object} [options]
@@ -294,10 +368,12 @@ class TelegramBot extends EventEmitter {
       this._fixReplyMarkup(options.form);
       this._fixEntitiesField(options.form);
       this._fixReplyParameters(options.form);
+      this._fixJsonFields(options.form);
     }
     if (options.qs) {
       this._fixReplyMarkup(options.qs);
       this._fixReplyParameters(options.qs);
+      this._fixJsonFields(options.qs);
     }
 
     options.method = 'POST';
@@ -3618,6 +3694,8 @@ class TelegramBot extends EventEmitter {
    * @see https://core.telegram.org/bots/api#sendchecklist
    */
   sendChecklist(businessConnectionId, title, tasks, form = {}) {
+    if (!businessConnectionId) return Promise.reject(new Error('businessConnectionId is required'));
+    if (!title) return Promise.reject(new Error('title is required'));
     form.business_connection_id = businessConnectionId;
     form.title = title;
     form.tasks = stringify(tasks);
@@ -3634,6 +3712,8 @@ class TelegramBot extends EventEmitter {
    * @see https://core.telegram.org/bots/api#editmessagechecklist
    */
   editMessageChecklist(businessConnectionId, messageId, form = {}) {
+    if (!businessConnectionId) return Promise.reject(new Error('businessConnectionId is required'));
+    if (!messageId) return Promise.reject(new Error('messageId is required'));
     form.business_connection_id = businessConnectionId;
     form.message_id = messageId;
     if (form.tasks) {
@@ -3667,6 +3747,8 @@ class TelegramBot extends EventEmitter {
    * @see https://core.telegram.org/bots/api#approvesuggestedpost
    */
   approveSuggestedPost(businessConnectionId, messageId, form = {}) {
+    if (!businessConnectionId) return Promise.reject(new Error('businessConnectionId is required'));
+    if (!messageId) return Promise.reject(new Error('messageId is required'));
     form.business_connection_id = businessConnectionId;
     form.message_id = messageId;
     return this._request('approveSuggestedPost', { form });
@@ -3682,6 +3764,8 @@ class TelegramBot extends EventEmitter {
    * @see https://core.telegram.org/bots/api#declinesuggestedpost
    */
   declineSuggestedPost(businessConnectionId, messageId, form = {}) {
+    if (!businessConnectionId) return Promise.reject(new Error('businessConnectionId is required'));
+    if (!messageId) return Promise.reject(new Error('messageId is required'));
     form.business_connection_id = businessConnectionId;
     form.message_id = messageId;
     return this._request('declineSuggestedPost', { form });
@@ -3701,6 +3785,8 @@ class TelegramBot extends EventEmitter {
    * @see https://core.telegram.org/bots/api#sendmessagedraft
    */
   sendMessageDraft(chatId, text, form = {}) {
+    if (!chatId) return Promise.reject(new Error('chatId is required'));
+    if (!text) return Promise.reject(new Error('text is required'));
     form.chat_id = chatId;
     form.text = text;
     if (form.entities) {
@@ -3749,6 +3835,8 @@ class TelegramBot extends EventEmitter {
    * @see https://core.telegram.org/bots/api#repoststory
    */
   repostStory(businessConnectionId, storyId, targetBusinessConnectionIds, form = {}) {
+    if (!businessConnectionId) return Promise.reject(new Error('businessConnectionId is required'));
+    if (!storyId) return Promise.reject(new Error('storyId is required'));
     form.business_connection_id = businessConnectionId;
     form.story_id = storyId;
     form.target_business_connection_ids = stringify(targetBusinessConnectionIds);
@@ -3872,6 +3960,8 @@ class TelegramBot extends EventEmitter {
    * @see https://core.telegram.org/bots/api#answerguestquery
    */
   answerGuestQuery(guestQueryId, text, form = {}) {
+    if (!guestQueryId) return Promise.reject(new Error('guestQueryId is required'));
+    if (!text) return Promise.reject(new Error('text is required'));
     form.guest_query_id = guestQueryId;
     form.text = text;
     return this._request('answerGuestQuery', { form });
@@ -3922,6 +4012,7 @@ class TelegramBot extends EventEmitter {
    * @see https://core.telegram.org/bots/api#sendlivephoto
    */
   sendLivePhoto(chatId, photo, video, form = {}, fileOptions = {}) {
+    if (!chatId) return Promise.reject(new Error('chatId is required'));
     const opts = {
       qs: form,
     };
@@ -3990,6 +4081,8 @@ class TelegramBot extends EventEmitter {
    * @see https://core.telegram.org/bots/api#sendrichmessage
    */
   sendRichMessage(chatId, content, form = {}) {
+    if (!chatId) return Promise.reject(new Error('chatId is required'));
+    if (!content) return Promise.reject(new Error('content is required'));
     form.chat_id = chatId;
     form.content = stringify(content);
     return this._request('sendRichMessage', { form });
@@ -4005,6 +4098,8 @@ class TelegramBot extends EventEmitter {
    * @see https://core.telegram.org/bots/api#sendrichmessagedraft
    */
   sendRichMessageDraft(chatId, content, form = {}) {
+    if (!chatId) return Promise.reject(new Error('chatId is required'));
+    if (!content) return Promise.reject(new Error('content is required'));
     form.chat_id = chatId;
     form.content = stringify(content);
     return this._request('sendRichMessageDraft', { form });
@@ -4020,6 +4115,8 @@ class TelegramBot extends EventEmitter {
    * @see https://core.telegram.org/bots/api#answerchatjoinrequestquery
    */
   answerChatJoinRequestQuery(chatJoinRequestId, queryId, form = {}) {
+    if (!chatJoinRequestId) return Promise.reject(new Error('chatJoinRequestId is required'));
+    if (!queryId) return Promise.reject(new Error('queryId is required'));
     form.chat_join_request_id = chatJoinRequestId;
     form.query_id = queryId;
     return this._request('answerChatJoinRequestQuery', { form });
@@ -4035,6 +4132,8 @@ class TelegramBot extends EventEmitter {
    * @see https://core.telegram.org/bots/api#sendchatjoinrequestwebapp
    */
   sendChatJoinRequestWebApp(chatJoinRequestId, webApp, form = {}) {
+    if (!chatJoinRequestId) return Promise.reject(new Error('chatJoinRequestId is required'));
+    if (!webApp) return Promise.reject(new Error('webApp is required'));
     form.chat_join_request_id = chatJoinRequestId;
     form.web_app = stringify(webApp);
     return this._request('sendChatJoinRequestWebApp', { form });
@@ -4055,6 +4154,8 @@ class TelegramBot extends EventEmitter {
    * @see https://core.telegram.org/bots/api#editephemeralmessagetext
    */
   editEphemeralMessageText(chatId, ephemeralMessageId, text, form = {}) {
+    if (!chatId) return Promise.reject(new Error('chatId is required'));
+    if (!ephemeralMessageId) return Promise.reject(new Error('ephemeralMessageId is required'));
     form.chat_id = chatId;
     form.ephemeral_message_id = ephemeralMessageId;
     form.text = text;
@@ -4073,6 +4174,8 @@ class TelegramBot extends EventEmitter {
    * @see https://core.telegram.org/bots/api#editephemeralmessagemedia
    */
   editEphemeralMessageMedia(chatId, ephemeralMessageId, media, form = {}, fileOptions = {}) {
+    if (!chatId) return Promise.reject(new Error('chatId is required'));
+    if (!ephemeralMessageId) return Promise.reject(new Error('ephemeralMessageId is required'));
     form.chat_id = chatId;
     form.ephemeral_message_id = ephemeralMessageId;
     form.media = stringify(media);
@@ -4089,6 +4192,8 @@ class TelegramBot extends EventEmitter {
    * @see https://core.telegram.org/bots/api#editephemeralmessagecaption
    */
   editEphemeralMessageCaption(chatId, ephemeralMessageId, form = {}) {
+    if (!chatId) return Promise.reject(new Error('chatId is required'));
+    if (!ephemeralMessageId) return Promise.reject(new Error('ephemeralMessageId is required'));
     form.chat_id = chatId;
     form.ephemeral_message_id = ephemeralMessageId;
     this._fixEntitiesField(form);
@@ -4105,6 +4210,8 @@ class TelegramBot extends EventEmitter {
    * @see https://core.telegram.org/bots/api#editephemeralmessagereplymarkup
    */
   editEphemeralMessageReplyMarkup(chatId, ephemeralMessageId, form = {}) {
+    if (!chatId) return Promise.reject(new Error('chatId is required'));
+    if (!ephemeralMessageId) return Promise.reject(new Error('ephemeralMessageId is required'));
     form.chat_id = chatId;
     form.ephemeral_message_id = ephemeralMessageId;
     return this._request('editEphemeralMessageReplyMarkup', { form });
@@ -4120,6 +4227,8 @@ class TelegramBot extends EventEmitter {
    * @see https://core.telegram.org/bots/api#deleteephemeralmessage
    */
   deleteEphemeralMessage(chatId, ephemeralMessageId, form = {}) {
+    if (!chatId) return Promise.reject(new Error('chatId is required'));
+    if (!ephemeralMessageId) return Promise.reject(new Error('ephemeralMessageId is required'));
     form.chat_id = chatId;
     form.ephemeral_message_id = ephemeralMessageId;
     return this._request('deleteEphemeralMessage', { form });

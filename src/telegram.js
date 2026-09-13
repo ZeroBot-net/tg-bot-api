@@ -7,8 +7,14 @@ const TelegramBotPolling = require('./telegramPolling');
 const debug = require('debug')('@zero-bot.net/tg-bot-api');
 const EventEmitter = require('eventemitter3');
 const fileType = require('file-type');
-const request = require('@cypress/request-promise');
-const streamedRequest = require('@cypress/request');
+const requestBase = require('@zero-bot.net/request');
+const request = (options) => new Promise((resolve, reject) => {
+  requestBase(options, (err, response) => {
+    if (err) reject(err);
+    else resolve(response);
+  });
+});
+const streamedRequest = requestBase;
 const qs = require('querystring');
 const stream = require('stream');
 const mime = require('mime');

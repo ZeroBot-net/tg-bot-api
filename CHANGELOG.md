@@ -503,13 +503,13 @@ Fixed:
 1. Fix request performance issue (by @preco21)
 2. Fix typos (by oflisback)
 
-[usage-sending-files]:https://github.com/yagop/node-telegram-bot-api/blob/master/doc/usage.md#sending-files-options
+[usage-sending-files]:https://github.com/ZeroBot-net/@zero-bot.net/tg-bot-api/blob/master/doc/usage.md#sending-files-options
 
-[0.25.0]:https://github.com/yagop/node-telegram-bot-api/releases/tag/v0.25.0
-[0.26.0]:https://github.com/yagop/node-telegram-bot-api/releases/tag/v0.26.0
-[0.27.0]:https://github.com/yagop/node-telegram-bot-api/releases/tag/v0.27.0
-[0.27.1]:https://github.com/yagop/node-telegram-bot-api/releases/tag/v0.27.1
-[0.28.0]:https://github.com/yagop/node-telegram-bot-api/releases/tag/v0.28.0
-[0.29.0]:https://github.com/yagop/node-telegram-bot-api/releases/tag/v0.29.0
-[0.30.0]:https://github.com/yagop/node-telegram-bot-api/releases/tag/v0.30.0
-[Unreleased]:https://github.com/yagop/node-telegram-bot-api/compare/v0.30.0...master
+[0.25.0]:https://github.com/ZeroBot-net/@zero-bot.net/tg-bot-api/releases/tag/v0.25.0
+[0.26.0]:https://github.com/ZeroBot-net/@zero-bot.net/tg-bot-api/releases/tag/v0.26.0
+[0.27.0]:https://github.com/ZeroBot-net/@zero-bot.net/tg-bot-api/releases/tag/v0.27.0
+[0.27.1]:https://github.com/ZeroBot-net/@zero-bot.net/tg-bot-api/releases/tag/v0.27.1
+[0.28.0]:https://github.com/ZeroBot-net/@zero-bot.net/tg-bot-api/releases/tag/v0.28.0
+[0.29.0]:https://github.com/ZeroBot-net/@zero-bot.net/tg-bot-api/releases/tag/v0.29.0
+[0.30.0]:https://github.com/ZeroBot-net/@zero-bot.net/tg-bot-api/releases/tag/v0.30.0
+[Unreleased]:https://github.com/ZeroBot-net/@zero-bot.net/tg-bot-api/compare/v0.30.0...master

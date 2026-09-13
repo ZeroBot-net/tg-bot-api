@@ -13,7 +13,7 @@ The user has to **manually reply** to your message, by tapping on the bot's mess
 
 Sources:
 
-* Issue [#113](https://github.com/yagop/node-telegram-bot-api/issues/113)
+* Issue [#113](https://github.com/ZeroBot-net/@zero-bot.net/tg-bot-api/issues/113)
 
 <a name="faqs"></a>
 ## Frequently Asked Questions
@@ -45,7 +45,7 @@ bot.sendDocument(chatId, 'cat.gif');
 
 Sources:
 
-* Issue [#11](https://github.com/yagop/node-telegram-bot-api/issues/11)
+* Issue [#11](https://github.com/ZeroBot-net/@zero-bot.net/tg-bot-api/issues/11)
 
 <a name="webhook-cert"></a>
 ### Why and When do I need a certificate when using WebHooks?
@@ -54,8 +54,8 @@ Sources:
 
 Sources:
 
-* Issue [#63](https://github.com/yagop/node-telegram-bot-api/issues/63)
-* Issue [#125](https://github.com/yagop/node-telegram-bot-api/issues/125)
+* Issue [#63](https://github.com/ZeroBot-net/@zero-bot.net/tg-bot-api/issues/63)
+* Issue [#125](https://github.com/ZeroBot-net/@zero-bot.net/tg-bot-api/issues/125)
 
 <a name="leave-chat"></a>
 ### How do I know when a user leaves a chat?
@@ -64,24 +64,24 @@ Sources:
 
 Sources:
 
-* Issue [#248](https://github.com/yagop/node-telegram-bot-api/issues/248)
+* Issue [#248](https://github.com/ZeroBot-net/@zero-bot.net/tg-bot-api/issues/248)
 
 <a name="error-meanings"></a>
 ### What does this error mean?
 
-* [502 Bad Gateway](https://github.com/yagop/node-telegram-bot-api/issues/377)
+* [502 Bad Gateway](https://github.com/ZeroBot-net/@zero-bot.net/tg-bot-api/issues/377)
 
 *Not complete. PRs welcome!*
 
 Sources:
 
-* Issue [#73](https://github.com/yagop/node-telegram-bot-api/issues/73)
-* Issue [#99](https://github.com/yagop/node-telegram-bot-api/issues/99)
-* Issue [#101](https://github.com/yagop/node-telegram-bot-api/issues/101)
-* Issue [#107](https://github.com/yagop/node-telegram-bot-api/issues/107)
-* Issue [#156](https://github.com/yagop/node-telegram-bot-api/issues/156)
-* Issue [#170](https://github.com/yagop/node-telegram-bot-api/issues/170)
-* Issue [#244](https://github.com/yagop/node-telegram-bot-api/issues/244)
+* Issue [#73](https://github.com/ZeroBot-net/@zero-bot.net/tg-bot-api/issues/73)
+* Issue [#99](https://github.com/ZeroBot-net/@zero-bot.net/tg-bot-api/issues/99)
+* Issue [#101](https://github.com/ZeroBot-net/@zero-bot.net/tg-bot-api/issues/101)
+* Issue [#107](https://github.com/ZeroBot-net/@zero-bot.net/tg-bot-api/issues/107)
+* Issue [#156](https://github.com/ZeroBot-net/@zero-bot.net/tg-bot-api/issues/156)
+* Issue [#170](https://github.com/ZeroBot-net/@zero-bot.net/tg-bot-api/issues/170)
+* Issue [#244](https://github.com/ZeroBot-net/@zero-bot.net/tg-bot-api/issues/244)
 
 <a name="reply-keyboard"></a>
 ### How do I know the selected option in reply keyboard?
@@ -90,7 +90,7 @@ Sources:
 
 Sources:
 
-* Issue [#108](https://github.com/yagop/node-telegram-bot-api/issues/108)
+* Issue [#108](https://github.com/ZeroBot-net/@zero-bot.net/tg-bot-api/issues/108)
 
 <a name="ordered-sending"></a>
 ### How do I send multiple message in correct sequence?
@@ -99,7 +99,7 @@ Sources:
 
 Sources:
 
-* Issue [#240](https://github.com/yagop/node-telegram-bot-api/issues/240)
+* Issue [#240](https://github.com/ZeroBot-net/@zero-bot.net/tg-bot-api/issues/240)
 
 <a name="proxy"></a>
 ### How do I run my bot behind a proxy?
@@ -108,9 +108,9 @@ Sources:
 
 Sources:
 
-* Issue [#122](https://github.com/yagop/node-telegram-bot-api/issues/122)
-* Issue [#253](https://github.com/yagop/node-telegram-bot-api/issues/253)
-* Issue [#766](https://github.com/yagop/node-telegram-bot-api/issues/766)
+* Issue [#122](https://github.com/ZeroBot-net/@zero-bot.net/tg-bot-api/issues/122)
+* Issue [#253](https://github.com/ZeroBot-net/@zero-bot.net/tg-bot-api/issues/253)
+* Issue [#766](https://github.com/ZeroBot-net/@zero-bot.net/tg-bot-api/issues/766)
 
 <a name="new-feature"></a>
 ### Can you add feature X to the library?
@@ -119,7 +119,7 @@ Sources:
 
 Sources:
 
-* Issue [#238](https://github.com/yagop/node-telegram-bot-api/issues/238)
+* Issue [#238](https://github.com/ZeroBot-net/@zero-bot.net/tg-bot-api/issues/238)
 
 <a name="scalable"></a>
 ### Is this scalable?
@@ -128,7 +128,7 @@ Sources:
 
 Sources:
 
-* Issue [#219](https://github.com/yagop/node-telegram-bot-api/issues/219)
+* Issue [#219](https://github.com/ZeroBot-net/@zero-bot.net/tg-bot-api/issues/219)
 
 <a name="messages-in-chat"></a>
 ### How do I listen for messages in a chat group?
@@ -137,7 +137,7 @@ Sources:
 
 Sources:
 
-* Issue [#304](https://github.com/yagop/node-telegram-bot-api/issues/304)
+* Issue [#304](https://github.com/ZeroBot-net/@zero-bot.net/tg-bot-api/issues/304)
 
 <a name="blocked-bot"></a>
 ### How do I know when a user blocks the bot?
@@ -146,6 +146,6 @@ Sources:
 
 Sources:
 
-* Issue [#273](https://github.com/yagop/node-telegram-bot-api/issues/273)
+* Issue [#273](https://github.com/ZeroBot-net/@zero-bot.net/tg-bot-api/issues/273)
 
-[questions]:https://github.com/yagop/node-telegram-bot-api/issues?utf8=%E2%9C%93&q=is%3Aissue%20label%3Aquestion%20
+[questions]:https://github.com/ZeroBot-net/@zero-bot.net/tg-bot-api/issues?utf8=%E2%9C%93&q=is%3Aissue%20label%3Aquestion%20

@@ -6,9 +6,9 @@ Node.js module to interact with the official [Telegram Bot API](https://core.tel
 
 
 [![Bot API](https://img.shields.io/badge/Bot%20API-v.3-00aced.svg?style=flat-square&logo=telegram)](https://core.telegram.org/bots/api)
-[![npm package](https://img.shields.io/npm/v/node-telegram-bot-api?logo=npm&style=flat-square)](https://www.npmjs.org/package/node-telegram-bot-api)
-[![Build Status](https://img.shields.io/travis/yagop/node-telegram-bot-api/master?style=flat-square&logo=travis)](https://travis-ci.org/yagop/node-telegram-bot-api)
-[![Coverage Status](https://img.shields.io/codecov/c/github/yagop/node-telegram-bot-api?style=flat-square&logo=codecov)](https://codecov.io/gh/yagop/node-telegram-bot-api)
+[![npm package](https://img.shields.io/npm/v/@zero-bot.net/tg-bot-api?logo=npm&style=flat-square)](https://www.npmjs.org/package/@zero-bot.net/tg-bot-api)
+[![Build Status](https://img.shields.io/travis/ZeroBot-net/tg-bot-api/master?style=flat-square&logo=travis)](https://travis-ci.org/ZeroBot-net/tg-bot-api)
+[![Coverage Status](https://img.shields.io/codecov/c/github/ZeroBot-net/tg-bot-api?style=flat-square&logo=codecov)](https://codecov.io/gh/ZeroBot-net/tg-bot-api)
 
 [![https://telegram.me/node_telegram_bot_api](https://img.shields.io/badge/💬%20Telegram-Channel-blue.svg?style=flat-square)](https://telegram.me/node_telegram_bot_api)
 [![https://t.me/+nc3A9Hs1S81mYzdk](https://img.shields.io/badge/💬%20Telegram-Group-blue.svg?style=flat-square)](https://t.me/+nc3A9Hs1S81mYzdk)
@@ -19,20 +19,20 @@ Node.js module to interact with the official [Telegram Bot API](https://core.tel
 ## 📦 Install
 
 ```sh
-npm i node-telegram-bot-api
+npm i @zero-bot.net/tg-bot-api
 ```
 
 <br/>
 
 > ✍️ **Note:** If you use Typescript you can install this package that contains type definitions for this library
 >```sh
->npm install --save-dev @types/node-telegram-bot-api
+>npm install --save-dev @types/@zero-bot.net/tg-bot-api
 >```
 
 ## 🚀 Usage
 
 ```js
-const TelegramBot = require('node-telegram-bot-api');
+const TelegramBot = require('@zero-bot.net/tg-bot-api');
 
 // replace the value below with the Telegram token you receive from @BotFather
 const token = 'YOUR_TELEGRAM_BOT_TOKEN';
@@ -92,7 +92,7 @@ We also have a [Telegram  group][tg-group] to discuss issues related to this lib
 Some things built using this library that might interest you:
 
 * [tgfancy](https://github.com/GochoMugo/tgfancy): A fancy, higher-level wrapper for Telegram Bot API
-* [node-telegram-bot-api-middleware](https://github.com/idchlife/node-telegram-bot-api-middleware): Middleware for node-telegram-bot-api
+* [@zero-bot.net/tg-bot-api-middleware](https://github.com/idchlife/@zero-bot.net/tg-bot-api-middleware): Middleware for @zero-bot.net/tg-bot-api
 * [teleirc](https://github.com/FruitieX/teleirc): A simple Telegram ↔ IRC gateway
 * [bot-brother](https://github.com/SerjoPepper/bot-brother): Node.js library to help you easily create telegram bots
 * [redbot](https://github.com/guidone/node-red-contrib-chatbot): A Node-RED plugin to create telegram bots visually
@@ -105,8 +105,8 @@ Some things built using this library that might interest you:
 ## 👥 Contributors
 
 <p align="center">
-  <a href="https://github.com/yagop/node-telegram-bot-api/graphs/contributors">
-    <img src="https://contrib.rocks/image?repo=yagop/node-telegram-bot-api" />
+  <a href="https://github.com/ZeroBot-net/tg-bot-api/graphs/contributors">
+    <img src="https://contrib.rocks/image?repo=ZeroBot-net/tg-bot-api" />
   </a>
 </p>
 
@@ -116,15 +116,15 @@ Some things built using this library that might interest you:
 
 Copyright © 2019 Yago
 
-[usage]:https://github.com/yagop/node-telegram-bot-api/tree/master/doc/usage.md
-[examples]:https://github.com/yagop/node-telegram-bot-api/tree/master/examples
-[help]:https://github.com/yagop/node-telegram-bot-api/tree/master/doc/help.md
-[tutorials]:https://github.com/yagop/node-telegram-bot-api/tree/master/doc/tutorials.md
-[api-dev]:https://github.com/yagop/node-telegram-bot-api/tree/master/doc/api.md
-[api-release]:https://github.com/yagop/node-telegram-bot-api/tree/release/doc/api.md
-[api-experimental]:https://github.com/yagop/node-telegram-bot-api/tree/experimental/doc/api.md
-[contributing]:https://github.com/yagop/node-telegram-bot-api/tree/master/CONTRIBUTING.md
-[contributors]:https://github.com/yagop/node-telegram-bot-api/graphs/contributors
-[experimental]:https://github.com/yagop/node-telegram-bot-api/tree/master/doc/experimental.md
+[usage]:https://github.com/ZeroBot-net/tg-bot-api/tree/master/doc/usage.md
+[examples]:https://github.com/ZeroBot-net/tg-bot-api/tree/master/examples
+[help]:https://github.com/ZeroBot-net/tg-bot-api/tree/master/doc/help.md
+[tutorials]:https://github.com/ZeroBot-net/tg-bot-api/tree/master/doc/tutorials.md
+[api-dev]:https://github.com/ZeroBot-net/tg-bot-api/tree/master/doc/api.md
+[api-release]:https://github.com/ZeroBot-net/tg-bot-api/tree/release/doc/api.md
+[api-experimental]:https://github.com/ZeroBot-net/tg-bot-api/tree/experimental/doc/api.md
+[contributing]:https://github.com/ZeroBot-net/tg-bot-api/tree/master/CONTRIBUTING.md
+[contributors]:https://github.com/ZeroBot-net/tg-bot-api/graphs/contributors
+[experimental]:https://github.com/ZeroBot-net/tg-bot-api/tree/master/doc/experimental.md
 [tg-channel]:https://telegram.me/node_telegram_bot_api
 [tg-group]:https://t.me/+nc3A9Hs1S81mYzdk

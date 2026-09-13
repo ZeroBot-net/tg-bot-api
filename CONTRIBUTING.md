@@ -12,7 +12,7 @@ Before proceeding any further, read the following documents:
 
 ### Creating a Github issue:
 
-1. Ensure that your issue does **not** already exist. [Do a search](https://github.com/yagop/node-telegram-bot-api/issues).
+1. Ensure that your issue does **not** already exist. [Do a search](https://github.com/ZeroBot-net/tg-bot-api/issues).
 2. Browse through [StackOverflow](https://stackoverflow.com/search?q=telegram+nodejs) and other similar platforms.
 3. Should you open your issue, ensure you use the English language for
    the wider target audience.
@@ -41,5 +41,5 @@ We use babel to transpile the code:
 $ npm run build
 ```
 
-[coc]:https://github.com/yagop/node-telegram-bot-api/blob/master/CODE_OF_CONDUCT.md
-[license]:https://github.com/yagop/node-telegram-bot-api/blob/master/LICENSE.md
+[coc]:https://github.com/ZeroBot-net/tg-bot-api/blob/master/CODE_OF_CONDUCT.md
+[license]:https://github.com/ZeroBot-net/tg-bot-api/blob/master/LICENSE.md

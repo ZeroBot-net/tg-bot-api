@@ -18,6 +18,6 @@ Add references to other documents/pages that are relevant to this
 PR, such as related issues, documentation, etc.
 
 For example,
-* Issue #1: https://github.com/yagop/node-telegram-bot-api/issues/1
+* Issue #1: https://github.com/ZeroBot-net/tg-bot-api/issues/1
 * Telegram Bot API - Getting updates: https://core.telegram.org/bots/api#getting-updates
 -->

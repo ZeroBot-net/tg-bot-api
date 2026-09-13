@@ -1,5 +1,5 @@
 {
-  "name": "node-telegram-bot-api",
+  "name": "@zero-bot.net/tg-bot-api",
   "version": "0.66.0",
   "description": "Telegram Bot API",
   "main": "./index.js",
@@ -65,10 +65,10 @@
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/yagop/node-telegram-bot-api.git"
+    "url": "https://github.com/ZeroBot-net/tg-bot-api.git"
   },
   "bugs": {
-    "url": "https://github.com/yagop/node-telegram-bot-api/issues"
+    "url": "https://github.com/ZeroBot-net/tg-bot-api/issues"
   },
   "homepage": "https://github.com/yagop/node-telegram-bot-api"
 }

@@ -17,8 +17,8 @@ Reporting a Bug.
 
 I have read:
 
-* [Usage information](https://github.com/yagop/node-telegram-bot-api/tree/master/doc/usage.md)
-* [Help information](https://github.com/yagop/node-telegram-bot-api/tree/master/doc/help.md)
+* [Usage information](https://github.com/ZeroBot-net/tg-bot-api/tree/master/doc/usage.md)
+* [Help information](https://github.com/ZeroBot-net/tg-bot-api/tree/master/doc/help.md)
 
 I am using the latest version of the library.
 
@@ -44,7 +44,7 @@ Feature Request.
 
 I have:
 
-* searched for such a feature request (https://github.com/yagop/node-telegram-bot-api/labels/enhancement) and found none
+* searched for such a feature request (https://github.com/ZeroBot-net/tg-bot-api/labels/enhancement) and found none
 
 ### Introduction
 

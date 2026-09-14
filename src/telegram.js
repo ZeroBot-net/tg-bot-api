@@ -1,23 +1,31 @@
-// shims
-require('array.prototype.findindex').shim(); // for Node.js v0.x
-
 const errors = require('./errors');
 const TelegramBotWebHook = require('./telegramWebHook');
 const TelegramBotPolling = require('./telegramPolling');
 const debug = require('debug')('@zero-bot.net/tg-bot-api');
 const EventEmitter = require('eventemitter3');
-const fileType = require('file-type');
+const { detectFileType, lookupMime } = require('./fileTypes');
 const requestBase = require('@zero-bot.net/request');
-const request = (options) => new Promise((resolve, reject) => {
-  requestBase(options, (err, response) => {
-    if (err) reject(err);
-    else resolve(response);
+const request = (options) => {
+  let underlying = null;
+  const promise = new Promise((resolve, reject) => {
+    underlying = requestBase(options, (err, response) => {
+      if (err) reject(err);
+      else resolve(response);
+    });
   });
-});
+  // Expose cancellation so polling (and any caller) can abort an in-flight
+  // request. Aborting surfaces through the callback as a rejection.
+  promise.cancel = (reason) => {
+    if (underlying && typeof underlying.abort === 'function') {
+      underlying.abort();
+    }
+    return reason;
+  };
+  return promise;
+};
 const streamedRequest = requestBase;
 const qs = require('querystring');
 const stream = require('stream');
-const mime = require('mime');
 const path = require('path');
 const URL = require('url');
 const fs = require('fs');
@@ -417,6 +425,13 @@ class TelegramBot extends EventEmitter {
         if (error.response) throw error;
         throw new errors.FatalError(error);
       });
+
+    // Keep cancellation available on the promise chain returned to callers.
+    if (typeof raw.cancel === 'function') {
+      promise.cancel = (reason) => raw.cancel(reason);
+    }
+
+    return promise;
   }
 
   /**
@@ -457,7 +472,7 @@ class TelegramBot extends EventEmitter {
         filename = 'data';
       }
       if (!contentType) {
-        const filetype = fileType(data);
+        const filetype = detectFileType(data);
         if (filetype) {
           contentType = filetype.mime;
           const ext = filetype.ext;
@@ -483,7 +498,7 @@ class TelegramBot extends EventEmitter {
     }
 
     filename = filename || 'filename';
-    contentType = contentType || mime.lookup(filename);
+    contentType = contentType || lookupMime(filename);
     if (process.env.NTBA_FIX_350) {
       contentType = contentType || 'application/octet-stream';
     } else {

@@ -3,7 +3,9 @@ const debug = require('debug')('@zero-bot.net/tg-bot-api');
 const https = require('https');
 const http = require('http');
 const fs = require('fs');
-const bl = require('bl');
+
+/** Default maximum accepted webhook body size (10 MiB). */
+const DEFAULT_MAX_BODY_SIZE = 10 * 1024 * 1024;
 
 class TelegramBotWebHook {
   /**
@@ -18,11 +20,13 @@ class TelegramBotWebHook {
     this.options.port = this.options.port || 8443;
     this.options.https = this.options.https || {};
     this.options.healthEndpoint = this.options.healthEndpoint || '/healthz';
+    this.options.maxBodySize = this.options.maxBodySize || DEFAULT_MAX_BODY_SIZE;
     this._healthRegex = new RegExp(this.options.healthEndpoint);
     this._webServer = null;
     this._open = false;
     this._requestListener = this._requestListener.bind(this);
     this._parseBody = this._parseBody.bind(this);
+    this._collectBody = this._collectBody.bind(this);
 
     if (this.options.key && this.options.cert) {
       debug('HTTPS WebHook enabled (by key/cert)');
@@ -105,6 +109,40 @@ class TelegramBotWebHook {
   }
 
   /**
+   * Buffer an incoming request body, enforcing the configured size limit.
+   * @private
+   * @param  {http.IncomingMessage} req
+   * @param  {Function} callback `(error, body)`
+   */
+  _collectBody(req, callback) {
+    const chunks = [];
+    let size = 0;
+    let done = false;
+
+    const finish = (error, body) => {
+      if (done) return;
+      done = true;
+      callback(error, body);
+    };
+
+    req.on('data', (chunk) => {
+      if (done) return undefined;
+      size += chunk.length;
+      if (size > this.options.maxBodySize) {
+        // Stop reading; the request listener answers with 413.
+        req.pause();
+        return finish(new errors.FatalError('WebHook request body exceeds maxBodySize'));
+      }
+      chunks.push(chunk);
+      return undefined;
+    });
+
+    req.on('end', () => finish(null, Buffer.concat(chunks)));
+    req.on('error', (error) => finish(error));
+    return undefined;
+  }
+
+  /**
    * Handle request body by passing it to 'callback'
    * @private
    */
@@ -139,9 +177,20 @@ class TelegramBotWebHook {
         res.statusCode = 418; // I'm a teabot!
         res.end();
       } else {
-        req
-          .pipe(bl(this._parseBody))
-          .on('finish', () => res.end('OK'));
+        this._collectBody(req, (error, body) => {
+          if (res.writableEnded) return undefined;
+          if (error) {
+            const tooLarge = /maxBodySize/.test(error.message);
+            debug('WebHook body rejected: %s', error.message);
+            res.statusCode = tooLarge ? 413 : 400;
+            res.setHeader('Connection', 'close');
+            res.end(tooLarge ? 'Payload Too Large' : 'Bad Request');
+            return undefined;
+          }
+          this._parseBody(null, body);
+          res.end('OK');
+          return undefined;
+        });
       }
     } else if (this._healthRegex.test(req.url)) {
       debug('WebHook health check passed');

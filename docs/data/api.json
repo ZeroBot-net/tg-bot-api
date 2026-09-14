@@ -5,8 +5,8 @@
       "signature": "on(event, listener)",
       "args": "event, listener",
       "category": "Events & listeners",
-      "description": "Add listener for the specified [event](https://github.com/ZeroBot-net/@zero-bot.net/tg-bot-api/blob/master/doc/usage.md#events). This is the usual `emitter.on()` method.",
-      "descriptionHtml": "Add listener for the specified <a href=\"https://github.com/ZeroBot-net/@zero-bot.net/tg-bot-api/blob/master/doc/usage.md#events\" target=\"_blank\" rel=\"noopener\">event</a>. This is the usual <code>emitter.on()</code> method.",
+      "description": "Add listener for the specified [event](https://github.com/ZeroBot-net/tg-bot-api/blob/master/doc/usage.md#events). This is the usual `emitter.on()` method.",
+      "descriptionHtml": "Add listener for the specified <a href=\"https://github.com/ZeroBot-net/tg-bot-api/blob/master/doc/usage.md#events\" target=\"_blank\" rel=\"noopener\">event</a>. This is the usual <code>emitter.on()</code> method.",
       "params": [
         {
           "name": "event",
@@ -114,7 +114,7 @@
       "args": "fileId, form = {}",
       "category": "Files",
       "description": "Get link for file. Use this method to get link for file for subsequent use. Attention: link will be valid for 1 hour. This method is a sugar extension of the (getFile)[#getfilefileid] method, which returns just path to file on remote server (you will have to manually build full uri after that).",
-      "descriptionHtml": "Get link for file. Use this method to get link for file for subsequent use. Attention: link will be valid for 1 hour. This method is a sugar extension of the (getFile)[#getfilefileid] method, which returns just path to file on remote server (you will have to manually build full uri after that).",
+      "descriptionHtml": "Get link for file. Use this method to get link for file for subsequent use. Attention: link will be valid for 1 hour. This method is a sugar extension of the (getFile)#getfilefileid method, which returns just path to file on remote server (you will have to manually build full uri after that).",
       "params": [
         {
           "name": "fileId",
@@ -395,7 +395,7 @@
       "args": "form = {}",
       "category": "Updates & webhooks",
       "description": "Use this method to receive incoming updates using long polling. This method has an [older, compatible signature][getUpdates-v0.25.0] that is being deprecated.",
-      "descriptionHtml": "Use this method to receive incoming updates using long polling. This method has an [older, compatible signature][getUpdates-v0.25.0] that is being deprecated.",
+      "descriptionHtml": "Use this method to receive incoming updates using long polling. This method has an older, compatible signature that is being deprecated.",
       "params": [
         {
           "name": "options",
@@ -415,7 +415,7 @@
       "args": "url, options = {}, fileOptions = {}",
       "category": "Updates & webhooks",
       "description": "Specify an url to receive incoming updates via an outgoing webHook. This method has an [older, compatible signature][setWebHook-v0.25.0] that is being deprecated.",
-      "descriptionHtml": "Specify an url to receive incoming updates via an outgoing webHook. This method has an [older, compatible signature][setWebHook-v0.25.0] that is being deprecated.",
+      "descriptionHtml": "Specify an url to receive incoming updates via an outgoing webHook. This method has an older, compatible signature that is being deprecated.",
       "params": [
         {
           "name": "url",
@@ -1074,8 +1074,8 @@
       "signature": "sendMediaGroup(chatId, media, options = {})",
       "args": "chatId, media, options = {}",
       "category": "Media",
-      "description": "Use this method to send a group of photos or videos as an album. **Documents and audio files can be only grouped in an album with messages of the same type** If you wish to [specify file options](https://github.com/ZeroBot-net/@zero-bot.net/tg-bot-api/blob/master/doc/usage.md#sending-files), add a `fileOptions` property to the target input in `media`. is returned.",
-      "descriptionHtml": "Use this method to send a group of photos or videos as an album. <strong>Documents and audio files can be only grouped in an album with messages of the same type</strong> If you wish to <a href=\"https://github.com/ZeroBot-net/@zero-bot.net/tg-bot-api/blob/master/doc/usage.md#sending-files\" target=\"_blank\" rel=\"noopener\">specify file options</a>, add a <code>fileOptions</code> property to the target input in <code>media</code>. is returned.",
+      "description": "Use this method to send a group of photos or videos as an album. **Documents and audio files can be only grouped in an album with messages of the same type** If you wish to [specify file options](https://github.com/ZeroBot-net/tg-bot-api/blob/master/doc/usage.md#sending-files), add a `fileOptions` property to the target input in `media`. is returned.",
+      "descriptionHtml": "Use this method to send a group of photos or videos as an album. <strong>Documents and audio files can be only grouped in an album with messages of the same type</strong> If you wish to <a href=\"https://github.com/ZeroBot-net/tg-bot-api/blob/master/doc/usage.md#sending-files\" target=\"_blank\" rel=\"noopener\">specify file options</a>, add a <code>fileOptions</code> property to the target input in <code>media</code>. is returned.",
       "params": [
         {
           "name": "chatId",
@@ -1436,7 +1436,7 @@
       "args": "userId, form = {}",
       "category": "Chat info & members",
       "description": "Use this method to get a list of profile pictures for a user. Returns a [UserProfilePhotos](https://core.telegram.org/bots/api#userprofilephotos) object. This method has an [older, compatible signature][getUserProfilePhotos-v0.25.0] that is being deprecated.",
-      "descriptionHtml": "Use this method to get a list of profile pictures for a user. Returns a <a href=\"https://core.telegram.org/bots/api#userprofilephotos\" target=\"_blank\" rel=\"noopener\">UserProfilePhotos</a> object. This method has an [older, compatible signature][getUserProfilePhotos-v0.25.0] that is being deprecated.",
+      "descriptionHtml": "Use this method to get a list of profile pictures for a user. Returns a <a href=\"https://core.telegram.org/bots/api#userprofilephotos\" target=\"_blank\" rel=\"noopener\">UserProfilePhotos</a> object. This method has an older, compatible signature that is being deprecated.",
       "params": [
         {
           "name": "userId",
@@ -2786,7 +2786,7 @@
       "args": "callbackQueryId, form = {}",
       "category": "Reactions & answers",
       "description": "Use this method to send answers to callback queries sent from [inline keyboards](https://core.telegram.org/bots#inline-keyboards-and-on-the-fly-updating). The answer will be displayed to the user as a notification at the top of the chat screen or as an alert. This method has **older, compatible signatures ([1][answerCallbackQuery-v0.27.1])([2][answerCallbackQuery-v0.29.0])** that are being deprecated.",
-      "descriptionHtml": "Use this method to send answers to callback queries sent from <a href=\"https://core.telegram.org/bots#inline-keyboards-and-on-the-fly-updating\" target=\"_blank\" rel=\"noopener\">inline keyboards</a>. The answer will be displayed to the user as a notification at the top of the chat screen or as an alert. This method has <strong>older, compatible signatures ([1][answerCallbackQuery-v0.27.1])([2][answerCallbackQuery-v0.29.0])</strong> that are being deprecated.",
+      "descriptionHtml": "Use this method to send answers to callback queries sent from <a href=\"https://core.telegram.org/bots#inline-keyboards-and-on-the-fly-updating\" target=\"_blank\" rel=\"noopener\">inline keyboards</a>. The answer will be displayed to the user as a notification at the top of the chat screen or as an alert. This method has <strong>older, compatible signatures (1)(2)</strong> that are being deprecated.",
       "params": [
         {
           "name": "callbackQueryId",

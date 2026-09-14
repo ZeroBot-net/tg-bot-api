@@ -24,7 +24,6 @@ class TelegramBotPolling {
     this._lastUpdate = 0;
     this._lastRequest = null;
     this._currentRequest = null;
-    this._abort = false;
     this._pollingTimeout = null;
   }
 
@@ -72,10 +71,9 @@ class TelegramBotPolling {
       }
       return Promise.resolve();
     }
-    this._abort = true;
-    return lastRequest.finally(() => {
-      this._abort = false;
-    });
+    // Graceful stop: let the in-flight request settle. The identity check in
+    // _polling() prevents the loop from rescheduling.
+    return lastRequest.then(() => undefined, () => undefined);
   }
 
   /**
@@ -167,7 +165,10 @@ class TelegramBotPolling {
         });
       })
       .finally(() => {
-        if (this._abort) {
+        // stop()/restart nulls or replaces _currentRequest. If this chain is no
+        // longer the active one, do not schedule another poll — otherwise
+        // stop() left an orphan poller running, causing getUpdates 409s.
+        if (this._currentRequest !== currentRequest) {
           debug('Polling is aborted!');
         } else {
           debug('setTimeout for %s miliseconds', this.options.interval);
@@ -193,15 +194,21 @@ class TelegramBotPolling {
    */
   _getUpdates() {
     debug('polling with options: %j', this.options.params);
-    return this.bot.getUpdates(this.options.params)
-      .catch(err => {
-        if (err.response && err.response.statusCode === ANOTHER_WEB_HOOK_USED) {
-          return this._unsetWebHook().then(() => {
-            return this.bot.getUpdates(this.options.params);
-          });
-        }
-        throw err;
-      });
+    const request = this.bot.getUpdates(this.options.params);
+    const pipeline = request.catch(err => {
+      if (err.response && err.response.statusCode === ANOTHER_WEB_HOOK_USED) {
+        return this._unsetWebHook().then(() => {
+          return this.bot.getUpdates(this.options.params);
+        });
+      }
+      throw err;
+    });
+    // A `.catch()` returns a new promise, which drops `.cancel()`. Re-attach it
+    // so stop({ cancel: true }) can actually abort the in-flight request.
+    if (typeof request.cancel === 'function') {
+      pipeline.cancel = (reason) => request.cancel(reason);
+    }
+    return pipeline;
   }
 }
 

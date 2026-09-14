@@ -44,6 +44,28 @@ describe('polling', () => {
     assert.equal(bot.isPolling(), false);
   });
 
+  it('stop({ cancel: true }) cancels the request and does not restart the loop', async () => {
+    let calls = 0;
+    let cancelled = 0;
+    bot.getUpdates = () => {
+      calls += 1;
+      const request = new Promise((resolve) => setTimeout(() => resolve([]), 400));
+      request.cancel = () => { cancelled += 1; };
+      return request;
+    };
+
+    await bot.startPolling();
+    await sleep(30);
+    const started = calls;
+
+    await bot.stopPolling({ cancel: true });
+    assert.equal(cancelled, 1, 'cancel() should reach the in-flight request');
+
+    await sleep(600); // longer than the in-flight poll
+    assert.equal(calls, started, 'polling must not restart after stop()');
+    assert.equal(bot.isPolling(), false);
+  });
+
   it('dispatches updates to listeners while polling', async () => {
     let received = null;
     bot.on('message', (msg) => { received = msg; });

@@ -33,17 +33,29 @@ const escapeHtml = (s) => String(s)
   .replace(/</g, '&lt;')
   .replace(/>/g, '&gt;');
 
-function inline(text) {
+function inline(text, refs = {}) {
   const codes = [];
   let out = escapeHtml(text);
   out = out.replace(/`([^`]+)`/g, (_, code) => {
     codes.push(code);
     return `\u0000${codes.length - 1}\u0000`;
   });
-  out = out.replace(/\[([^\]]+)\]\(([^)\s]+)\)/g, (_, label, href) => {
+  const link = (label, href) => {
     const external = /^https?:/.test(href);
     const attrs = external ? ' target="_blank" rel="noopener"' : '';
     return `<a href="${href}"${attrs}>${label}</a>`;
+  };
+  out = out.replace(/\[([^\]]+)\]\(([^)\s]+)\)/g, (_, label, href) => link(label, href));
+  // Reference-style links: `[label][ref]`, then bare `[label]` that resolves to
+  // a definition elsewhere in the document. Unresolved references degrade to
+  // their label so bracket syntax never leaks into the rendered page.
+  out = out.replace(/\[([^\]]+)\]\[([^\]]*)\]/g, (match, label, ref) => {
+    const href = refs[ref || label];
+    return href ? link(label, href) : label;
+  });
+  out = out.replace(/\[([^\]]+)\]/g, (match, label) => {
+    const href = refs[label];
+    return href ? link(label, href) : label;
   });
   out = out.replace(/\*\*([^*]+)\*\*/g, '<strong>$1</strong>');
   out = out.replace(/(^|[^*])\*([^*\n]+)\*/g, '$1<em>$2</em>');
@@ -51,8 +63,17 @@ function inline(text) {
   return out;
 }
 
-function mdToHtml(markdown) {
-  const lines = markdown.replace(/\r\n?/g, '\n').split('\n');
+function mdToHtml(markdown, inheritedRefs = {}) {
+  let lines = markdown.replace(/\r\n?/g, '\n').split('\n');
+  // Collect reference-style link definitions and drop them from the body so
+  // they do not render as a stray paragraph of URLs at the end of a page.
+  const refs = Object.assign({}, inheritedRefs);
+  lines = lines.filter((line) => {
+    const def = /^\[([^\]]+)\]:\s*(\S+)\s*$/.exec(line);
+    if (!def) return true;
+    refs[def[1]] = def[2];
+    return false;
+  });
   const out = [];
   let i = 0;
 
@@ -80,7 +101,7 @@ function mdToHtml(markdown) {
     if (heading) {
       const level = heading[1].length;
       const text = heading[2].replace(/\s+#+\s*$/, '');
-      out.push(`<h${level}>${inline(text)}</h${level}>`);
+      out.push(`<h${level}>${inline(text, refs)}</h${level}>`);
       i += 1;
       continue;
     }
@@ -105,9 +126,9 @@ function mdToHtml(markdown) {
         i += 1;
       }
       out.push('<div class="table-wrap"><table><thead><tr>'
-        + head.map((c) => `<th>${inline(c)}</th>`).join('')
+        + head.map((c) => `<th>${inline(c, refs)}</th>`).join('')
         + '</tr></thead><tbody>'
-        + rows.map((r) => `<tr>${r.map((c) => `<td>${inline(c)}</td>`).join('')}</tr>`).join('')
+        + rows.map((r) => `<tr>${r.map((c) => `<td>${inline(c, refs)}</td>`).join('')}</tr>`).join('')
         + '</tbody></table></div>');
       continue;
     }
@@ -119,7 +140,7 @@ function mdToHtml(markdown) {
         buffer.push(lines[i].replace(/^>\s?/, ''));
         i += 1;
       }
-      out.push(`<blockquote>${mdToHtml(buffer.join('\n'))}</blockquote>`);
+      out.push(`<blockquote>${mdToHtml(buffer.join('\n'), refs)}</blockquote>`);
       continue;
     }
 
@@ -156,8 +177,8 @@ function mdToHtml(markdown) {
       }
       const tag = ordered ? 'ol' : 'ul';
       out.push(`<${tag}>${items.map((item) => {
-        const nested = item.nested.length ? mdToHtml(item.nested.join('\n')) : '';
-        return `<li>${inline(item.text)}${nested}</li>`;
+        const nested = item.nested.length ? mdToHtml(item.nested.join('\n'), refs) : '';
+        return `<li>${inline(item.text, refs)}${nested}</li>`;
       }).join('')}</${tag}>`);
       continue;
     }
@@ -173,7 +194,7 @@ function mdToHtml(markdown) {
       paragraph.push(lines[i]);
       i += 1;
     }
-    out.push(`<p>${inline(paragraph.join(' '))}</p>`);
+    out.push(`<p>${inline(paragraph.join(' '), refs)}</p>`);
   }
 
   return out.join('\n');

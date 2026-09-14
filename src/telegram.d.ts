@@ -2740,6 +2740,14 @@ export interface WebHookOptions {
   https?: https.ServerOptions;
   /** An endpoint for health checks that always responds with 200 OK. Default: '/healthz'. */
   healthEndpoint?: string;
+  /** Maximum accepted request body size in bytes. Default: 10 MiB. */
+  maxBodySize?: number;
+  /**
+   * Secret token required in the `X-Telegram-Bot-Api-Secret-Token` header.
+   * Set the same value as the `secret_token` passed to `setWebHook()`; requests
+   * without it are rejected with 403.
+   */
+  secretToken?: string;
 }
 
 /** Common query options passed to most API methods. */
@@ -3961,7 +3969,10 @@ export default class TelegramBot extends EventEmitter {
    * Get custom emoji stickers for forum topic icons.
    * @see https://core.telegram.org/bots/api#getforumtopiciconstickers
    */
-  getForumTopicIconStickers(chatId?: number | string, form?: FormQueryOptions): Promise<Sticker[]>;
+  getForumTopicIconStickers(
+    chatIdOrOptions?: number | string | FormQueryOptions,
+    form?: FormQueryOptions,
+  ): Promise<Sticker[]>;
 
   /**
    * Create a topic in a forum supergroup chat.
@@ -4831,22 +4842,21 @@ export default class TelegramBot extends EventEmitter {
 
   /**
    * Send a checklist on behalf of a managed business account.
+   *
+   * Accepts either a single `checklist` object or the legacy `(title, tasks)`
+   * pair — the Bot API expects one JSON `checklist` parameter.
    * @see https://core.telegram.org/bots/api#sendchecklist
    */
   sendChecklist(
     businessConnectionId: string,
+    checklist: { title: string; tasks: InputChecklistTask[] },
+    form?: FormQueryOptions,
+  ): Promise<Message>;
+  sendChecklist(
+    businessConnectionId: string,
     title: string,
     tasks: InputChecklistTask[],
-    form?: {
-      others_can_add_tasks?: boolean;
-      others_can_mark_tasks_as_done?: boolean;
-      business_connection_id?: string;
-      message_thread_id?: Integer;
-      disable_notification?: boolean;
-      protect_content?: boolean;
-      reply_parameters?: ReplyParameters;
-      reply_markup?: InlineKeyboardMarkup;
-    },
+    form?: FormQueryOptions,
   ): Promise<Message>;
 
   /**

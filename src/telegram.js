@@ -389,11 +389,24 @@ class TelegramBot extends EventEmitter {
       'web_app',
       'photo',
       'tasks',
+      'checklist',
       'reaction_type',
       'restricted_channels',
       'target_business_connection_ids',
       'accepted_gift_types',
       'link_preview_options',
+      // Arrays / objects accepted directly by many methods. Kept here so both
+      // `form` and `qs` requests serialize them, instead of relying on each
+      // method to remember an explicit stringify().
+      'allowed_updates',
+      'permissions',
+      'menu_button',
+      'rights',
+      'provider_data',
+      'suggested_tip_amounts',
+      'entities',
+      'caption_entities',
+      'explanation_entities',
     ];
     for (const field of jsonFields) {
       // Skip null/undefined: `stringify(null)` would produce the string "null" and
@@ -415,6 +428,29 @@ class TelegramBot extends EventEmitter {
    * @private
    * @return {Promise}
    */
+  /**
+   * Apply the JSON/entity/reply-markup fixes to a request's `form` and `qs`
+   * before it is sent. Extracted so it can be exercised without doing I/O.
+   * @param  {Object} options Request options
+   * @return {Object} The same options object
+   * @private
+   */
+  _preprocessOptions(options) {
+    if (options.form) {
+      this._fixReplyMarkup(options.form);
+      this._fixEntitiesField(options.form);
+      this._fixReplyParameters(options.form);
+      this._fixJsonFields(options.form);
+    }
+    if (options.qs) {
+      this._fixReplyMarkup(options.qs);
+      this._fixEntitiesField(options.qs);
+      this._fixReplyParameters(options.qs);
+      this._fixJsonFields(options.qs);
+    }
+    return options;
+  }
+
   _request(_path, options = {}) {
     if (!this.token) {
       return Promise.reject(new errors.FatalError('Telegram Bot Token not provided!'));
@@ -424,17 +460,7 @@ class TelegramBot extends EventEmitter {
       Object.assign(options, this.options.request);
     }
 
-    if (options.form) {
-      this._fixReplyMarkup(options.form);
-      this._fixEntitiesField(options.form);
-      this._fixReplyParameters(options.form);
-      this._fixJsonFields(options.form);
-    }
-    if (options.qs) {
-      this._fixReplyMarkup(options.qs);
-      this._fixReplyParameters(options.qs);
-      this._fixJsonFields(options.qs);
-    }
+    this._preprocessOptions(options);
 
     options.method = 'POST';
     options.url = this._buildURL(_path);
@@ -2216,8 +2242,10 @@ class TelegramBot extends EventEmitter {
    * @see https://core.telegram.org/bots/api#getforumtopiciconstickers
    */
   getForumTopicIconStickers(chatId, form = {}) {
-    form.chat_id = chatId;
-    return this._request('getForumTopicIconStickers', { form });
+    // This method takes no parameters. `chatId` is kept for backwards
+    // compatibility; an object first argument is treated as the options.
+    const options = (chatId && typeof chatId === 'object') ? chatId : form;
+    return this._request('getForumTopicIconStickers', { form: options });
   }
 
   /**
@@ -2404,7 +2432,7 @@ class TelegramBot extends EventEmitter {
    */
   unpinAllGeneralForumTopicMessages(chatId, form = {}) {
     form.chat_id = chatId;
-    return this._request('unhideGeneralForumTopic', { form });
+    return this._request('unpinAllGeneralForumTopicMessages', { form });
   }
 
   /**
@@ -2459,9 +2487,9 @@ class TelegramBot extends EventEmitter {
    * @return {Promise} On success, returns a [UserChatBoosts](https://core.telegram.org/bots/api#userchatboosts) object
    * @see https://core.telegram.org/bots/api#getuserchatboosts
    */
-  getUserChatBoosts(chatId, pollId, form = {}) {
+  getUserChatBoosts(chatId, userId, form = {}) {
     form.chat_id = chatId;
-    form.message_id = pollId;
+    form.user_id = userId;
     return this._request('getUserChatBoosts', { form });
   }
 
@@ -2967,7 +2995,7 @@ class TelegramBot extends EventEmitter {
     form.user_id = userId;
     form.name = name;
     form.old_sticker = oldSticker;
-    return this._request('deleteStickerFromSet', { form });
+    return this._request('replaceStickerInSet', { form });
   }
 
 
@@ -3824,12 +3852,18 @@ class TelegramBot extends EventEmitter {
    * @return {Promise} On success, the sent Message is returned
    * @see https://core.telegram.org/bots/api#sendchecklist
    */
-  sendChecklist(businessConnectionId, title, tasks, form = {}) {
+  sendChecklist(businessConnectionId, checklist, tasksOrForm = {}, maybeForm = {}) {
     if (!businessConnectionId) return Promise.reject(new Error('businessConnectionId is required'));
-    if (!title) return Promise.reject(new Error('title is required'));
+    // The Bot API expects a single JSON `checklist` object. Accept either
+    // (businessConnectionId, { title, tasks }) or (businessConnectionId, title, tasks).
+    const split = Array.isArray(tasksOrForm);
+    const checklistObject = split ? { title: checklist, tasks: tasksOrForm } : checklist;
+    const form = (split ? maybeForm : tasksOrForm) || {};
+    if (!checklistObject || !checklistObject.title) {
+      return Promise.reject(new Error('checklist.title is required'));
+    }
     form.business_connection_id = businessConnectionId;
-    form.title = title;
-    form.tasks = stringify(tasks);
+    form.checklist = stringify(checklistObject);
     return this._request('sendChecklist', { form });
   }
 

@@ -366,7 +366,13 @@ class TelegramBot extends EventEmitter {
       'link_preview_options',
     ];
     for (const field of jsonFields) {
-      if (obj.hasOwnProperty(field) && typeof obj[field] !== 'string') {
+      // Skip null/undefined: `stringify(null)` would produce the string "null" and
+      // corrupt sentinel values such as `photo: null` set by sendPhoto() when
+      // uploading a Buffer/Stream (Telegram would then treat it as a file_id).
+      if (obj.hasOwnProperty(field)
+        && obj[field] !== null
+        && obj[field] !== undefined
+        && typeof obj[field] !== 'string') {
         obj[field] = stringify(obj[field]);
       }
     }

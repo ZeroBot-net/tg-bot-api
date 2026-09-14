@@ -34,7 +34,7 @@
   "author": "ZeroBot",
   "license": "MIT",
   "engines": {
-    "node": ">=14"
+    "node": ">=18"
   },
   "dependencies": {
     "@zero-bot.net/request": "^1.2.1",

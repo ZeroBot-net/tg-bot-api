@@ -4,6 +4,15 @@ All notable changes to this project will be documented in this file.
 This project adheres to [Semantic Versioning](http://semver.org/).
 
 
+## [1.5.3] - 2026-09-14
+
+### Changed
+- Documentation only: the README now advertises the correct method count
+  (203), and every documentation link points at the real repository
+  (`github.com/ZeroBot-net/tg-bot-api`) instead of the upstream fork path.
+  No library code changed.
+
+
 ## [1.5.2] - 2026-09-14
 
 ### Fixed
@@ -587,6 +596,7 @@ Fixed:
 [0.28.0]:https://github.com/ZeroBot-net/tg-bot-api/releases/tag/v0.28.0
 [0.29.0]:https://github.com/ZeroBot-net/tg-bot-api/releases/tag/v0.29.0
 [0.30.0]:https://github.com/ZeroBot-net/tg-bot-api/releases/tag/v0.30.0
+[1.5.3]:https://github.com/ZeroBot-net/tg-bot-api/releases/tag/v1.5.3
 [1.5.2]:https://github.com/ZeroBot-net/tg-bot-api/releases/tag/v1.5.2
 [1.5.1]:https://github.com/ZeroBot-net/tg-bot-api/releases/tag/v1.5.1
 [1.5.0]:https://github.com/ZeroBot-net/tg-bot-api/releases/tag/v1.5.0

@@ -4,7 +4,7 @@ All notable changes to this project will be documented in this file.
 This project adheres to [Semantic Versioning](http://semver.org/).
 
 
-## [Unreleased]
+## [1.5.0] - 2026-09-14
 
 ### Fixed
 - **Critical:** removed the ESM-only `bl`, `file-type` and `mime` dependencies

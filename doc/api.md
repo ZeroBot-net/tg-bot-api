@@ -200,7 +200,7 @@ TelegramBot
         * [.replaceManagedBotToken(botId, [options])](#TelegramBot+replaceManagedBotToken) ⇒ <code>Promise</code>
         * [.savePreparedKeyboardButton(button, [options])](#TelegramBot+savePreparedKeyboardButton) ⇒ <code>Promise</code>
         * [.answerGuestQuery(guestQueryId, text, [options])](#TelegramBot+answerGuestQuery) ⇒ <code>Promise</code>
-        * [.deleteAllMessageReactions(chatId, messageId, [options])](#TelegramBot+deleteAllMessageReactions) ⇒ <code>Promise</code>
+        * [.deleteAllMessageReactions(chatId, [options])](#TelegramBot+deleteAllMessageReactions) ⇒ <code>Promise</code>
         * [.deleteMessageReaction(chatId, messageId, [options])](#TelegramBot+deleteMessageReaction) ⇒ <code>Promise</code>
         * [.sendLivePhoto(chatId, photo, video, [options], [fileOptions])](#TelegramBot+sendLivePhoto) ⇒ <code>Promise</code>
         * [.getManagedBotAccessSettings([options])](#TelegramBot+getManagedBotAccessSettings) ⇒ <code>Promise</code>
@@ -3227,18 +3227,17 @@ Use this method to answer a guest query in a Telegram Web App.
 
 <a name="TelegramBot+deleteAllMessageReactions"></a>
 
-### telegramBot.deleteAllMessageReactions(chatId, messageId, [options]) ⇒ <code>Promise</code>
+### telegramBot.deleteAllMessageReactions(chatId, [options]) ⇒ <code>Promise</code>
 Use this method to remove multiple reactions from a message.
 
 **Kind**: instance method of [<code>TelegramBot</code>](#TelegramBot)  
 **Returns**: <code>Promise</code> - True on success  
-**See**: https://core.telegram.org/bots/api#deletemessagereactions  
+**See**: https://core.telegram.org/bots/api#deleteallmessagereactions  
 
 | Param | Type | Description |
 | --- | --- | --- |
 | chatId | <code>Number</code> \| <code>String</code> | Unique identifier for the target chat or username of the target channel (in the format `@channelusername`) |
-| messageId | <code>Number</code> | Unique identifier of the target message |
-| [options] | <code>Object</code> | Additional Telegram query options |
+| [options] | <code>Number</code> \| <code>Object</code> | Identifier of the user whose reactions are removed, or an options object (`user_id`/`actor_chat_id`) |
 
 <a name="TelegramBot+deleteMessageReaction"></a>
 

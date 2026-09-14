@@ -4043,14 +4043,15 @@ class TelegramBot extends EventEmitter {
    * Use this method to remove multiple reactions from a message.
    *
    * @param  {Number|String} chatId Unique identifier for the target chat or username of the target channel (in the format `@channelusername`)
-   * @param  {Number} messageId Unique identifier of the target message
-   * @param  {Object} [options] Additional Telegram query options
+   * @param  {Number|Object} [options] Identifier of the user whose reactions are removed, or an options object (`user_id`/`actor_chat_id`)
    * @return {Promise} True on success
-   * @see https://core.telegram.org/bots/api#deletemessagereactions
+   * @see https://core.telegram.org/bots/api#deleteallmessagereactions
    */
-  deleteAllMessageReactions(chatId, messageId, form = {}) {
+  deleteAllMessageReactions(chatId, options = {}) {
+    const form = (typeof options === 'number' || typeof options === 'string')
+      ? { user_id: options }
+      : options;
     form.chat_id = chatId;
-    form.message_id = messageId;
     return this._request('deleteAllMessageReactions', { form });
   }
 
@@ -4245,12 +4246,48 @@ class TelegramBot extends EventEmitter {
    * @return {Promise} On success, the edited Message object is returned
    * @see https://core.telegram.org/bots/api#editephemeralmessagemedia
    */
-  editEphemeralMessageMedia(chatId, ephemeralMessageId, media, form = {}, fileOptions = {}) {
+  editEphemeralMessageMedia(chatId, ephemeralMessageId, media, form = {}) {
     if (!chatId) return Promise.reject(new Error('chatId is required'));
     if (!ephemeralMessageId) return Promise.reject(new Error('ephemeralMessageId is required'));
+
+    const regexAttach = /attach:\/\/.+/;
+
+    if (typeof media.media === 'string' && regexAttach.test(media.media)) {
+      const opts = { qs: form };
+      opts.formData = {};
+
+      const payload = Object.assign({}, media);
+      delete payload.media;
+
+      try {
+        const attachName = String(0);
+        const [formData] = this._formatSendData(
+          attachName,
+          media.media.replace('attach://', ''),
+          media.fileOptions
+        );
+
+        if (formData) {
+          opts.formData[attachName] = formData[attachName];
+          payload.media = `attach://${attachName}`;
+        } else {
+          throw new errors.FatalError(`Failed to process the replacement action for your ${media.type}`);
+        }
+      } catch (ex) {
+        return Promise.reject(ex);
+      }
+
+      opts.qs.chat_id = chatId;
+      opts.qs.ephemeral_message_id = ephemeralMessageId;
+      opts.qs.media = stringify(payload);
+
+      return this._request('editEphemeralMessageMedia', opts);
+    }
+
     form.chat_id = chatId;
     form.ephemeral_message_id = ephemeralMessageId;
     form.media = stringify(media);
+
     return this._request('editEphemeralMessageMedia', { form });
   }
 

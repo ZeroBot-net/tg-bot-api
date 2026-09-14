@@ -4999,10 +4999,17 @@ export default class TelegramBot extends EventEmitter {
   answerGuestQuery(guestQueryId: string, text: string, form?: FormQueryOptions): Promise<boolean>;
 
   /**
-   * Remove multiple reactions from a message.
-   * @see https://core.telegram.org/bots/api#deletemessagereactions
+   * Remove up to 10000 recent reactions in a group or supergroup added by a
+   * given user or chat.
+   *
+   * Pass the user id positionally, or an options object with `user_id` and/or
+   * `actor_chat_id`.
+   * @see https://core.telegram.org/bots/api#deleteallmessagereactions
    */
-  deleteAllMessageReactions(chatId: number | string, messageId: number, form?: FormQueryOptions): Promise<boolean>;
+  deleteAllMessageReactions(
+    chatId: number | string,
+    userIdOrOptions?: number | string | FormQueryOptions,
+  ): Promise<boolean>;
 
   /**
    * Remove a reaction from a message.

@@ -2809,8 +2809,8 @@
     },
     {
       "name": "getUserChatBoosts",
-      "signature": "getUserChatBoosts(chatId, pollId, form = {})",
-      "args": "chatId, pollId, form = {}",
+      "signature": "getUserChatBoosts(chatId, userId, form = {})",
+      "args": "chatId, userId, form = {}",
       "category": "Chat info & members",
       "description": "Use this method to get the list of boosts added to a chat by a use. Requires administrator rights in the chat",
       "descriptionHtml": "Use this method to get the list of boosts added to a chat by a use. Requires administrator rights in the chat",
@@ -5299,8 +5299,8 @@
     },
     {
       "name": "sendChecklist",
-      "signature": "sendChecklist(businessConnectionId, title, tasks, form = {})",
-      "args": "businessConnectionId, title, tasks, form = {}",
+      "signature": "sendChecklist(businessConnectionId, checklist, tasksOrForm = {}, maybeForm = {})",
+      "args": "businessConnectionId, checklist, tasksOrForm = {}, maybeForm = {}",
       "category": "Messages",
       "description": "Use this method to send a checklist on behalf of a managed business account.",
       "descriptionHtml": "Use this method to send a checklist on behalf of a managed business account.",

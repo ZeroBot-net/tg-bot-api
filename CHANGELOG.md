@@ -4,6 +4,35 @@ All notable changes to this project will be documented in this file.
 This project adheres to [Semantic Versioning](http://semver.org/).
 
 
+## [Unreleased]
+
+### Fixed
+- `replaceStickerInSet()` called the `deleteStickerFromSet` endpoint — it now
+  calls `replaceStickerInSet`.
+- `unpinAllGeneralForumTopicMessages()` called `unhideGeneralForumTopic` — it now
+  calls the matching endpoint.
+- `getUserChatBoosts()` sent `message_id` instead of `user_id`.
+- `sendChecklist()` now sends a single JSON `checklist` object (the API rejects
+  the previous `title`+`tasks` pair with "parameter checklist is required").
+- Structured parameters are now serialized for every method that accepts them,
+  not just the ones that remembered: `permissions`, `allowed_updates`,
+  `menu_button`, `rights`, `provider_data`, `suggested_tip_amounts`, and
+  `entities`/`caption_entities`/`explanation_entities` (including the `qs` path
+  used by all file uploads).
+- Webhook server now verifies Telegram's `X-Telegram-Bot-Api-Secret-Token`
+  header (`webHook.secretToken`) and rejects mismatches with 403; the health
+  endpoint is matched exactly instead of as a substring.
+- Constructor no longer mutates the caller's options object (and neither do the
+  polling/webhook sub-options).
+- `getFileStream()` no longer swallows download errors, and no longer throws an
+  uncaught `'error'` event when the consumer is not listening.
+
+### Changed
+- `getForumTopicIconStickers()` no longer requires a `chatId` (the API takes no
+  parameters).
+- Extracted `_preprocessOptions()` so request serialization is testable.
+
+
 ## [1.5.1] - 2026-09-14
 
 ### Fixed

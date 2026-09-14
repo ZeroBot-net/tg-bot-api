@@ -15,13 +15,20 @@ class TelegramBotWebHook {
    */
   constructor(bot) {
     this.bot = bot;
-    this.options = (typeof bot.options.webHook === 'boolean') ? {} : bot.options.webHook;
+    // Clone so defaulting does not mutate the caller's options.
+    this.options = (typeof bot.options.webHook === 'boolean') ? {} : Object.assign({}, bot.options.webHook);
     this.options.host = this.options.host || '0.0.0.0';
     this.options.port = this.options.port || 8443;
     this.options.https = this.options.https || {};
     this.options.healthEndpoint = this.options.healthEndpoint || '/healthz';
     this.options.maxBodySize = this.options.maxBodySize || DEFAULT_MAX_BODY_SIZE;
-    this._healthRegex = new RegExp(this.options.healthEndpoint);
+    // Telegram sends this back in `X-Telegram-Bot-Api-Secret-Token`; when set we
+    // reject any request that does not present it.
+    this.options.secretToken = this.options.secretToken || this.options.secret_token || '';
+    // Exact path match — a substring regex would answer health checks for any
+    // URL that merely contains the endpoint.
+    const healthPath = String(this.options.healthEndpoint).replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+    this._healthRegex = new RegExp(`^${healthPath}/?$`);
     this._webServer = null;
     this._open = false;
     this._requestListener = this._requestListener.bind(this);
@@ -171,36 +178,49 @@ class TelegramBotWebHook {
     debug('WebHook request URL: %s', req.url);
     debug('WebHook request headers: %j', req.headers);
 
-    if (req.url.indexOf(this.bot.token) !== -1) {
-      if (req.method !== 'POST') {
-        debug('WebHook request isn\'t a POST');
-        res.statusCode = 418; // I'm a teabot!
-        res.end();
-      } else {
-        this._collectBody(req, (error, body) => {
-          if (res.writableEnded) return undefined;
-          if (error) {
-            const tooLarge = /maxBodySize/.test(error.message);
-            debug('WebHook body rejected: %s', error.message);
-            res.statusCode = tooLarge ? 413 : 400;
-            res.setHeader('Connection', 'close');
-            res.end(tooLarge ? 'Payload Too Large' : 'Bad Request');
-            return undefined;
-          }
-          this._parseBody(null, body);
-          res.end('OK');
-          return undefined;
-        });
-      }
-    } else if (this._healthRegex.test(req.url)) {
+    if (this._healthRegex.test(req.url)) {
       debug('WebHook health check passed');
       res.statusCode = 200;
       res.end('OK');
-    } else {
+      return;
+    }
+
+    if (req.url.indexOf(this.bot.token) === -1) {
       debug('WebHook request unauthorized');
       res.statusCode = 401;
       res.end();
+      return;
     }
+
+    if (req.method !== 'POST') {
+      debug('WebHook request isn\'t a POST');
+      res.statusCode = 418; // I'm a teabot!
+      res.end();
+      return;
+    }
+
+    if (this.options.secretToken
+      && req.headers['x-telegram-bot-api-secret-token'] !== this.options.secretToken) {
+      debug('WebHook secret token mismatch');
+      res.statusCode = 403;
+      res.end();
+      return;
+    }
+
+    this._collectBody(req, (error, body) => {
+      if (res.writableEnded) return undefined;
+      if (error) {
+        const tooLarge = /maxBodySize/.test(error.message);
+        debug('WebHook body rejected: %s', error.message);
+        res.statusCode = tooLarge ? 413 : 400;
+        res.setHeader('Connection', 'close');
+        res.end(tooLarge ? 'Payload Too Large' : 'Bad Request');
+        return undefined;
+      }
+      this._parseBody(null, body);
+      res.end('OK');
+      return undefined;
+    });
   }
 }
 

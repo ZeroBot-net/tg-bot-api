@@ -12,9 +12,12 @@ class TelegramBotPolling {
    */
   constructor(bot) {
     this.bot = bot;
-    this.options = (typeof bot.options.polling === 'boolean') ? {} : bot.options.polling;
+    // Clone so defaulting does not mutate the caller's options.
+    this.options = (typeof bot.options.polling === 'boolean') ? {} : Object.assign({}, bot.options.polling);
     this.options.interval = (typeof this.options.interval === 'number') ? this.options.interval : 300;
-    this.options.params = (typeof this.options.params === 'object') ? this.options.params : {};
+    this.options.params = (typeof this.options.params === 'object')
+      ? Object.assign({}, this.options.params)
+      : {};
     this.options.params.offset = (typeof this.options.params.offset === 'number') ? this.options.params.offset : 0;
     this.options.params.timeout = (typeof this.options.params.timeout === 'number') ? this.options.params.timeout : 10;
     if (typeof this.options.timeout === 'number') {

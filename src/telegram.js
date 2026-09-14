@@ -245,7 +245,8 @@ class TelegramBot extends EventEmitter {
   constructor(token, options = {}) {
     super();
     this.token = token;
-    this.options = options;
+    // Work on a shallow copy so defaulting never mutates the caller's object.
+    this.options = Object.assign({}, options);
     this.options.polling = (typeof options.polling === 'undefined') ? false : options.polling;
     this.options.webHook = (typeof options.webHook === 'undefined') ? false : options.webHook;
     this.options.baseApiUrl = options.baseApiUrl || 'https://api.telegram.org';
@@ -662,16 +663,25 @@ class TelegramBot extends EventEmitter {
   getFileStream(fileId, form = {}) {
     const fileStream = new stream.PassThrough();
     fileStream.path = fileId;
+    // Emitting 'error' with no listener throws; surface the failure when the
+    // consumer is listening, otherwise log it instead of crashing the process.
+    const fail = (error) => {
+      if (fileStream.listenerCount('error') > 0) fileStream.emit('error', error);
+      else debug('getFileStream error: %s', error.message);
+    };
     this.getFileLink(fileId, form)
       .then((fileURI) => {
         fileStream.emit('info', {
           uri: fileURI,
         });
-        pump(streamedRequest(Object.assign({ uri: fileURI }, this.options.request)), fileStream);
+        // pump() swallows its callback by default, so failures were silent.
+        pump(
+          streamedRequest(Object.assign({ uri: fileURI }, this.options.request)),
+          fileStream,
+          (error) => { if (error) fail(error); }
+        );
       })
-      .catch((error) => {
-        fileStream.emit('error', error);
-      });
+      .catch(fail);
     return fileStream;
   }
 
@@ -985,7 +995,7 @@ class TelegramBot extends EventEmitter {
       debug('Process Update my_chat_member %j', myChatMember);
       this.emit('my_chat_member', myChatMember);
     } else if (chatJoinRequest) {
-      debug('Process Update my_chat_member %j', chatJoinRequest);
+      debug('Process Update chat_join_request %j', chatJoinRequest);
       this.emit('chat_join_request', chatJoinRequest);
     } else if (chatBoost) {
       debug('Process Update chat_boost %j', chatBoost);

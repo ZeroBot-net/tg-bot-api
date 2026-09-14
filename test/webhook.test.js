@@ -109,4 +109,49 @@ describe('webhook server', () => {
       await limited.closeWebHook();
     }
   });
+
+  it('rejects requests missing the configured secret token header', async () => {
+    await bot.closeWebHook();
+    const secretPort = await freePort();
+    const secured = new TelegramBot(TOKEN, {
+      webHook: { autoOpen: false, host: '127.0.0.1', port: secretPort, secretToken: 's3cret' },
+    });
+    await secured.openWebHook();
+    try {
+      const payload = JSON.stringify({ update_id: 1, message: { message_id: 1, chat: { id: 1 } } });
+
+      const denied = await request(secretPort, {
+        method: 'POST',
+        path: `/${TOKEN}`,
+        headers: { 'content-type': 'application/json', 'content-length': Buffer.byteLength(payload) },
+        body: payload,
+      });
+      assert.equal(denied.statusCode, 403);
+
+      let received = null;
+      secured.on('message', (msg) => { received = msg; });
+
+      const allowed = await request(secretPort, {
+        method: 'POST',
+        path: `/${TOKEN}`,
+        headers: {
+          'content-type': 'application/json',
+          'content-length': Buffer.byteLength(payload),
+          'x-telegram-bot-api-secret-token': 's3cret',
+        },
+        body: payload,
+      });
+      assert.equal(allowed.statusCode, 200);
+      assert.equal(received.message_id, 1);
+    } finally {
+      await secured.closeWebHook();
+    }
+  });
+
+  it('answers health checks only on the exact endpoint path', async () => {
+    const wrong = await request(port, { method: 'GET', path: '/healthz/extra' });
+    assert.equal(wrong.statusCode, 401);
+    const right = await request(port, { method: 'GET', path: '/healthz' });
+    assert.equal(right.statusCode, 200);
+  });
 });

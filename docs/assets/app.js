@@ -158,10 +158,6 @@ bot.on('message', (msg) => {
     </div>`;
 }
 
-function bulletPanel(title, items) {
-  return `<h3>${title}</h3><div class="prose"><ul>${items.map((i) => `<li>${i}</li>`).join('')}</ul></div>`;
-}
-
 function viewGuide() {
   return `
     <div class="content-inner narrow">
@@ -441,7 +437,7 @@ function currentTheme() {
 
 function applyTheme(theme) {
   document.documentElement.dataset.theme = theme;
-  try { localStorage.setItem('tg-docs-theme', theme); } catch (e) { /* ignore */ }
+  try { localStorage.setItem('tg-docs-theme', theme); } catch { /* storage unavailable */ }
   const meta = document.querySelector('meta[name="theme-color"]');
   if (meta) meta.setAttribute('content', theme === 'dark' ? '#0b0d10' : '#f7f8fa');
   const icon = $('#theme-icon');
@@ -471,7 +467,7 @@ async function copyText(text) {
   try {
     await navigator.clipboard.writeText(text);
     return true;
-  } catch (err) {
+  } catch {
     const area = document.createElement('textarea');
     area.value = text;
     area.setAttribute('readonly', '');
@@ -480,7 +476,7 @@ async function copyText(text) {
     document.body.appendChild(area);
     area.select();
     let ok = false;
-    try { ok = document.execCommand('copy'); } catch (e) { ok = false; }
+    try { ok = document.execCommand('copy'); } catch { ok = false; }
     document.body.removeChild(area);
     return ok;
   }

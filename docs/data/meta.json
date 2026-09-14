@@ -4,6 +4,5 @@
   "description": "Lightweight, dependency-light Telegram Bot API library for Node.js",
   "node": ">=18",
   "methodCount": 203,
-  "categoryCount": 18,
-  "generatedAt": "2026-09-14T10:00:27.633Z"
+  "categoryCount": 18
 }

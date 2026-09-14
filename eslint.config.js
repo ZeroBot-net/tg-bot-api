@@ -78,4 +78,20 @@ module.exports = [
       globals: { ...NODE_GLOBALS, ...MOCHA_GLOBALS },
     },
   },
+  {
+    // Browser scripts for the static docs site.
+    files: ['docs/**/*.js'],
+    languageOptions: {
+      globals: {
+        window: 'readonly',
+        document: 'readonly',
+        location: 'readonly',
+        navigator: 'readonly',
+        localStorage: 'readonly',
+        fetch: 'readonly',
+        CSS: 'readonly',
+        matchMedia: 'readonly',
+      },
+    },
+  },
 ];

@@ -16,7 +16,6 @@ const path = require('path');
 
 const ROOT = path.resolve(__dirname, '..');
 const DOCS = path.join(ROOT, 'docs');
-const DATA = path.join(DOCS, 'data');
 
 const read = (p) => fs.readFileSync(path.join(ROOT, p), 'utf8');
 const write = (p, contents) => {
@@ -344,7 +343,6 @@ function build() {
     node: pkg.engines.node,
     methodCount: methods.length,
     categoryCount: categories.length,
-    generatedAt: new Date().toISOString(),
   }, null, 2)}\n`);
 
   write('.nojekyll', '');

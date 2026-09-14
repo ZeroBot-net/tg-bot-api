@@ -4,6 +4,35 @@ All notable changes to this project will be documented in this file.
 This project adheres to [Semantic Versioning](http://semver.org/).
 
 
+## [Unreleased]
+
+### Fixed
+- **Critical:** removed the ESM-only `bl`, `file-type` and `mime` dependencies
+  that made the library crash on `require()` and broke all file uploads.
+- `sendPhoto()` with a Buffer, Stream or file path (was rejected by Telegram as
+  an invalid `file_id`).
+- `forwardMessages()` — `message_ids` is now JSON-serialized.
+- `stopPolling({ cancel: true })` — the `.cancel()` method was lost across the
+  promise chain, throwing `TypeError: lastRequest.cancel is not a function`.
+- `deleteAllMessageReactions()` now matches the Bot API signature
+  (`user_id`/`actor_chat_id`; no `message_id`).
+- `editEphemeralMessageMedia()` now supports `attach://` file uploads.
+- `FatalError` preserves the underlying error as `.cause` instead of reporting a
+  blank `EFATAL:` message (e.g. for `AggregateError`).
+
+### Changed
+- **Breaking:** removed the Babel/`lib/` build step. The package ships native
+  CommonJS source and now requires **Node.js >= 14**.
+- Built-in file-type detection and MIME lookup (`src/fileTypes.js`) replace the
+  `file-type` and `mime` packages; `array.prototype.findindex` was dropped.
+
+### Added
+- Offline Mocha test suite (`npm test`) covering errors, file types, request
+  shaping, events, webhooks and polling.
+- ESLint flat config (`eslint.config.js`) and `npm run lint`.
+- Runnable `examples/` — echo bot, inline keyboard, media sending, webhooks.
+
+
 ## [0.66.0][0.66.0] - 2024-05-03
 
 1. Support Telegram Bot API 7.2 & 7.3 (@danielperez9430)

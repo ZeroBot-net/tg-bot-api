@@ -412,13 +412,14 @@ class TelegramBot extends EventEmitter {
     options.resolveWithFullResponse = true;
     options.forever = true;
     debug('HTTP request: %j', options);
-    return request(options)
+    const raw = request(options);
+    const promise = raw
       .then(resp => {
         let data;
         try {
           data = resp.body = JSON.parse(resp.body);
-        } catch (err) {
-          throw new errors.ParseError(`Error parsing response: ${resp.body}`, resp);
+        } catch (parseError) {
+          throw new errors.ParseError(`Error parsing response: ${parseError.message}`, resp);
         }
 
         if (data.ok) {

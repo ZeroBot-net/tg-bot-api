@@ -19,6 +19,33 @@ exports.BaseError = class BaseError extends Error {
 };
 
 
+/**
+ * Build a readable message from an arbitrary thrown value. Handles the common
+ * case where a non-`Error` or an `AggregateError` has an empty `message`, which
+ * previously produced a blank `EFATAL:` error.
+ * @private
+ * @param  {*} data
+ * @return {String}
+ */
+function describeError(data) {
+  if (typeof data === 'string') return data;
+  if (data === null || data === undefined) return String(data);
+  if (data instanceof Error) {
+    if (data.errors && data.errors.length) {
+      const nested = data.errors.map(describeError).join('; ');
+      return data.message ? `${data.message} (${nested})` : nested;
+    }
+    const label = data.code || data.name || 'Error';
+    return data.message ? `${label}: ${data.message}` : String(label);
+  }
+  if (typeof data.message === 'string' && data.message) return data.message;
+  try {
+    return JSON.stringify(data);
+  } catch {
+    return String(data);
+  }
+}
+
 exports.FatalError = class FatalError extends exports.BaseError {
   /**
    * Fatal Error. Error code is `"EFATAL"`.
@@ -28,9 +55,12 @@ exports.FatalError = class FatalError extends exports.BaseError {
    */
   constructor(data) {
     const error = (typeof data === 'string') ? null : data;
-    const message = error ? error.message : data;
-    super('EFATAL', message);
-    if (error) this.stack = error.stack;
+    super('EFATAL', describeError(data));
+    if (error) {
+      this.stack = error.stack || this.stack;
+      // Preserve the original error for programmatic inspection & logging.
+      this.cause = error;
+    }
   }
 };
 

@@ -136,7 +136,7 @@ class TelegramBotPolling {
          * is restarted, or moves to next polling interval
          * (in cases where unhandled rejections do not terminate
          * the process).
-         * See https://github.com/ZeroBot-net/@zero-bot.net/tg-bot-api/issues/36#issuecomment-268532067
+         * See https://github.com/ZeroBot-net/tg-bot-api/issues/36#issuecomment-268532067
          */
         if (!this.bot.options.badRejection) {
           return this._error(err);
@@ -158,7 +158,7 @@ class TelegramBotPolling {
            * event, with the hope that the application exits.
            */
           /* eslint-disable no-console */
-          const bugUrl = 'https://github.com/ZeroBot-net/@zero-bot.net/tg-bot-api/issues/36#issuecomment-268532067';
+          const bugUrl = 'https://github.com/ZeroBot-net/tg-bot-api/issues/36#issuecomment-268532067';
           console.error('error: Internal handling of The Offset Infinite Loop failed');
           console.error(`error: Due to error '${requestErr}'`);
           console.error('error: You may receive already-processed updates on app restart');

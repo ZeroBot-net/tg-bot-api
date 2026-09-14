@@ -260,13 +260,13 @@ Emits `message` when a message arrives.
 <a name="TelegramBot+on"></a>
 
 ### telegramBot.on(event, listener)
-Add listener for the specified [event](https://github.com/ZeroBot-net/@zero-bot.net/tg-bot-api/blob/master/doc/usage.md#events).
+Add listener for the specified [event](https://github.com/ZeroBot-net/tg-bot-api/blob/master/doc/usage.md#events).
 This is the usual `emitter.on()` method.
 
 **Kind**: instance method of [<code>TelegramBot</code>](#TelegramBot)  
 **See**
 
-- [Available events](https://github.com/ZeroBot-net/@zero-bot.net/tg-bot-api/blob/master/doc/usage.md#events)
+- [Available events](https://github.com/ZeroBot-net/tg-bot-api/blob/master/doc/usage.md#events)
 - https://nodejs.org/api/events.html#events_emitter_on_eventname_listener
 
 
@@ -508,7 +508,7 @@ that is being deprecated.
 **See**
 
 - https://core.telegram.org/bots/api#setwebhook
-- https://github.com/ZeroBot-net/@zero-bot.net/tg-bot-api/blob/master/doc/usage.md#sending-files
+- https://github.com/ZeroBot-net/tg-bot-api/blob/master/doc/usage.md#sending-files
 
 
 | Param | Type | Description |
@@ -704,7 +704,7 @@ Send photo
 **See**
 
 - https://core.telegram.org/bots/api#sendphoto
-- https://github.com/ZeroBot-net/@zero-bot.net/tg-bot-api/blob/master/doc/usage.md#sending-files
+- https://github.com/ZeroBot-net/tg-bot-api/blob/master/doc/usage.md#sending-files
 
 
 | Param | Type | Description |
@@ -726,7 +726,7 @@ Send audio
 **See**
 
 - https://core.telegram.org/bots/api#sendaudio
-- https://github.com/ZeroBot-net/@zero-bot.net/tg-bot-api/blob/master/doc/usage.md#sending-files
+- https://github.com/ZeroBot-net/tg-bot-api/blob/master/doc/usage.md#sending-files
 
 
 | Param | Type | Description |
@@ -746,7 +746,7 @@ Send Document
 **See**
 
 - https://core.telegram.org/bots/api#sendDocument
-- https://github.com/ZeroBot-net/@zero-bot.net/tg-bot-api/blob/master/doc/usage.md#sending-files
+- https://github.com/ZeroBot-net/tg-bot-api/blob/master/doc/usage.md#sending-files
 
 
 | Param | Type | Description |
@@ -766,7 +766,7 @@ Use this method to send video files, **Telegram clients support mp4 videos** (ot
 **See**
 
 - https://core.telegram.org/bots/api#sendvideo
-- https://github.com/ZeroBot-net/@zero-bot.net/tg-bot-api/blob/master/doc/usage.md#sending-files
+- https://github.com/ZeroBot-net/tg-bot-api/blob/master/doc/usage.md#sending-files
 
 
 | Param | Type | Description |
@@ -786,7 +786,7 @@ Use this method to send animation files (GIF or H.264/MPEG-4 AVC video without s
 **See**
 
 - https://core.telegram.org/bots/api#sendanimation
-- https://github.com/ZeroBot-net/@zero-bot.net/tg-bot-api/blob/master/doc/usage.md#sending-files
+- https://github.com/ZeroBot-net/tg-bot-api/blob/master/doc/usage.md#sending-files
 
 
 | Param | Type | Description |
@@ -808,7 +808,7 @@ Send voice
 **See**
 
 - https://core.telegram.org/bots/api#sendvoice
-- https://github.com/ZeroBot-net/@zero-bot.net/tg-bot-api/blob/master/doc/usage.md#sending-files
+- https://github.com/ZeroBot-net/tg-bot-api/blob/master/doc/usage.md#sending-files
 
 
 | Param | Type | Description |
@@ -830,7 +830,7 @@ Telegram clients support **rounded square MPEG4 videos** of up to 1 minute long.
 **See**
 
 - https://core.telegram.org/bots/api#sendvideonote
-- https://github.com/ZeroBot-net/@zero-bot.net/tg-bot-api/blob/master/doc/usage.md#sending-files
+- https://github.com/ZeroBot-net/tg-bot-api/blob/master/doc/usage.md#sending-files
 
 
 | Param | Type | Description |
@@ -847,7 +847,7 @@ Use this method to send a group of photos or videos as an album.
 
 **Documents and audio files can be only grouped in an album with messages of the same type**
 
-If you wish to [specify file options](https://github.com/ZeroBot-net/@zero-bot.net/tg-bot-api/blob/master/doc/usage.md#sending-files),
+If you wish to [specify file options](https://github.com/ZeroBot-net/tg-bot-api/blob/master/doc/usage.md#sending-files),
 add a `fileOptions` property to the target input in `media`.
 
 **Kind**: instance method of [<code>TelegramBot</code>](#TelegramBot)  
@@ -856,7 +856,7 @@ is returned.
 **See**
 
 - https://core.telegram.org/bots/api#sendmediagroup
-- https://github.com/ZeroBot-net/@zero-bot.net/tg-bot-api/blob/master/doc/usage.md#sending-files
+- https://github.com/ZeroBot-net/tg-bot-api/blob/master/doc/usage.md#sending-files
 
 
 | Param | Type | Description |

@@ -14,15 +14,15 @@ Try them out and give feedback to support stabilizing them.
 
 * Support API method `deleteMessage`
 
-Open issues tagged `experimental`: [link](https://github.com/ZeroBot-net/@zero-bot.net/tg-bot-api/issues?q=is%3Apr+is%3Aopen+label%3Aexperimental)
+Open issues tagged `experimental`: [link](https://github.com/ZeroBot-net/tg-bot-api/issues?q=is%3Apr+is%3Aopen+label%3Aexperimental)
 
 
 <a name="installation"></a>
 ## installation:
 
 ```bash
-$ npm install ZeroBot-net/@zero-bot.net/tg-bot-api#experimental
+$ npm install ZeroBot-net/tg-bot-api#experimental
 ```
 
 
-[api-experimental]:https://github.com/ZeroBot-net/@zero-bot.net/tg-bot-api/tree/experimental/doc/api.md
+[api-experimental]:https://github.com/ZeroBot-net/tg-bot-api/tree/experimental/doc/api.md

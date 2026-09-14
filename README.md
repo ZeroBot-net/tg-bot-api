@@ -11,7 +11,7 @@ A lightweight, dependency-light Node.js library for the [Telegram Bot API](https
 
 ## ✨ Features
 
-- **202 methods** — full Telegram Bot API 10.3 coverage
+- **203 methods** — full Telegram Bot API 10.3 coverage
 - **No build step** — ships native CommonJS, runs on Node.js 18+
 - **Small dependency tree** — file-type detection and MIME lookup are built in
 - **Built-in TypeScript definitions**

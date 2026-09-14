@@ -4,7 +4,7 @@ All notable changes to this project will be documented in this file.
 This project adheres to [Semantic Versioning](http://semver.org/).
 
 
-## [Unreleased]
+## [1.5.2] - 2026-09-14
 
 ### Fixed
 - `replaceStickerInSet()` called the `deleteStickerFromSet` endpoint — it now

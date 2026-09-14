@@ -12,7 +12,7 @@ A lightweight, dependency-light Node.js library for the [Telegram Bot API](https
 ## ✨ Features
 
 - **202 methods** — full Telegram Bot API 10.3 coverage
-- **No build step** — ships native CommonJS, runs on Node.js 14+
+- **No build step** — ships native CommonJS, runs on Node.js 18+
 - **Small dependency tree** — file-type detection and MIME lookup are built in
 - **Built-in TypeScript definitions**
 - **Both update modes** — long polling *and* webhooks (with a built-in HTTP(S) server)
@@ -83,6 +83,43 @@ bot.on('polling_error', (err) => {
 });
 ```
 
+## ⚡ Performance & latency
+
+Warm (keep-alive) requests take **20–80ms**. Cold connections pay DNS + TCP +
+TLS **plus Node's 250ms IPv6 fallback window** — that is what pushes a request
+to 200–600ms. Ranked fixes:
+
+1. **Host near Telegram** (EU/US) — RTT drops from ~200ms to ~10–30ms. No code.
+2. **Self-hosted Bot API server** — biggest win for media; files never leave
+   your machine:
+   ```js
+   const bot = new TelegramBot(token, { baseApiUrl: 'http://127.0.0.1:8081' });
+   ```
+3. **Remove the IPv6 fallback penalty** (up to −250ms per connection):
+   ```js
+   TelegramBot.applyNetworkTuning();          // ipv4-first + 100ms fallback window
+   // or: new TelegramBot(token, { ipv4First: true });
+   ```
+4. **Pre-warm the connection** so the first request is not a cold start:
+   ```js
+   const bot = new TelegramBot(token, { prewarm: true });
+   // or: await bot.preheat();
+   ```
+5. **Tune polling** for instant updates:
+   `{ polling: { params: { timeout: 30 }, interval: 50 } }`.
+6. **Fewer round-trips** — batch with `sendMediaGroup` / `forwardMessages` /
+   `copyMessages`, and reuse `file_id`s instead of re-uploading.
+
+Keep-alive is enabled by default (`forever: true`); tune the pool if needed:
+
+```js
+new TelegramBot(token, {
+  request: {
+    agentOptions: { keepAlive: true, keepAliveMsecs: 10000, maxSockets: 64 },
+  },
+});
+```
+
 ## 📚 Documentation
 
 - [`doc/usage.md`](doc/usage.md) — full usage guide
@@ -98,7 +135,7 @@ npm run lint      # eslint
 npm run doc       # regenerate doc/api.md
 ```
 
-Requires Node.js >= 14.
+Requires Node.js >= 18.
 
 ## 👥 Contributors
 

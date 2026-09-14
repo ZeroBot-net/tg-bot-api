@@ -4,6 +4,7 @@ const TelegramBotPolling = require('./telegramPolling');
 const debug = require('debug')('@zero-bot.net/tg-bot-api');
 const EventEmitter = require('eventemitter3');
 const { detectFileType, lookupMime } = require('./fileTypes');
+const { applyNetworkTuning } = require('./network');
 const requestBase = require('@zero-bot.net/request');
 const request = (options) => {
   let underlying = null;
@@ -232,6 +233,13 @@ class TelegramBot extends EventEmitter {
    *  **if and only if** the Node.js version you're using terminates the
    *  process on unhandled rejections. This option is only for
    *  *forward-compatibility purposes*.
+   * @param {Boolean} [options.ipv4First=false] Apply latency-oriented network
+   *  tuning at construction: prefer IPv4 and shorten Node's IPv6 fallback
+   *  window. This mutates process-global DNS settings — see
+   *  {@link TelegramBot.applyNetworkTuning}.
+   * @param {Boolean} [options.prewarm=false] Eagerly open the DNS/TCP/TLS
+   *  connection with a lightweight `getMe()` call so the first real request is
+   *  not a cold start.
    * @see https://core.telegram.org/bots/api
    */
   constructor(token, options = {}) {
@@ -243,11 +251,16 @@ class TelegramBot extends EventEmitter {
     this.options.baseApiUrl = options.baseApiUrl || 'https://api.telegram.org';
     this.options.filepath = (typeof options.filepath === 'undefined') ? true : options.filepath;
     this.options.badRejection = (typeof options.badRejection === 'undefined') ? false : options.badRejection;
+    this.options.request = Object.assign({}, options.request);
     this._textRegexpCallbacks = [];
     this._replyListenerId = 0;
     this._replyListeners = [];
     this._polling = null;
     this._webHook = null;
+
+    if (options.ipv4First) {
+      applyNetworkTuning({ ipv4First: true });
+    }
 
     if (options.polling) {
       const autoStart = options.polling.autoStart;
@@ -262,6 +275,23 @@ class TelegramBot extends EventEmitter {
         this.openWebHook();
       }
     }
+
+    if (options.prewarm) {
+      // Fire-and-forget; a failed warm-up must not break construction.
+      this.preheat();
+    }
+  }
+
+  /**
+   * Apply latency-oriented network tuning (prefer IPv4, shorten Node's IPv6
+   * fallback window). Mutates process-global settings — call once at startup.
+   *
+   * @param  {Object} [options] See {@link module:network.applyNetworkTuning}
+   * @return {Object} The applied settings
+   * @see https://nodejs.org/api/dns.html#dnssetdefaultresultorderorder
+   */
+  static applyNetworkTuning(options) {
+    return applyNetworkTuning(options);
   }
 
   /**
@@ -1077,6 +1107,34 @@ class TelegramBot extends EventEmitter {
    */
   getMe(form = {}) {
     return this._request('getMe', { form });
+  }
+
+  /**
+   * Warm up the connection so the first real request is not a cold start.
+   *
+   * Issues a lightweight `getMe()` call, which establishes DNS, the TCP socket
+   * and the TLS session and populates the keep-alive pool. Worth calling once
+   * at startup for webhook / broadcast bots.
+   *
+   * By default a failed warm-up is swallowed (emitting `preheat_error`) so it
+   * is always safe to `await` at startup.
+   *
+   * @param  {Object} [options]
+   * @param  {Boolean} [options.suppressErrors=true] Resolve instead of rejecting
+   *  when the warm-up request fails.
+   * @return {Promise<TelegramBot>} Resolves with the bot instance
+   * @see https://core.telegram.org/bots/api#getme
+   */
+  preheat({ suppressErrors = true } = {}) {
+    const warm = this.getMe();
+    if (!suppressErrors) {
+      return warm.then(() => this);
+    }
+    return warm.then(() => this).catch((error) => {
+      debug('preheat failed: %s', error.message);
+      this.emit('preheat_error', error);
+      return this;
+    });
   }
 
   /**

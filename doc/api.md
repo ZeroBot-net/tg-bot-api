@@ -36,6 +36,7 @@ TelegramBot
         * [.deleteWebHook([options])](#TelegramBot+deleteWebHook) ⇒ <code>Promise</code>
         * [.getWebHookInfo([options])](#TelegramBot+getWebHookInfo) ⇒ <code>Promise</code>
         * [.getMe([options])](#TelegramBot+getMe) ⇒ <code>Promise</code>
+        * [.preheat([options])](#TelegramBot+preheat) ⇒ [<code>Promise.&lt;TelegramBot&gt;</code>](#TelegramBot)
         * [.logOut([options])](#TelegramBot+logOut) ⇒ <code>Promise</code>
         * [.close([options])](#TelegramBot+close) ⇒ <code>Promise</code>
         * [.sendMessage(chatId, text, [options])](#TelegramBot+sendMessage) ⇒ <code>Promise</code>
@@ -218,6 +219,7 @@ TelegramBot
     * _static_
         * [.errors](#TelegramBot.errors) : <code>Object</code>
         * [.messageTypes](#TelegramBot.messageTypes) : <code>Array.&lt;String&gt;</code>
+        * [.applyNetworkTuning([options])](#TelegramBot.applyNetworkTuning) ⇒ <code>Object</code>
 
 <a name="new_TelegramBot_new"></a>
 
@@ -252,6 +254,8 @@ Emits `message` when a message arrives.
 | [options.baseApiUrl] | <code>String</code> | <code>&quot;https://api.telegram.org&quot;</code> | API Base URl; useful for proxying and testing |
 | [options.filepath] | <code>Boolean</code> | <code>true</code> | Allow passing file-paths as arguments when sending files,  such as photos using `TelegramBot#sendPhoto()`. See [usage information][usage-sending-files-performance]  for more information on this option and its consequences. |
 | [options.badRejection] | <code>Boolean</code> | <code>false</code> | Set to `true`  **if and only if** the Node.js version you're using terminates the  process on unhandled rejections. This option is only for  *forward-compatibility purposes*. |
+| [options.ipv4First] | <code>Boolean</code> | <code>false</code> | Apply latency-oriented network  tuning at construction: prefer IPv4 and shorten Node's IPv6 fallback  window. This mutates process-global DNS settings — see  [applyNetworkTuning](#TelegramBot.applyNetworkTuning). |
+| [options.prewarm] | <code>Boolean</code> | <code>false</code> | Eagerly open the DNS/TCP/TLS  connection with a lightweight `getMe()` call so the first real request is  not a cold start. |
 
 <a name="TelegramBot+on"></a>
 
@@ -555,6 +559,27 @@ A simple method for testing your bot's authentication token. Requires no paramet
 | Param | Type | Description |
 | --- | --- | --- |
 | [options] | <code>Object</code> | Additional Telegram query options |
+
+<a name="TelegramBot+preheat"></a>
+
+### telegramBot.preheat([options]) ⇒ [<code>Promise.&lt;TelegramBot&gt;</code>](#TelegramBot)
+Warm up the connection so the first real request is not a cold start.
+
+Issues a lightweight `getMe()` call, which establishes DNS, the TCP socket
+and the TLS session and populates the keep-alive pool. Worth calling once
+at startup for webhook / broadcast bots.
+
+By default a failed warm-up is swallowed (emitting `preheat_error`) so it
+is always safe to `await` at startup.
+
+**Kind**: instance method of [<code>TelegramBot</code>](#TelegramBot)  
+**Returns**: [<code>Promise.&lt;TelegramBot&gt;</code>](#TelegramBot) - Resolves with the bot instance  
+**See**: https://core.telegram.org/bots/api#getme  
+
+| Param | Type | Default | Description |
+| --- | --- | --- | --- |
+| [options] | <code>Object</code> |  |  |
+| [options.suppressErrors] | <code>Boolean</code> | <code>true</code> | Resolve instead of rejecting  when the warm-up request fails. |
 
 <a name="TelegramBot+logOut"></a>
 
@@ -3461,6 +3486,20 @@ The different errors the library uses.
 The types of message updates the library handles.
 
 **Kind**: static property of [<code>TelegramBot</code>](#TelegramBot)  
+<a name="TelegramBot.applyNetworkTuning"></a>
+
+### TelegramBot.applyNetworkTuning([options]) ⇒ <code>Object</code>
+Apply latency-oriented network tuning (prefer IPv4, shorten Node's IPv6
+fallback window). Mutates process-global settings — call once at startup.
+
+**Kind**: static method of [<code>TelegramBot</code>](#TelegramBot)  
+**Returns**: <code>Object</code> - The applied settings  
+**See**: https://nodejs.org/api/dns.html#dnssetdefaultresultorderorder  
+
+| Param | Type | Description |
+| --- | --- | --- |
+| [options] | <code>Object</code> | See [module:network.applyNetworkTuning](module:network.applyNetworkTuning) |
+
 * * *
 
 

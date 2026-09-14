@@ -2688,6 +2688,16 @@ export interface TelegramBotOptions {
   filepath?: boolean;
   /** Set to true for forward-compatibility on unhandled rejections. */
   badRejection?: boolean;
+  /**
+   * Apply latency-oriented network tuning at construction (prefer IPv4 and
+   * shorten Node's IPv6 fallback window). Mutates process-global DNS settings.
+   */
+  ipv4First?: boolean;
+  /**
+   * Warm up the connection (DNS/TCP/TLS) with a `getMe()` call at startup so
+   * the first real request is not a cold start.
+   */
+  prewarm?: boolean;
 }
 
 /** Polling options. */
@@ -3170,6 +3180,14 @@ export default class TelegramBot extends EventEmitter {
 
   /** The types of message updates the library handles. */
   static messageTypes: string[];
+  /**
+   * Apply latency-oriented network tuning (prefer IPv4, shorten Node's IPv6
+   * fallback window). Mutates process-global settings — call once at startup.
+   */
+  static applyNetworkTuning(options?: {
+    ipv4First?: boolean;
+    autoSelectFamilyAttemptTimeout?: number;
+  }): { ipv4First: boolean; autoSelectFamilyAttemptTimeout: number };
 
   // --- Event Overloads --------------------------------------------------------
 
@@ -3362,6 +3380,11 @@ export default class TelegramBot extends EventEmitter {
 
   /** A simple method for testing your bot's authentication token. */
   getMe(form?: FormQueryOptions): Promise<User>;
+  /**
+   * Warm up the connection (DNS/TCP/TLS) with a lightweight `getMe()` call so
+   * the first real request is not a cold start. Resolves with the bot instance.
+   */
+  preheat(options?: { suppressErrors?: boolean }): Promise<this>;
 
   /** Log out from the cloud Bot API server. */
   logOut(form?: FormQueryOptions): Promise<boolean>;

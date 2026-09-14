@@ -22,13 +22,16 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 
 ### Changed
 - **Breaking:** removed the Babel/`lib/` build step. The package ships native
-  CommonJS source and now requires **Node.js >= 14**.
+  CommonJS source and now requires **Node.js >= 18**.
 - Built-in file-type detection and MIME lookup (`src/fileTypes.js`) replace the
   `file-type` and `mime` packages; `array.prototype.findindex` was dropped.
 
 ### Added
+- Latency helpers: `TelegramBot.applyNetworkTuning()` / `{ ipv4First: true }`
+  to prefer IPv4 and shorten Node's 250ms IPv6 fallback window, and
+  `bot.preheat()` / `{ prewarm: true }` to warm up DNS/TCP/TLS at startup.
 - Offline Mocha test suite (`npm test`) covering errors, file types, request
-  shaping, events, webhooks and polling.
+  shaping, events, webhooks, polling and the latency helpers.
 - ESLint flat config (`eslint.config.js`) and `npm run lint`.
 - Runnable `examples/` — echo bot, inline keyboard, media sending, webhooks.
 

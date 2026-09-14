@@ -1,6 +1,6 @@
 {
   "name": "@zero-bot.net/tg-bot-api",
-  "version": "1.5.2",
+  "version": "1.5.3",
   "description": "Lightweight, dependency-light Telegram Bot API library for Node.js",
   "main": "./index.js",
   "types": "./src/telegram.d.ts",

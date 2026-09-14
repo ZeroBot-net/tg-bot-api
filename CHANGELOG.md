@@ -4,6 +4,20 @@ All notable changes to this project will be documented in this file.
 This project adheres to [Semantic Versioning](http://semver.org/).
 
 
+## [1.5.1] - 2026-09-14
+
+### Fixed
+- `stopPolling({ cancel: true })` now actually aborts the in-flight request and
+  stops the loop. Previously the cancel was a no-op (`.catch()` dropped the
+  `.cancel()` method) and the poller rescheduled itself, leaving an orphan
+  poller that made Telegram return
+  `409 Conflict: terminated by other getUpdates request`.
+
+### Added
+- Static documentation site served from `docs/` via GitHub Pages
+  (not included in the npm package).
+
+
 ## [1.5.0] - 2026-09-14
 
 ### Fixed

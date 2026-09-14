@@ -1,6 +1,6 @@
 {
   "name": "@zero-bot.net/tg-bot-api",
-  "version": "1.5.0",
+  "version": "1.5.1",
   "description": "Lightweight, dependency-light Telegram Bot API library for Node.js",
   "node": ">=18",
   "methodCount": 203,

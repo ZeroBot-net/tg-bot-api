@@ -26,6 +26,7 @@
   ],
   "scripts": {
     "doc": "jsdoc2md --files src/telegram.js --template doc/api.hbs > doc/api.md",
+    "docs:build": "node scripts/build-docs.js",
     "lint": "eslint .",
     "test": "mocha",
     "test:watch": "mocha --watch",

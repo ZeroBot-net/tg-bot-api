@@ -4,6 +4,16 @@ All notable changes to this project will be documented in this file.
 This project adheres to [Semantic Versioning](http://semver.org/).
 
 
+## [1.5.4] - 2026-09-16
+
+### Added
+- `_request()` now auto-retries transient network errors (ETIMEDOUT,
+  ENETUNREACH, ECONNRESET, ECONNREFUSED, EAI_AGAIN, ENOTFOUND, EPIPE)
+  with exponential back-off and jitter. Up to 3 retries per request,
+  delays ~500ms → ~1s → ~2s (±20 % jitter). Telegram API errors and
+  parse errors are never retried.
+
+
 ## [1.5.3] - 2026-09-14
 
 ### Changed
@@ -596,6 +606,7 @@ Fixed:
 [0.28.0]:https://github.com/ZeroBot-net/tg-bot-api/releases/tag/v0.28.0
 [0.29.0]:https://github.com/ZeroBot-net/tg-bot-api/releases/tag/v0.29.0
 [0.30.0]:https://github.com/ZeroBot-net/tg-bot-api/releases/tag/v0.30.0
+[1.5.4]:https://github.com/ZeroBot-net/tg-bot-api/releases/tag/v1.5.4
 [1.5.3]:https://github.com/ZeroBot-net/tg-bot-api/releases/tag/v1.5.3
 [1.5.2]:https://github.com/ZeroBot-net/tg-bot-api/releases/tag/v1.5.2
 [1.5.1]:https://github.com/ZeroBot-net/tg-bot-api/releases/tag/v1.5.1

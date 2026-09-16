@@ -28,6 +28,22 @@ const streamedRequest = requestBase;
 const qs = require('querystring');
 const stream = require('stream');
 const path = require('path');
+
+/**
+ * Network error codes that are safe to retry.  Only transport-level failures
+ * belong here — never Telegram API errors (4xx/5xx), parse errors, or auth
+ * failures.
+ * @private
+ */
+const RETRYABLE_ERRORS = new Set([
+  'ETIMEDOUT',
+  'ENETUNREACH',
+  'ECONNRESET',
+  'ECONNREFUSED',
+  'EAI_AGAIN',
+  'ENOTFOUND',
+  'EPIPE',
+]);
 const URL = require('url');
 const fs = require('fs');
 const pump = require('pump');
@@ -452,6 +468,15 @@ class TelegramBot extends EventEmitter {
     return options;
   }
 
+  /**
+   * Send an HTTP request to the Telegram Bot API, retrying transient network
+   * errors with exponential back-off and jitter.
+   *
+   * @param  {String} _path  API method name (e.g. `'sendMessage'`).
+   * @param  {Object} [options]
+   * @return {Promise<*>}  Parsed `result` field from the API response.
+   * @private
+   */
   _request(_path, options = {}) {
     if (!this.token) {
       return Promise.reject(new errors.FatalError('Telegram Bot Token not provided!'));
@@ -468,32 +493,74 @@ class TelegramBot extends EventEmitter {
     options.simple = false;
     options.resolveWithFullResponse = true;
     options.forever = true;
-    debug('HTTP request: %j', options);
-    const raw = request(options);
-    const promise = raw
-      .then(resp => {
-        let data;
-        try {
-          data = resp.body = JSON.parse(resp.body);
-        } catch (parseError) {
-          throw new errors.ParseError(`Error parsing response: ${parseError.message}`, resp);
+
+    const maxRetries = 3;
+    const baseDelay = 500;
+    let currentRaw = null;
+
+    const attemptOnce = () => {
+      debug('HTTP request: %j', options);
+      const raw = request(options);
+      currentRaw = raw;
+      return raw
+        .then(resp => {
+          let data;
+          try {
+            data = resp.body = JSON.parse(resp.body);
+          } catch (parseError) {
+            throw new errors.ParseError(`Error parsing response: ${parseError.message}`, resp);
+          }
+
+          if (data.ok) {
+            return data.result;
+          }
+
+          throw new errors.TelegramError(`${data.error_code} ${data.description}`, resp);
+        });
+    };
+
+    const run = (attempt) => {
+      return attemptOnce().catch(err => {
+        currentRaw = null;
+
+        // Telegram/Parse errors carry a .response — never retry those.
+        if (err.response) throw err;
+
+        // Extract the original OS-level code from a wrapped FatalError.
+        // FatalError.code is always 'EFATAL' — the real network code lives
+        // in .cause.code (or .cause[0].code for AggregateError).
+        let code = err.code;
+        if (code === 'EFATAL' && err.cause) {
+          const inner = err.cause;
+          code = inner.code || (Array.isArray(inner.errors) && inner.errors[0] && inner.errors[0].code);
+        }
+        const retryable = RETRYABLE_ERRORS.has(code);
+
+        if (!retryable || attempt >= maxRetries) {
+          throw new errors.FatalError(err);
         }
 
-        if (data.ok) {
-          return data.result;
-        }
+        // Exponential back-off with jitter: 500, 1000, 2000 ms ± 20 %
+        const delay = Math.min(30_000, baseDelay * 2 ** attempt) * (0.8 + Math.random() * 0.4);
+        debug('retry %d/%d after %dms (code=%s)', attempt + 1, maxRetries, Math.round(delay), code);
 
-        throw new errors.TelegramError(`${data.error_code} ${data.description}`, resp);
-      }).catch(error => {
-        // TODO: why can't we do `error instanceof errors.BaseError`?
-        if (error.response) throw error;
-        throw new errors.FatalError(error);
+        return new Promise((resolve) => {
+          setTimeout(resolve, delay);
+        }).then(() => run(attempt + 1));
       });
+    };
 
-    // Keep cancellation available on the promise chain returned to callers.
-    if (typeof raw.cancel === 'function') {
-      promise.cancel = (reason) => raw.cancel(reason);
-    }
+    const promise = run(0);
+
+    // Expose cancellation so polling (and any caller) can abort an in-flight
+    // request.  Cancel aborts the current attempt and short-circuits any
+    // pending retry.
+    promise.cancel = (reason) => {
+      if (currentRaw && typeof currentRaw.abort === 'function') {
+        currentRaw.abort();
+      }
+      return reason;
+    };
 
     return promise;
   }

@@ -139,14 +139,14 @@ Requires Node.js >= 18.
 
 ## 🖥️ Hosting your bot
 
-Keep your Telegram bot online 24/7 on a [ZeroBot.net](https://zero-bot.net) bot server (Node.js, Python, Go, PHP), or any VPS or serverless host that runs Node.js 18+.
+Keep your Telegram bot online 24/7 on a [Zero-Bot.net](https://zero-bot.net) bot server (Node.js, Python, Go, PHP), or any VPS or serverless host that runs Node.js 18+.
 
 ## 🔗 Related
 
 - [npm package](https://www.npmjs.com/package/@zero-bot.net/tg-bot-api)
 - [Documentation site](https://zerobot-net.github.io/tg-bot-api/)
 - [TG-StoreBot-fastest](https://github.com/ZeroBot-net/TG-StoreBot-fastest): a Telegram file store bot
-- [ZeroBot.net organization](https://github.com/ZeroBot-net)
+- [Zero-Bot.net organization](https://github.com/ZeroBot-net)
 
 ## 👥 Contributors
 
